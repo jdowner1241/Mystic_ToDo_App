@@ -4,20 +4,59 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Mystic_ToDo"
+        xmlns:userControls="clr-namespace:Mystic_ToDo.View.UserControls.Header"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
             <RowDefinition/>
-            <RowDefinition Height="15"/>
+            <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
         
-        <!-- Tool Bar -->
-        <Rectangle Grid.Row="0" Fill="Aqua"/>
+        <!-- MenuBar -->
+        <userControls:MenuBar Grid.Row="0"/>
 
         <!-- Content Section -->
-        <Rectangle Grid.Row="1" Fill="Green"/>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width=".2*"/>
+                <ColumnDefinition Width=".6*"/>
+                <ColumnDefinition Width=".2*"/>
+            </Grid.ColumnDefinitions>
+            
+            <!-- Folder List -->
+            <TreeView Grid.Column="0">
+                <TreeViewItem>
+                    
+                </TreeViewItem>
+            </TreeView>
+            
+            <!-- Main Reminder Window -->
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                    
+                <!-- Task Entry -->
+                <GroupBox Grid.Row="0">
+                    
+                </GroupBox>
+                    
+                <!-- Task List -->
+                <ListView Grid.Row="1">
+                    
+                </ListView>
+                
+            </Grid>
+            
+            <!-- Filter Section-->
+            <StackPanel Grid.Column="2">
+                
+            </StackPanel>
+            
+        </Grid>
 
         <!-- Footer -->
         <Rectangle Grid.Row="2" Fill="Gold"/>

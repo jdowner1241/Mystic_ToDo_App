@@ -1,0 +1,81 @@
+﻿<UserControl x:Class="Mystic_ToDo.View.UserControls.Header.MenuBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Mystic_ToDo.View.UserControls.Header"
+             mc:Ignorable="d" 
+             Height="70" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        
+        <!-- File menu -->
+        <Menu Grid.Row="0" VerticalAlignment="Center">
+            <MenuItem Header="File">
+                <MenuItem Header="Import Settings..."/>
+                <MenuItem Header="Export Settings..."/>
+                <MenuItem Header="Exit..."/>
+            </MenuItem>
+            
+            <MenuItem Header="Edit">
+                <MenuItem Header="Select..."/>
+                <MenuItem Header="Select All..."/>
+                <MenuItem Header="Deselect..."/>
+                <MenuItem Header="Copy..."/>
+                <MenuItem Header="Cut..."/>
+                <MenuItem Header="Paste..."/>
+            </MenuItem>
+
+            <MenuItem Header="Settings">
+                <MenuItem Header="General..."/>
+                <MenuItem Header="Appearance..."/>
+            </MenuItem>
+        </Menu>
+        
+        <!-- Feature Switch-->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width=".25*"/>
+                <ColumnDefinition Width=".25*"/>
+                <ColumnDefinition Width=".25*"/>
+                <ColumnDefinition Width=".25*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0" Margin="20,10" Content="Reminders">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+
+            <Button Grid.Column="1" Margin="20,10" Content="Calender">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+
+            <Button Grid.Column="2" Margin="20,10" Content="Timetable">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+
+            <Button Grid.Column="3" Margin="20,10" Content="Time Tracker">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+
+        </Grid>
+    </Grid>
+</UserControl>

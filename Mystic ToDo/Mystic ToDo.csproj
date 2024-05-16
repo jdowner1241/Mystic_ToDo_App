@@ -55,8 +55,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="View\UserControls\Content\ReminderEditor.xaml.cs">
+      <DependentUpon>ReminderEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\CustomControls\ComboBoxWithLabel.xaml.cs">
+      <DependentUpon>ComboBoxWithLabel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\CustomControls\DatePicker.xaml.cs">
+      <DependentUpon>DatePicker.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\UserControls\CustomControls\MenuBarButton.xaml.cs">
       <DependentUpon>MenuBarButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\CustomControls\SwitchWithLabel.xaml.cs">
+      <DependentUpon>SwitchWithLabel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\CustomControls\TxtBoxWithLabel.xaml.cs">
+      <DependentUpon>TxtBoxWithLabel.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\UserControls\Header\MenuBar.xaml.cs">
       <DependentUpon>MenuBar.xaml</DependentUpon>
@@ -73,7 +88,27 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\UserControls\Content\ReminderEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\CustomControls\ComboBoxWithLabel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\CustomControls\DatePicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\UserControls\CustomControls\MenuBarButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\CustomControls\SwitchWithLabel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\CustomControls\TxtBoxWithLabel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -107,6 +142,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="View\UserControls\Footer\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

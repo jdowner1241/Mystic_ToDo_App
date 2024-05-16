@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="Mystic_ToDo.View.UserControls.CustomControls.DatePicker"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Mystic_ToDo.View.UserControls.CustomControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="100" d:DesignWidth="450">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <!---->
+        <TextBlock x:Name="txtBoxLabel" Grid.Row="0" Text="{Binding}" 
+            FontSize="12" Foreground="Black" FontWeight="Bold"
+            Margin="5, 3" Padding="5, 0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="15"/>
+
+        <!---->
+        <DatePicker x:Name="datePicker" Grid.Row="1" Margin="5, 0"
+                           VerticalContentAlignment="Top"
+                           BorderThickness="1" BorderBrush="LightBlue" Background="#FF9AB7E6" Foreground="Black" FontSize="15" SelectedDateFormat="Long" />
+        <!---->
+        <Grid Grid.Row="2" Margin="5, 2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <!---->
+            <ComboBox Grid.Column="0" x:Name="timePickerHr" AutomationProperties.HelpText="Hrs">
+
+            </ComboBox>
+
+            <!---->
+            <ComboBox Grid.Column="1" x:Name="timePickerMin" AutomationProperties.HelpText="Mins">
+
+            </ComboBox>
+
+            <!---->
+            <ComboBox Grid.Column="2" x:Name="timePickerClock" AutomationProperties.HelpText="Am/Pm" >
+
+            </ComboBox>
+        </Grid>
+        
+       
+        
+    </Grid>
+</UserControl>

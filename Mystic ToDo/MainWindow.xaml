@@ -6,8 +6,9 @@
         xmlns:local="clr-namespace:Mystic_ToDo"
         xmlns:header="clr-namespace:Mystic_ToDo.View.UserControls.Header"
         xmlns:customControls="clr-namespace:Mystic_ToDo.View.UserControls.CustomControls"
+        xmlns:reminderEditor="clr-namespace:Mystic_ToDo.View.UserControls.Content"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="720" Width="1280">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
@@ -36,14 +37,13 @@
             <!-- Main Reminder Window -->
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="200"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                     
                 <!-- Task Entry -->
-                <GroupBox Grid.Row="0">
-                    
-                </GroupBox>
+                <reminderEditor:ReminderEditor Grid.Row="0"/>
+               
                     
                 <!-- Task List -->
                 <ListView Grid.Row="1">

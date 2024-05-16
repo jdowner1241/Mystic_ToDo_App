@@ -13,18 +13,27 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Mystic_ToDo.View.UserControls.Header
+namespace Mystic_ToDo.View.UserControls.CustomControls
 {
-    /// <summary>
-    /// Interaction logic for MenuBar.xaml
-    /// </summary>
-    public partial class MenuBar : UserControl
+
+    public partial class MenuBarButton : UserControl
     {
-        public MenuBar()
+        public MenuBarButton()
         {
             InitializeComponent();
         }
+        private string placeholder;
 
-   
+        public string Placeholder
+        {
+            get { return placeholder; }
+            set
+            {
+                placeholder = value;
+                menuButton.Content = placeholder;
+            }
+        }
+
+    
     }
 }

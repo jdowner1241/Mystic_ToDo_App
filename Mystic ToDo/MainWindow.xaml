@@ -4,7 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Mystic_ToDo"
-        xmlns:userControls="clr-namespace:Mystic_ToDo.View.UserControls.Header"
+        xmlns:header="clr-namespace:Mystic_ToDo.View.UserControls.Header"
+        xmlns:customControls="clr-namespace:Mystic_ToDo.View.UserControls.CustomControls"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
@@ -15,7 +16,7 @@
         </Grid.RowDefinitions>
         
         <!-- MenuBar -->
-        <userControls:MenuBar Grid.Row="0"/>
+        <header:MenuBar Grid.Row="0"/>
 
         <!-- Content Section -->
         <Grid Grid.Row="1">

@@ -9,7 +9,7 @@
 
 
     <Grid Background="Transparent">
-        <Button  x:Name="menuButton" BorderThickness="1" Background="Silver" Content="{Binding Placeholder}"
+        <Button  x:Name="menuButton" BorderThickness="1" Background="Silver" Content="{Binding Placeholder, UpdateSourceTrigger=PropertyChanged, Mode=Default}"
                  FontSize="15" Foreground="black" FontStyle="Italic" FontWeight="Bold">
                     <Button.Resources>
                         <Style TargetType="Border">

@@ -13,7 +13,7 @@
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <!---->
-        <TextBlock x:Name="txtBoxLabel" Grid.Row="0" Text="{Binding}" 
+        <TextBlock x:Name="txtBoxLabel" Grid.Row="0" Text="{Binding Placeholder, UpdateSourceTrigger=PropertyChanged, Mode=Default}" 
             FontSize="12" Foreground="Black" FontWeight="Bold"
             Margin="5, 3" Padding="5, 0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="15"/>
 

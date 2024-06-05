@@ -1,31 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Mystic_ToDo.View.UserControls.CustomControls
 {
     /// <summary>
     /// Interaction logic for txtBoxWithLabel.xaml
     /// </summary>
-    public partial class TxtBoxWithLabel : UserControl
+    public partial class TxtBoxWithLabel : UserControl, INotifyPropertyChanged
     {
         public TxtBoxWithLabel()
         {
+            DataContext = this;
             InitializeComponent();
         }
 
         private string placeholder;
+
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public string Placeholder
         {
@@ -33,8 +27,13 @@ namespace Mystic_ToDo.View.UserControls.CustomControls
             set
             {
                 placeholder = value;
-                txtBoxLabel.Text = placeholder;
+                OnPropertyChanged();
             }
+        }
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private void txtBoxClear_Click(object sender, RoutedEventArgs e)

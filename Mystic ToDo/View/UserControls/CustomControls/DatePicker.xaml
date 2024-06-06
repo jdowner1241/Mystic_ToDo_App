@@ -29,9 +29,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <!---->
-            <ComboBox Grid.Column="0" x:Name="timePickerHr" AutomationProperties.HelpText="Hrs">
-
-            </ComboBox>
+            <ComboBox Grid.Column="0" x:Name="timePickerHr" AutomationProperties.HelpText="Hrs"/>
 
             <!---->
             <ComboBox Grid.Column="1" x:Name="timePickerMin" AutomationProperties.HelpText="Mins">

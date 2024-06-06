@@ -15,7 +15,7 @@
         <CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,5,0"/>
 
         <!---->
-        <TextBlock x:Name="txtBoxLabel" Grid.Column="1" Text="{Binding PlaceHolder, UpdateSourceTrigger=PropertyChanged, Mode=Default}" 
+        <TextBlock x:Name="txtBoxLabel" Grid.Column="1" Text="{Binding Placeholder, UpdateSourceTrigger=PropertyChanged, Mode=Default}" 
                    FontSize="12" Foreground="Black" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" />
 
     </Grid>

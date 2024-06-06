@@ -19,7 +19,10 @@
         <!---->
         <ComboBox Grid.Row="1" Margin="5, 0" Height="30" x:Name="comboBox"
                   VerticalAlignment="Top" 
-                  BorderThickness="1" BorderBrush="LightBlue" Background="#FF9AB7E6" Foreground="Black" FontSize="15">
+                  BorderThickness="1" BorderBrush="LightBlue" Background="#FF9AB7E6" Foreground="Black" FontSize="15"
+                  ItemsSource="{Binding CboxItems, UpdateSourceTrigger=PropertyChanged}">
+
+
         </ComboBox>
  
     </Grid>

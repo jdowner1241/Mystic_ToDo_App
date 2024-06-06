@@ -4,9 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Mystic_ToDo.View.UserControls.Content"
-             xmlns:customControls="clr-namespace:Mystic_ToDo.View.UserControls.CustomControls"
+             xmlns:customControls="clr-namespace:Mystic_ToDo.View.UserControls.CustomControls" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" d:DataContext="{d:DesignInstance Type=customControls:ComboBoxWithLabel}"
              mc:Ignorable="d" 
              d:DesignHeight="250" d:DesignWidth="800">
+            
     <Grid Background="white">
         <Grid.RowDefinitions>
             <RowDefinition Height=".2*"/>
@@ -40,12 +41,15 @@
             </Grid.ColumnDefinitions>
             <!---->
             <customControls:TxtBoxWithLabel Placeholder="Description" Margin="0,0,10,2" Width="380"  VerticalContentAlignment="Center"/>
-            
+
+            <!--<customControls:DatePicker Grid.Column="1" Placeholder="Alarm" Margin="0,0,10,2" VerticalContentAlignment="Top"/>
+            -->
+            <customControls:DateTimePicker Grid.Column="1" Placeholder="Alarm" Margin="0,0,10,2" VerticalContentAlignment="Top" />
+
             <!---->
-            <customControls:DatePicker Grid.Column="1" Placeholder="Alarm" Margin="0,0,10,2" VerticalContentAlignment="Top"/>
-            <!---->
-            <customControls:ComboBoxWithLabel Grid.Column="2" Placeholder="Alarm Frequency" Margin="0,0,10,2" VerticalContentAlignment="Top"/>
-            
+            <customControls:ComboBoxWithLabel Grid.Column="2" Placeholder="Alarm Frequency" Margin="0,0,10,2" VerticalContentAlignment="Top"
+                                              x:Name="cboxItems" />
+
         </Grid>
 
         <!---->
@@ -56,19 +60,19 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <!---->
-            <Button Grid.Column="0" Panel.ZIndex="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="20" 
+            <Button Grid.Column="0" Panel.ZIndex="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10" 
                     Content="Add"/>
-            <Button Grid.Column="0" Panel.ZIndex="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="20" 
+            <Button Grid.Column="0" Panel.ZIndex="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10" 
                     Content="Edit"/>
 
             <!---->
-            <Button Grid.Column="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="20"
+            <Button Grid.Column="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10"
                     Content="Clear"/>
             
             <!---->
-            <Button Grid.Column="2" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="20"
+            <Button Grid.Column="2" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10"
                     Content="Delete"/>
-            
+
         </Grid>
     </Grid>
 </UserControl>

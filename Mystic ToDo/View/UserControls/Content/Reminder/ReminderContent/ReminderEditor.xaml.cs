@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
 
-namespace Mystic_ToDo.View.UserControls.Content
+namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
 {
     /// <summary>
     /// Interaction logic for ReminderEditor.xaml

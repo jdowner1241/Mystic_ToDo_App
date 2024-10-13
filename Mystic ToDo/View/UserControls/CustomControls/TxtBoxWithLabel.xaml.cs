@@ -18,6 +18,7 @@ namespace Mystic_ToDo.View.UserControls.CustomControls
         }
 
         private string placeholder;
+        private string textValue;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -27,6 +28,16 @@ namespace Mystic_ToDo.View.UserControls.CustomControls
             set
             {
                 placeholder = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string TextValue
+        {
+            get { return textValue; }
+            set
+            {
+                textValue = value;
                 OnPropertyChanged();
             }
         }

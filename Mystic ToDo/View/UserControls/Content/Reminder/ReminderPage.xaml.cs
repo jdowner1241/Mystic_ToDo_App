@@ -39,5 +39,20 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
             var reminderList = DbContext.Reminders.ToList();
             reminderListDB.ItemsSource = reminderList;
         }
+
+        private void clear()
+        {
+
+        }
+
+        private void addReminder()
+        {
+
+        }
+
+        private void removeReminder()
+        {
+            
+        }
     }
 }

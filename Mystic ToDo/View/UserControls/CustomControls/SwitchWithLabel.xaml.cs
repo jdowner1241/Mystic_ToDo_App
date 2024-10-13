@@ -17,6 +17,7 @@ namespace Mystic_ToDo.View.UserControls.CustomControls
         }
 
         private string placeholder;
+        public bool isChecked;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -30,6 +31,18 @@ namespace Mystic_ToDo.View.UserControls.CustomControls
             }
         }
 
+        public bool IsChecked
+        {
+            get { return isChecked; }
+            set
+            {
+                isChecked = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -37,12 +50,12 @@ namespace Mystic_ToDo.View.UserControls.CustomControls
 
         private void HandleCheck(object sender, RoutedEventArgs e)
         {
-                
+                IsChecked = true;
         }
 
         private void HandleUnchecked(object sender, RoutedEventArgs e)
         {
-           
+            IsChecked = false;
         }
 
 

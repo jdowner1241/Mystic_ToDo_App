@@ -22,13 +22,16 @@
                 <ColumnDefinition Width=".25*"/>
             </Grid.ColumnDefinitions>
             <!---->
-            <customControls:TxtBoxWithLabel Placeholder="Name" Margin="0,0,10,2" Width="380"/>
+            <customControls:TxtBoxWithLabel Placeholder="Name" Margin="0,0,10,2" Width="380"
+                                            x:Name="txtboxName"/>
             
             <!---->
-            <customControls:SwitchWithLabel Grid.Column="1" Placeholder="Alarm"/>
+            <customControls:SwitchWithLabel Grid.Column="1" Placeholder="Alarm"
+                                            x:Name="checkAlarm" PropertyChanged="checkAlarm_PropertyChanged"/>
 
             <!---->
-            <customControls:SwitchWithLabel Grid.Column="2" Placeholder="Repeat"/>
+            <customControls:SwitchWithLabel Grid.Column="2" Placeholder="Repeat"
+                                            x:Name="checkRepeat" PropertyChanged="checkRepeat_PropertyChanged"/>
             
         </Grid>
 
@@ -40,11 +43,12 @@
                 <ColumnDefinition Width=".25*"/>
             </Grid.ColumnDefinitions>
             <!---->
-            <customControls:TxtBoxWithLabel Placeholder="Description" Margin="0,0,10,2" Width="380"  VerticalContentAlignment="Center"/>
+            <customControls:TxtBoxWithLabel Placeholder="Description" Margin="0,0,10,2" Width="380"  VerticalContentAlignment="Center"
+                                            x:Name="txtboxDescription"/>
 
-            <!--<customControls:DatePicker Grid.Column="1" Placeholder="Alarm" Margin="0,0,10,2" VerticalContentAlignment="Top"/>
-            -->
-            <customControls:DateTimePicker Grid.Column="1" Placeholder="Alarm" Margin="0,0,10,2" VerticalContentAlignment="Top" />
+            <!---->
+            <customControls:DateTimePicker Grid.Column="1" Placeholder="Alarm" Margin="0,0,10,2" VerticalContentAlignment="Top" 
+                                           x:Name="dtpAlarm"/>
 
             <!---->
             <customControls:ComboBoxWithLabel Grid.Column="2" Placeholder="Alarm Frequency" Margin="0,0,10,2" VerticalContentAlignment="Top"
@@ -61,17 +65,17 @@
             </Grid.ColumnDefinitions>
             <!---->
             <Button Grid.Column="0" Panel.ZIndex="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10" 
-                    Content="Add"/>
+                    Content="Add" x:Name="bAdd" Click="bAdd_Click"/>
             <Button Grid.Column="0" Panel.ZIndex="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10" 
-                    Content="Edit"/>
+                    Content="Edit" x:Name="bEdit" Click="bEdit_Click"/>
 
             <!---->
             <Button Grid.Column="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10"
-                    Content="Clear"/>
+                    Content="Clear" x:Name="bClear" Click="bClear_Click"/>
             
             <!---->
             <Button Grid.Column="2" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10"
-                    Content="Delete"/>
+                    Content="Delete" x:Name="bDelete" Click="bDelete_Click"/>
 
         </Grid>
     </Grid>

@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MysticToDo_DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Reminder">
+          <Key>
+            <PropertyRef Name="Reminder_Id" />
+          </Key>
+          <Property Name="Reminder_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Reminder_Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Reminder_Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="Reminder_IsComplete" Type="bit" />
+          <Property Name="Reminder_HasAlarm" Type="bit" />
+          <Property Name="Reminder_Date" Type="date" />
+          <Property Name="Reminder_Time" Type="datetime" />
+          <Property Name="Reminder_IsPeriodic" Type="bit" />
+          <Property Name="Reminder_PeriodicActive" Type="bit" />
+          <Property Name="Reminder_PeriodicIntervalLabel" Type="int" />
+          <Property Name="Reminder_NextPeriodicDate" Type="date" />
+          <Property Name="Reminder_NextPeriodicTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Timeframe">
+          <Key>
+            <PropertyRef Name="Timeframe_Key" />
+          </Key>
+          <Property Name="Timeframe_Key" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Timeframe_Name" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'MysticToDo_DB.dbo.ViewFreqency' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="ViewFreqency">
+          <Property Name="Frequency" Type="nvarchar" MaxLength="10" />
+        </EntityType>-->
+        <Association Name="FK__Reminder__Remind__4CA06362">
+          <End Role="Timeframe" Type="Self.Timeframe" Multiplicity="0..1" />
+          <End Role="Reminder" Type="Self.Reminder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Timeframe">
+              <PropertyRef Name="Timeframe_Key" />
+            </Principal>
+            <Dependent Role="Reminder">
+              <PropertyRef Name="Reminder_PeriodicIntervalLabel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MysticToDo_DBModelStoreContainer">
+          <EntitySet Name="Reminder" EntityType="Self.Reminder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Timeframe" EntityType="Self.Timeframe" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Reminder__Remind__4CA06362" Association="Self.FK__Reminder__Remind__4CA06362">
+            <End Role="Timeframe" EntitySet="Timeframe" />
+            <End Role="Reminder" EntitySet="Reminder" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MysticToDo_DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Reminder">
+          <Key>
+            <PropertyRef Name="Reminder_Id" />
+          </Key>
+          <Property Name="Reminder_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Reminder_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Reminder_Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Reminder_IsComplete" Type="Boolean" />
+          <Property Name="Reminder_HasAlarm" Type="Boolean" />
+          <Property Name="Reminder_Date" Type="DateTime" Precision="0" />
+          <Property Name="Reminder_Time" Type="DateTime" Precision="3" />
+          <Property Name="Reminder_IsPeriodic" Type="Boolean" />
+          <Property Name="Reminder_PeriodicActive" Type="Boolean" />
+          <Property Name="Reminder_PeriodicIntervalLabel" Type="Int32" />
+          <Property Name="Reminder_NextPeriodicDate" Type="DateTime" Precision="0" />
+          <Property Name="Reminder_NextPeriodicTime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Timeframe" Relationship="Self.FK__Reminder__Remind__4CA06362" FromRole="Reminder" ToRole="Timeframe" />
+        </EntityType>
+        <EntityType Name="Timeframe">
+          <Key>
+            <PropertyRef Name="Timeframe_Key" />
+          </Key>
+          <Property Name="Timeframe_Key" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Timeframe_Name" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Reminders" Relationship="Self.FK__Reminder__Remind__4CA06362" FromRole="Timeframe" ToRole="Reminder" />
+        </EntityType>
+        <Association Name="FK__Reminder__Remind__4CA06362">
+          <End Role="Timeframe" Type="Self.Timeframe" Multiplicity="0..1" />
+          <End Role="Reminder" Type="Self.Reminder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Timeframe">
+              <PropertyRef Name="Timeframe_Key" />
+            </Principal>
+            <Dependent Role="Reminder">
+              <PropertyRef Name="Reminder_PeriodicIntervalLabel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MysticToDo_DBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Reminders" EntityType="Self.Reminder" />
+          <EntitySet Name="Timeframes" EntityType="Self.Timeframe" />
+          <AssociationSet Name="FK__Reminder__Remind__4CA06362" Association="Self.FK__Reminder__Remind__4CA06362">
+            <End Role="Timeframe" EntitySet="Timeframes" />
+            <End Role="Reminder" EntitySet="Reminders" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MysticToDo_DBModelStoreContainer" CdmEntityContainer="MysticToDo_DBEntities">
+          <EntitySetMapping Name="Reminders">
+            <EntityTypeMapping TypeName="MysticToDo_DBModel.Reminder">
+              <MappingFragment StoreEntitySet="Reminder">
+                <ScalarProperty Name="Reminder_Id" ColumnName="Reminder_Id" />
+                <ScalarProperty Name="Reminder_Name" ColumnName="Reminder_Name" />
+                <ScalarProperty Name="Reminder_Description" ColumnName="Reminder_Description" />
+                <ScalarProperty Name="Reminder_IsComplete" ColumnName="Reminder_IsComplete" />
+                <ScalarProperty Name="Reminder_HasAlarm" ColumnName="Reminder_HasAlarm" />
+                <ScalarProperty Name="Reminder_Date" ColumnName="Reminder_Date" />
+                <ScalarProperty Name="Reminder_Time" ColumnName="Reminder_Time" />
+                <ScalarProperty Name="Reminder_IsPeriodic" ColumnName="Reminder_IsPeriodic" />
+                <ScalarProperty Name="Reminder_PeriodicActive" ColumnName="Reminder_PeriodicActive" />
+                <ScalarProperty Name="Reminder_PeriodicIntervalLabel" ColumnName="Reminder_PeriodicIntervalLabel" />
+                <ScalarProperty Name="Reminder_NextPeriodicDate" ColumnName="Reminder_NextPeriodicDate" />
+                <ScalarProperty Name="Reminder_NextPeriodicTime" ColumnName="Reminder_NextPeriodicTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Timeframes">
+            <EntityTypeMapping TypeName="MysticToDo_DBModel.Timeframe">
+              <MappingFragment StoreEntitySet="Timeframe">
+                <ScalarProperty Name="Timeframe_Key" ColumnName="Timeframe_Key" />
+                <ScalarProperty Name="Timeframe_Name" ColumnName="Timeframe_Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

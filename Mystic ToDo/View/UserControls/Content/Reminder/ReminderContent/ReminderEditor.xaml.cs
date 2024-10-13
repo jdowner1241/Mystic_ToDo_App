@@ -9,7 +9,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
     /// </summary>
     public partial class ReminderEditor : UserControl
     {
-        private ObservableCollection<string> alarmFreqencyList = new ObservableCollection<string> { "Daily", "Weekly", "Montly", "Yearly" };
+        private ObservableCollection<string> alarmFreqencyList = new ObservableCollection<string> { "Not Set", "Daily", "Weekly", "Montly", "Yearly" };
 
         public ReminderEditor()
         {

@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Controls;
 using Xceed.Wpf.Toolkit;
 
@@ -10,7 +12,15 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
     /// </summary>
     public partial class ReminderEditor : UserControl
     {
-        private ObservableCollection<string> alarmFreqencyList = new ObservableCollection<string> { "Not Set", "Daily", "Weekly", "Montly", "Yearly" };
+
+        private enum alarmFrequencyList
+        {
+            NotSet = 0,
+            Daily = 1,
+            Weekly = 2,
+            Monthly = 3,
+            Yearly = 4
+        }
 
         public ReminderEditor()
         {
@@ -26,7 +36,11 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
 
         public void setCboxObj()
         {
-            cboxItems.CboxItems = alarmFreqencyList;
+            cboxItems.CboxItems.Clear(); // Clear existing items if any
+            foreach (var value in Enum.GetValues(typeof(alarmFrequencyList)))
+            {
+                cboxItems.CboxItems.Add(value.ToString());
+            }
         }
 
         private void bAdd_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -41,7 +55,27 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
 
         private void bClear_Click(object sender, System.Windows.RoutedEventArgs e)
         {
+            if (txtboxName.txtBox.Text != string.Empty)
+            {
+                txtboxName.txtBox.Clear();
+            }
 
+            if (txtboxDescription.txtBox.Text != string.Empty)
+            { 
+                txtboxDescription.txtBox.Clear(); 
+            }
+
+            if (checkAlarm.IsChecked == true)
+            {
+                if (checkRepeat.IsChecked == true)
+                {
+                    cboxItems.comboBox.SelectedIndex = 0;
+                }
+                dtpAlarm.datePicker.ClearValue(DatePicker.SelectedDateProperty);
+                checkRepeat.IsChecked = false;
+                checkAlarm.IsChecked = false;
+                
+            }
         }
 
         private void bDelete_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -52,31 +86,49 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
 
         private void checkAlarm_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (checkAlarm != null && dtpAlarm != null)
+            if (e.PropertyName == nameof(checkAlarm.IsChecked))
             {
-                if (e.PropertyName == nameof(checkAlarm.IsChecked))
+                if (checkAlarm.IsChecked == true)
                 {
-                    dtpAlarm.Visibility = checkAlarm.IsChecked == true ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
+                    dtpAlarm.Visibility = System.Windows.Visibility.Visible;
+                }
+                else
+                {
+                    dtpAlarm.Visibility = System.Windows.Visibility.Collapsed;
+                    if (checkRepeat.IsChecked == true)
+                    {
+                        checkRepeat.IsChecked = false; // This will trigger the checkRepeat_PropertyChanged
+                    }
                 }
             }
-                
         }
-
 
         private void checkRepeat_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
- 
-                if (e.PropertyName == nameof(checkRepeat.IsChecked))
+            if (e.PropertyName == nameof(checkRepeat.IsChecked))
+            {
+                if (checkAlarm.IsChecked == true)
                 {
-                    if (checkAlarm.IsChecked = true)
+                    if (checkRepeat.IsChecked == true)
                     {
-                        cboxItems.Visibility = checkRepeat.IsChecked ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;  
+                        cboxItems.Visibility = System.Windows.Visibility.Visible;
                     }
                     else
                     {
-                        MessageBox.Show("Alarm required");
+                        cboxItems.Visibility = System.Windows.Visibility.Collapsed;
+                        checkAlarm.IsChecked = false; // This will trigger the checkAlarm_PropertyChanged
                     }
-                }      
+                }
+                else
+                {
+                    if (checkRepeat.IsChecked == true)
+                    {
+                        MessageBox.Show("Alarm required");
+                        checkRepeat.IsChecked = false;
+                    }
+                    cboxItems.Visibility = System.Windows.Visibility.Collapsed;
+                }
+            }
         }
     }
 }

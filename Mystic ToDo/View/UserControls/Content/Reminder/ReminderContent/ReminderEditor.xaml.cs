@@ -1,9 +1,14 @@
-﻿using System;
+﻿using Mystic_ToDo.Data;
+using Mystic_ToDo.Database;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Entity;
 using System.Linq;
 using System.Windows.Controls;
 using Xceed.Wpf.Toolkit;
+using static Mystic_ToDo.Database.ReminderDb;
+
 
 namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
 {
@@ -12,6 +17,9 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
     /// </summary>
     public partial class ReminderEditor : UserControl
     {
+
+        private readonly MysticToDo_DBEntities DbContext;
+
 
         private enum alarmFrequencyList
         {
@@ -26,12 +34,56 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
         {
             InitializeComponent();
             DataContext = this;
+            DbContext = new MysticToDo_DBEntities();
             setCboxObj();
             dtpAlarm.Visibility = System.Windows.Visibility.Collapsed;
             cboxItems.Visibility = System.Windows.Visibility.Collapsed;
-            //checkAlarm.IsEnabled = false;
-            //checkRepeat.IsEnabled = false;
-            //dtpAlarm.
+        }
+
+        private void LoadFromForm()
+        {
+            var newReminder = new ReminderDb.Reminder();
+
+            if (txtboxName.txtBox.Text != string.Empty)
+            {
+                newReminder.Name = txtboxName.txtBox.Text;
+            }
+
+            if (txtboxDescription.txtBox.Text != string.Empty)
+            {
+                newReminder.Description = txtboxDescription.txtBox.Text;
+            }
+
+            if (checkAlarm.IsChecked == true)
+            {
+                newReminder.HasAlarms = true;
+
+                if (dtpAlarm.getDateTime() != null)
+                {
+                    newReminder.Alarm = dtpAlarm.getDateTime(); 
+                }
+
+                if (checkRepeat.IsChecked == true)
+                {
+                    newReminder.Periodic = true;
+                    if (cboxItems.comboBox.SelectedIndex != -1)
+                    {
+                        newReminder.TimeFrameSelection = (TimeFrame)cboxItems.comboBox.SelectedIndex;
+                    }
+                    else
+                    {
+                        newReminder.TimeFrameSelection = 0; 
+                    }
+                }
+                else
+                {
+                    newReminder.Periodic = false;
+                }
+
+            }else
+            {
+                newReminder.HasAlarms = false;
+            }    
         }
 
         public void setCboxObj()
@@ -45,6 +97,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
 
         private void bAdd_Click(object sender, System.Windows.RoutedEventArgs e)
         {
+            LoadFromForm();
 
         }
 

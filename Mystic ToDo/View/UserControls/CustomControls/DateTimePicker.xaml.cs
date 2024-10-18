@@ -99,6 +99,11 @@ namespace Mystic_ToDo.View.UserControls.CustomControls
             catch { }
         }
 
+        public DateTime? getDateTime()
+        {
+            return dateWithTime.HasValue ? dateWithTime : null;
+        }
+
     }
 }
 

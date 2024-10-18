@@ -11,11 +11,11 @@ namespace Mystic_ToDo.Database
     {
         public enum TimeFrame
         {
-            NotSet,
-            Daily,
-            Weekly,
-            Monthly,
-            Yearly
+            NotSet = 0,
+            Daily = 1,
+            Weekly = 2,
+            Monthly = 3,
+            Yearly = 4
         }
 
         public class Reminder : BaseEntity
@@ -23,8 +23,6 @@ namespace Mystic_ToDo.Database
             public string Name { get; set; }
 
             public string? Description { get; set; }
-
-            public bool IsComplete { get; set; }
 
             public bool HasAlarms { get; set; }
 
@@ -36,8 +34,9 @@ namespace Mystic_ToDo.Database
 
             public DateTime? PeriodicAlarm { get; set; }
 
-            public string? UserId { get; set; }
+            public bool IsComplete { get; set; }
 
+            public string? UserId { get; set; }
         }
 
     }

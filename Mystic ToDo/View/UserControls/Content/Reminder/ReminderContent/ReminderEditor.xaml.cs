@@ -60,7 +60,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
 
                 if (dtpAlarm.getDateTime() != null)
                 {
-                    newReminder.Alarm = dtpAlarm.getDateTime(); 
+                    newReminder.Alarm = dtpAlarm.DateWithTime; 
                 }
 
                 if (checkRepeat.IsChecked == true)

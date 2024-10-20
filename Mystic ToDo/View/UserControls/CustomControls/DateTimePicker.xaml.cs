@@ -74,6 +74,16 @@ namespace Mystic_ToDo.View.UserControls.CustomControls
             }
         }
 
+        public DateTime? DateWithTime
+        {
+            get { return dateWithTime; }
+            set 
+            {
+                dateWithTime = value;
+                OnPropertyChanged();
+            }
+        }
+
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

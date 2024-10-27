@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Windows.Controls;
 using Xceed.Wpf.Toolkit;
 using static Mystic_ToDo.Database.ReminderDb;
@@ -18,91 +19,146 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
     public partial class ReminderEditor : UserControl
     {
 
-        private readonly MysticToDo_DBEntities DbContext;
+        private ReminderContext DbContext;
+        private ReminderDb.Reminder newReminder;
+        private ReminderPage reminderPage;
 
-
-        private enum alarmFrequencyList
-        {
-            NotSet = 0,
-            Daily = 1,
-            Weekly = 2,
-            Monthly = 3,
-            Yearly = 4
-        }
+        public event Action ReminderUpdate;
 
         public ReminderEditor()
         {
-            InitializeComponent();
             DataContext = this;
-            DbContext = new MysticToDo_DBEntities();
-            setCboxObj();
+            InitializeComponent();
+
+            DbContext = new ReminderContext();
+            newReminder = new ReminderDb.Reminder();
+
+            SetCboxObj();
             dtpAlarm.Visibility = System.Windows.Visibility.Collapsed;
             cboxItems.Visibility = System.Windows.Visibility.Collapsed;
+
         }
 
-        private void LoadFromForm()
-        {
-            var newReminder = new ReminderDb.Reminder();
 
-            if (txtboxName.txtBox.Text != string.Empty)
+        private ReminderDb.Reminder LoadFromForm()
+        {
+            
+            //Name
+            if (!string.IsNullOrEmpty(txtboxName.txtBox.Text))
             {
                 newReminder.Name = txtboxName.txtBox.Text;
             }
 
-            if (txtboxDescription.txtBox.Text != string.Empty)
+            //Description
+            if (!string.IsNullOrEmpty(txtboxDescription.txtBox.Text))
             {
                 newReminder.Description = txtboxDescription.txtBox.Text;
             }
+            else
+            {
+                newReminder.Description = string.Empty; 
+            }
 
+            //HasAlarm
             if (checkAlarm.IsChecked == true)
             {
                 newReminder.HasAlarms = true;
 
-                if (dtpAlarm.getDateTime() != null)
+                //Alarm
+                dtpAlarm.getDateTime(); 
+                if (dtpAlarm.DateWithTime != null)
                 {
-                    newReminder.Alarm = dtpAlarm.DateWithTime; 
+                    newReminder.Alarm = dtpAlarm.DateWithTime;
+                }
+                else
+                {
+                    newReminder.Alarm = null;
                 }
 
+                //Periodic
                 if (checkRepeat.IsChecked == true)
                 {
                     newReminder.Periodic = true;
+
+                    //TimeFrameSelection
                     if (cboxItems.comboBox.SelectedIndex != -1)
                     {
-                        newReminder.TimeFrameSelection = (TimeFrame)cboxItems.comboBox.SelectedIndex;
+                        //newReminder.TimeFrameSelection = (ReminderDb.TimeFrameId)cboxItems.comboBox.SelectedIndex;
+
+                        var selectedTimeFrameId = (ReminderDb.TimeFrameId)cboxItems.comboBox.SelectedIndex;
+                        newReminder.TimeFrameSelection = DbContext.TimeFrames.Single(tf => tf.TimeFrameId == selectedTimeFrameId);
                     }
                     else
                     {
-                        newReminder.TimeFrameSelection = 0; 
+                        //newReminder.TimeFrameSelection = ReminderDb.TimeFrameId.NotSet;
+
+                        var selectedTimeFrameId = ReminderDb.TimeFrameId.NotSet;
+                        newReminder.TimeFrameSelection = DbContext.TimeFrames.Single(tf => tf.TimeFrameId == selectedTimeFrameId);
                     }
                 }
                 else
                 {
                     newReminder.Periodic = false;
                 }
-
-            }else
+            }
+            else
             {
                 newReminder.HasAlarms = false;
-            }    
+            }
+
+            newReminder.UserId = "YourUserIdHere";
+            newReminder.Folder = "test";
+            return newReminder;
         }
 
-        public void setCboxObj()
+        private void SaveToDatabase(ReminderDb.Reminder addReminder)
         {
-            cboxItems.CboxItems.Clear(); // Clear existing items if any
-            foreach (var value in Enum.GetValues(typeof(alarmFrequencyList)))
+            var existingReminder = DbContext.Reminders.FirstOrDefault(r => r.Name == addReminder.Name);
+
+            if (existingReminder != null)
             {
-                cboxItems.CboxItems.Add(value.ToString());
+                // Handle case where a reminder with the same name already exists
+                MessageBox.Show("A reminder with this name already exists.");
+                return;
+            }
+
+
+            DbContext.SaveReminder(addReminder);
+            ReminderUpdate();
+        }
+
+        public void SetCboxObj()
+        {
+            var timeFrames = Enum.GetValues(typeof(ReminderDb.TimeFrameId))
+                                 .Cast<ReminderDb.TimeFrameId>()
+                                 .Select(e => e.ToString())
+                                 .ToList();
+
+            cboxItems.CboxItems.Clear();
+
+            foreach (var timeFrame in timeFrames) 
+            {
+                cboxItems.CboxItems.Add(timeFrame);
             }
         }
 
         private void bAdd_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            LoadFromForm();
+            try
+            {
+                var newReminder = LoadFromForm();
+                if (newReminder != null)
+                {
+                    SaveToDatabase(newReminder);
+                }
+            }
+            catch (Exception ex) { }
 
         }
 
         private void bEdit_Click(object sender, System.Windows.RoutedEventArgs e)
         {
+          
 
         }
 

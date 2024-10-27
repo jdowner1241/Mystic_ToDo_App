@@ -26,7 +26,6 @@ namespace Mystic_ToDo.View.UserControls.CustomControls
             InitializeComponent();
             timePicker.Visibility =  System.Windows.Visibility.Collapsed;
             timePickerPlaceholder();
-            
         }
 
         private void DatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
@@ -61,7 +60,6 @@ namespace Mystic_ToDo.View.UserControls.CustomControls
             {
                 timePicker.Value = dt.Value;
             }
-
         }
 
         public string Placeholder
@@ -111,6 +109,7 @@ namespace Mystic_ToDo.View.UserControls.CustomControls
 
         public DateTime? getDateTime()
         {
+            setDateTime(); 
             return dateWithTime.HasValue ? dateWithTime : null;
         }
 

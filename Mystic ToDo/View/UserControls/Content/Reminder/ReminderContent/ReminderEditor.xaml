@@ -65,7 +65,7 @@
             </Grid.ColumnDefinitions>
             <!---->
             <Button Grid.Column="0" Panel.ZIndex="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10" 
-                    Content="Add" x:Name="bAdd" Click="bAdd_Click"/>
+                    Content="Add" x:Name="bAdd" Click="bAdd_Click" />
             <Button Grid.Column="0" Panel.ZIndex="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10" 
                     Content="Edit" x:Name="bEdit" Click="bEdit_Click"/>
 

@@ -1,5 +1,10 @@
-﻿using System;
+﻿using Mystic_ToDo.Data;
+using Mystic_ToDo.Database;
+using Mystic_ToDo.View.UserControls.Content.Reminder;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +25,18 @@ namespace Mystic_ToDo
     /// </summary>
     public partial class MainWindow : Window
     {
+        private ReminderContext ReminderList;
+        private ReminderPage _reminderPage;
+
         public MainWindow()
         {
             InitializeComponent();
+
+
+            ReminderList = new ReminderContext();
+            _reminderPage = new ReminderPage();
+
+
         }
     }
 }

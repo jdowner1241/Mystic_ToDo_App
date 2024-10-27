@@ -1,20 +1,12 @@
 ﻿using Mystic_ToDo.Data;
+using Mystic_ToDo.Database;
+using Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent;
 using System;
-using System.Collections.Generic;
-using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
+using static Mystic_ToDo.Database.ReminderDb;
 
 namespace Mystic_ToDo.View.UserControls.Content.Reminder
 {
@@ -23,36 +15,30 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
     /// </summary>
     public partial class ReminderPage : UserControl
     {
-        private readonly MysticToDo_DBEntities DbContext;
-        
+        private readonly ReminderContext DbContext;
 
         public ReminderPage()
         {
             InitializeComponent();
-            DbContext = new MysticToDo_DBEntities();
-            LoadData();
-
+            DbContext = new ReminderContext();
+            LoadDataFromReminderPage();
         }
 
-        private void LoadData()
+        public void LoadDataFromReminderPage()
         {
+            Debug.WriteLine("LoadData method invoked");
+
+            if (DbContext.Reminders == null)
+            {
+                MessageBox.Show("Reminders DbSet is null");
+            }
+
             var reminderList = DbContext.Reminders.ToList();
+
             reminderListDB.ItemsSource = reminderList;
+            Debug.WriteLine("Data loaded successfully");
+            reminderListDB.Items.Refresh();
         }
 
-        private void clear()
-        {
-
-        }
-
-        private void addReminder()
-        {
-
-        }
-
-        private void removeReminder()
-        {
-            
-        }
     }
 }

@@ -33,7 +33,11 @@
 
 
             <!-- Task List -->
-            <DataGrid Grid.Row="1" x:Name="reminderListDB"/>
+            <!--<DataGrid Grid.Row="1" x:Name="reminderListDB"/>-->
+            <Grid Grid.Row="1" x:Name="reminderListDB">
+                <reminderEditor:TaskList/>
+            </Grid>
+            
 
         </Grid>
 

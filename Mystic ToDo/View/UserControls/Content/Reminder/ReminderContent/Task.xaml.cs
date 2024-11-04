@@ -38,6 +38,8 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
         public Task()
         {
             InitializeComponent();
+            this.MouseEnter += this.OnMouseEnter;
+            this.MouseLeave += this.OnMouseLeave;   
         }
 
 
@@ -52,7 +54,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             set 
             {
                 _id = value;
-                OnPropertyChanged(nameof(ID));
+                OnPropertyChanged();
             }
         }
 
@@ -68,10 +70,10 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
         
         public string _Name 
         {
-            get { return _name; }
+            get { return name.Content.ToString(); }
             set
             {
-                _name = value;
+                name.Content = value;
                 OnPropertyChanged();
             }
         }
@@ -116,9 +118,31 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             }
         }
 
+        public Brush Background
+        {
+            get { return (Brush)GetValue(BackgroundProperty); }
+            set { SetValue(BackgroundProperty, value); }
+        }
+
+        public static readonly DependencyProperty BackgroudProperty = 
+            DependencyProperty.Register("Background", typeof(Brush), typeof(Task), new PropertyMetadata(Brushes.LightGray));
+
+        private void OnMouseEnter (object sender, MouseEventArgs e)
+        {
+            backgroud.Background = Brushes.LightBlue;
+        }
+
+        private void OnMouseLeave(object sender, MouseEventArgs e)
+        {
+            backgroud.Background = Brushes.LightGray;
+        }
+
 
         public void addInfo(ReminderDb.Reminder newReminder)
         {
+            _id = newReminder.Id;
+            name.Content = newReminder.Name;
+
             if (newReminder.IsComplete == false)
             {
                 isCompleted.IsChecked = false;
@@ -128,7 +152,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
                 isCompleted.IsChecked = true;
             }
 
-            name.Content = newReminder.Name;
+            
 
             if (!string.IsNullOrEmpty(newReminder.Description))
             {

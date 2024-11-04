@@ -5,45 +5,47 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent"
              mc:Ignorable="d" 
-             d:DesignHeight="50" d:DesignWidth="768">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="40"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-
-        <CheckBox x:Name="isCompleted" IsChecked="{Binding _IsCompleted, UpdateSourceTrigger=PropertyChanged, Mode=Default}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" />
-
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-
+             d:DesignHeight="100" d:DesignWidth="768">
+    <Border x:Name="backgroud" BorderBrush="black" Background="{Binding Background, RelativeSource={RelativeSource AncestorType=UserControl}}" BorderThickness="2" Margin="5, 5" Padding="5, 5" CornerRadius="10">
+        <Grid>
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40"/>
                 <ColumnDefinition/>
-                <ColumnDefinition Width="0.4*"/>
             </Grid.ColumnDefinitions>
 
-            <Label x:Name="name" Content="{Binding _Name, UpdateSourceTrigger=PropertyChanged, Mode=Default}" Foreground="DarkOrange" Margin="10, 0" Grid.Row="0" Grid.Column="0"/>
-            <Label x:Name="description" Content="Description" Foreground="DarkOrange" Margin="10, 0" Grid.Row="1" Grid.Column="0"/>
+            <CheckBox x:Name="isCompleted" IsChecked="{Binding _IsCompleted, UpdateSourceTrigger=PropertyChanged, Mode=Default}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" />
 
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
 
-            <TextBlock x:Name="date" Text="{Binding _Date, UpdateSourceTrigger=PropertyChanged, Mode=Default}" Foreground="DarkOrange" Margin="10, 0" Grid.Row="0" Grid.Column="1"/>
-
-            <Grid Grid.Row="1" Grid.Column="1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.5*"/>
-                    <ColumnDefinition Width="0.5*"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="0.4*"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock x:Name="time" Text="{Binding _Time, UpdateSourceTrigger=PropertyChanged, Mode=Default}" Foreground="DarkOrange" Margin="10, 0" Grid.Column="0" />
-                <TextBlock x:Name="frequency" Text="{Binding _Frequency, UpdateSourceTrigger=PropertyChanged, Mode=Default}" Foreground="DarkOrange" Margin="10, 0" Grid.Column="1" />
+                <Label x:Name="name" Content="{Binding _Name, UpdateSourceTrigger=PropertyChanged, Mode=Default}" Foreground="DarkOrange" Margin="10, 0" Grid.Row="0" Grid.Column="0"/>
+                <Label x:Name="description" Content="Description" Foreground="DarkOrange" Margin="10, 0" Grid.Row="1" Grid.Column="0"/>
 
+                <Border BorderBrush="black" BorderThickness="2,0,0,0" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2"></Border>
+                <TextBlock x:Name="date" Text="{Binding _Date, UpdateSourceTrigger=PropertyChanged, Mode=Default}" Foreground="DarkOrange" Margin="10, 0" Grid.Row="0" Grid.Column="1"/>
+
+                <Grid Grid.Row="1" Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.5*"/>
+                        <ColumnDefinition Width="0.5*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock x:Name="time" Text="{Binding _Time, UpdateSourceTrigger=PropertyChanged, Mode=Default}" Foreground="DarkOrange" Margin="10, 0" Grid.Column="0" />
+                    <TextBlock x:Name="frequency" Text="{Binding _Frequency, UpdateSourceTrigger=PropertyChanged, Mode=Default}" Foreground="DarkOrange" Margin="10, 0" Grid.Column="1" />
+
+                </Grid>
+               
             </Grid>
-
-        </Grid>
        
 
-    </Grid>
+        </Grid>
+    </Border>
 </UserControl>

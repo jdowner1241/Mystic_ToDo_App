@@ -49,14 +49,16 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
         }
 
 
-        //public void AddReminderTolist(ReminderDb.Reminder newReminder)
-        //{
-        //    Task reminderTask = new Task();
-        //    if (newReminder == null)
-        //    {
-        //        reminderTask.addInfo(newReminder);
-        //    }
-        //}
+        public void AddReminderTolist(ReminderDb.Reminder newReminder)
+        {
+            Task reminderTask = new Task();
+            if (newReminder == null)
+            {
+                reminderTask.addInfo(newReminder);
+            }
+
+            //reminderListDBSub.Children.Add(reminderTask);
+        }
 
         public void removeReminderTolist()
         {

@@ -18,13 +18,12 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
     public partial class ReminderPage : UserControl
     {
         private readonly ReminderContext DbContext;
-        public ObservableCollection<int> CurrentReminderListIds { get; private set; }
+       
 
         public ReminderPage()
         {
             InitializeComponent();
             DbContext = new ReminderContext();
-            CurrentReminderListIds = new ObservableCollection<int>();
             LoadDataFromReminderPage();
         }
 
@@ -53,14 +52,18 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
 
             var reminderList = DbContext.Reminders.ToList();
             TaskList taskList = new TaskList();
-            
+            taskList.reminderListDBSub.Children.Clear();
+            reminderListDB.Children.Clear();
 
             foreach (var reminder in reminderList)
             {
                 if (reminder != null) 
                 {
+ 
                     ReminderContent.Task task = new ReminderContent.Task();
-                    task.addInfo1(reminder);
+                    //taskList.AddReminderTolist(reminder);
+                    task.addInfo(reminder);
+                    
                     taskList.reminderListDBSub.Children.Add(task);
                     
                 }

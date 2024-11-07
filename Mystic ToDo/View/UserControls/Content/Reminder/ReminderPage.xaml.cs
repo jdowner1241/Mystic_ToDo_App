@@ -21,6 +21,8 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
         private readonly ReminderContext DbContext;
         public static readonly DependencyProperty SelectedReminderIdProperty = DependencyProperty.Register("SelectedReminderId", typeof(int?), typeof(ReminderPage), new PropertyMetadata(null, OnSelectedReminderChanged));
 
+        public event EventHandler ReminderChanged;
+
         public int? SelectedReminderId
         {
             get => (int?)GetValue(SelectedReminderIdProperty);
@@ -34,6 +36,12 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
 
             DbContext = new ReminderContext();
             LoadDataFromReminderPage();
+
+            var reminderEditor = (ReminderEditor)FindName("ReminderEditorContent");
+            if (reminderEditor != null)
+            {
+                reminderEditor.SubscribeToReminderPageEvents(this);
+            }
         }
 
         //Grid version
@@ -71,6 +79,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
                     ReminderContent.Task task = new ReminderContent.Task();
                     task.addInfo(reminder);
                     task.UpdateSelectedIdEvent = UpdateSelectedIdEvent;
+                    
 
                     taskList.reminderListDBSub.Children.Add(task);
                 }
@@ -78,6 +87,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
             reminderListDB.Children.Add(taskList);
 
             Debug.WriteLine("Data loaded successfully");
+            OnReminderChanged();
         }
        
         private void UpdateSelectedIdEvent(int reminderId)
@@ -85,6 +95,8 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
             SelectedReminderId = reminderId;
             Debug.WriteLine("Selected reminder Id update on Reminder page");
             Debug.WriteLine(reminderId.ToString());
+
+            OnReminderChanged();
         }
 
         private static void OnSelectedReminderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -95,6 +107,11 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
                 var reminderEditor = (ReminderEditor)reminderPage.ReminderEditorContent;
                 reminderEditor.LoadData((int?)e.NewValue);
             }
+        }
+
+        protected virtual void OnReminderChanged()
+        {
+            ReminderChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

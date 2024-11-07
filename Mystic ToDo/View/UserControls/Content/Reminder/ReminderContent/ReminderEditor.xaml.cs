@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Remoting.Contexts;
 using System.Windows.Controls;
@@ -21,8 +22,9 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
 
         private ReminderContext DbContext;
         private ReminderDb.Reminder newReminder;
-        private ReminderPage reminderPage;
+        private int CurrentID {  get; set; }
 
+        private ReminderPage reminderPage;
         public event Action ReminderUpdate;
 
         public ReminderEditor()
@@ -39,7 +41,26 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
 
         }
 
+        public void SubscribeToReminderPageEvents(ReminderPage reminderPage)
+        {
+            reminderPage.ReminderChanged += ReminderPage_ReminderChanged;
+            Debug.WriteLine("RefreshEditor Event subcried correctly");
+        }
 
+        private void ReminderPage_ReminderChanged(object sender, EventArgs e)
+        {
+            Debug.WriteLine("Reminder changed event received in ReminderEditor");
+
+            RefreshEditor();
+        }
+
+        private void RefreshEditor()
+        {
+            Debug.WriteLine("ReminderEditor is being refreshed");
+            LoadData(CurrentID); 
+        }
+
+      
         private ReminderDb.Reminder LoadFromForm()
         {
             
@@ -132,6 +153,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
         {
             if (reminderId.HasValue)
             {
+                CurrentID = reminderId.Value;
                 using ( var dbContext = new ReminderContext())
                 {
                     var reminderDetail = dbContext.Reminders.FirstOrDefault(r => r.Id == reminderId.Value);

@@ -29,7 +29,6 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
     public partial class Task : UserControl, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        //public event Action<int> SelectedReminderEvent; 
 
         private int _id;
         private bool _isComplete;
@@ -239,7 +238,6 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
                 UpdateSelectedIdEvent?.Invoke(ID);
                 Debug.WriteLine("Selected reminder Id and event Invoked");
             }
-
         }
 
         public void addInfo(ReminderDb.Reminder newReminder)

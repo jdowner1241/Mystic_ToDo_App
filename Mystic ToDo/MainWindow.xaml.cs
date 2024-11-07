@@ -1,6 +1,7 @@
 ﻿using Mystic_ToDo.Data;
 using Mystic_ToDo.Database;
 using Mystic_ToDo.View.UserControls.Content.Reminder;
+using Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -45,9 +46,14 @@ namespace Mystic_ToDo
         {
             InitializeComponent();
 
-
             ReminderList = new ReminderContext();
             _reminderPage = new ReminderPage();
+            ReminderEditor reminderEditor = (ReminderEditor)FindName("ReminderEditorContent");
+
+            if (reminderEditor != null )
+            {
+                reminderEditor.SubscribeToReminderPageEvents(_reminderPage);
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -9,7 +9,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="720" d:DesignWidth="1280">
     <!-- Content Section -->
-    <Grid>
+    <Grid x:Name="ReminderPageRoot">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width=".2*"/>
             <ColumnDefinition Width=".6*"/>
@@ -29,7 +29,7 @@
             </Grid.RowDefinitions>
 
             <!-- Task Entry -->
-            <reminderEditor:ReminderEditor ReminderUpdate="LoadDataFromReminderPage" Grid.Row="0"/>
+            <reminderEditor:ReminderEditor x:Name="ReminderEditorContent" ReminderUpdate="LoadDataFromReminderPage" Grid.Row="0"/>
 
 
             <!-- Task List -->

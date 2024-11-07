@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Entity;
+using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Runtime.CompilerServices;
@@ -17,6 +19,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Shell;
 
 namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
 {
@@ -25,21 +28,29 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
     /// </summary>
     public partial class Task : UserControl, INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler? PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
+        //public event Action<int> SelectedReminderEvent; 
 
         private int _id;
         private bool _isComplete;
         private string _name;
         private string _description;
-        private DateTime _date;
-        private DateTime _time;
-        private int _frequency; 
+        private DateTime _dateWithTime;
+        private string _date;
+        private string _time;
+        private int _frequencySelection; 
+        private string _frequency;
+        private string _folder;
+        private string _userName;
+
 
         public Task()
         {
             InitializeComponent();
+            DataContext = this; 
             this.MouseEnter += this.OnMouseEnter;
-            this.MouseLeave += this.OnMouseLeave;   
+            this.MouseLeave += this.OnMouseLeave;
+            this.MouseLeftButtonDown += this.OnMouseLeftButtonDown;
         }
 
 
@@ -48,73 +59,157 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        public static readonly DependencyProperty UpdateSelectedIdEventProperty = DependencyProperty.Register("UpdateSelectedIDEvent", typeof(Action<int>), typeof(Task), new PropertyMetadata(null));
+
+
+        public Action<int> UpdateSelectedIdEvent
+        {
+            get => (Action<int>)GetValue(UpdateSelectedIdEventProperty);
+            set => SetValue(UpdateSelectedIdEventProperty, value);
+        }
+
         public int ID
         {
-            get { return _id; }
+            get => _id;
             set 
             {
-                _id = value;
-                OnPropertyChanged();
+                if (_id != value) 
+                {
+                    _id = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
-        public bool _IsCompleted
+        public bool IsCompleted
         {
-            get { return _isComplete; }
+            get => _isComplete;
             set 
-            { 
-                _isComplete = value;
-                OnPropertyChanged();
+            {
+                if (_isComplete != value) 
+                {
+                    _isComplete = value;
+                    OnPropertyChanged();
+                }
             }
         }
         
-        public string _Name 
+        public string ReminderName
         {
-            get { return name.Content.ToString(); }
+            get => _name;
             set
             {
-                name.Content = value;
-                OnPropertyChanged();
+                if (_name != value)
+                {
+                    _name = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
-        public string _Description
+        public string Description
         {
-            get { return _description; }
+            get => _description;
             set
             {
-                _description = value;
-                OnPropertyChanged();
+                if (_description != value)
+                {
+                    _description = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
-        public DateTime _Date
+        public DateTime DateWithTime
         {
-            get { return _date; }
+            get => _dateWithTime;
             set
             {
-                _date = value;
-                OnPropertyChanged();
+                if (_dateWithTime != value)
+                {
+                    _dateWithTime = value;
+                    Date = _dateWithTime.ToString("D", CultureInfo.InvariantCulture);
+                    Time = _dateWithTime.ToString("hh:mm tt", CultureInfo.InvariantCulture);
+                    OnPropertyChanged();
+                }
             }
         }
 
-        public DateTime _Time
+        public string Date
         {
-            get { return _time; }
+            get => _date;
+            set
+            {
+                if (_date != value)
+                {
+                    _date = value; 
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public string Time
+        {
+            get => _time;
             set 
             {
-                _time = value;
-                OnPropertyChanged();
+                if(_time != value)
+                {
+                    _time = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
-        public int _Frequency
+        public int FrequencySelection
         {
-            get { return _frequency; }
+            get => _frequencySelection;
             set
             {
-                _frequency = value;
-                OnPropertyChanged();
+                if ( _frequencySelection != value)
+                {
+                    _frequencySelection = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public string Frequency
+        {
+            get => _frequency; 
+            set
+            {
+                if (_frequency != value)
+                {
+                    _frequency = value; 
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public string Folder
+        {
+            get => _folder;
+            set
+            {
+                if (_folder != value)
+                {
+                    _folder = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public string UserName
+        {
+            get => _userName;
+            set
+            {
+                if (_userName != value)
+                {
+                    _userName = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
@@ -137,95 +232,77 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             backgroud.Background = Brushes.LightGray;
         }
 
+        private void OnMouseLeftButtonDown(object sender, MouseEventArgs e) 
+        {
+            if(DataContext == this)
+            {
+                UpdateSelectedIdEvent?.Invoke(ID);
+                Debug.WriteLine("Selected reminder Id and event Invoked");
+            }
+
+        }
 
         public void addInfo(ReminderDb.Reminder newReminder)
         {
-            _id = newReminder.Id;
-            name.Content = newReminder.Name;
+            ID = newReminder.Id;
+            ReminderName = newReminder.Name;
 
             if (newReminder.IsComplete == false)
             {
-                isCompleted.IsChecked = false;
-            }
-            else 
-            {
-                isCompleted.IsChecked = true;
-            }
-
-            
-
-            if (!string.IsNullOrEmpty(newReminder.Description))
-            {
-                description.Content = newReminder.Description;
-            }
-
-            if (newReminder.HasAlarms == true)
-            {
-                //_Date.Text = newReminder.Alarm.ToString();
-                //_Time.Text = newReminder.Alarm.ToString();
-                date.Text = "Date";
-                time.Text = "Time";
+                IsCompleted = false;
             }
             else
             {
-                date.Text = string.Empty;
-            }
-
-            if (newReminder.Periodic == true)
-            {
-                frequency.Text = "Periodic";
-                //_Frequency.Text = newReminder.TimeFrameSelection.Name.ToString();
-                //newReminder.TimeFrameSelection = DbContext.TimeFrames.Single(tf => tf.TimeFrameId == selectedTimeFrameId);
-            }
-            else
-            {
-               frequency.Text = string.Empty;
-            }
-        }
-
-        public void addInfo1(ReminderDb.Reminder newReminder)
-        {
-            _id = newReminder.Id;
-            _name = newReminder.Name;
-
-            if (newReminder.IsComplete == false)
-            {
-                _isComplete = false;
-            }
-            else
-            {
-                _isComplete = true;
+                IsCompleted = true;
             }
 
             if (!string.IsNullOrEmpty(newReminder.Description))
             {
-               _description = newReminder.Description;
+               Description = newReminder.Description;
             }
             else
             {
-                _description = string.Empty;
+                Description = string.Empty;
             }
 
             if (newReminder.HasAlarms == true)
             {
-                _date = DateTime.Now;
-                _time = DateTime.Now;
-                //date.Text = "Date";
-                // time.Text = "Time";
+                DateWithTime = (DateTime)newReminder.Alarm;
             }
             else
             {
-                date.Text = "Date";
-                time.Text = "Time";
+                Date = "not set";
+                Time = "not set";
             }
 
             if (newReminder.Periodic == true)
             {
-                _frequency = 1;
+                if (newReminder.TimeFrameId != 0)
+                {
+                    Frequency = newReminder.TimeFrameId.ToString();
+                    FrequencySelection = (int)newReminder.TimeFrameId;
+                }
             }
             else
             {
-                frequency.Text = string.Empty;
+                Frequency = "Not set";
+                FrequencySelection = 0;
+            }
+
+            if (!string.IsNullOrEmpty(newReminder.UserId))
+            {
+                UserName = newReminder.UserId;
+            }else
+            {
+                UserName = "Anonymous";
+            }
+
+            if (!string.IsNullOrEmpty(newReminder.Folder))
+            {
+                Folder = newReminder.Folder;
+            }else
+            {
+                Folder = "Folder Not set";
             }
         }
 

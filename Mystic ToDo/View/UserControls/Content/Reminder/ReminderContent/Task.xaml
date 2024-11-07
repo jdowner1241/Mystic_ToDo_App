@@ -13,7 +13,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <CheckBox x:Name="isCompleted" IsChecked="{Binding _IsCompleted, UpdateSourceTrigger=PropertyChanged, Mode=Default}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" />
+            <CheckBox x:Name="isCompleted" IsChecked="{Binding IsCompleted, RelativeSource={RelativeSource AncestorType=UserControl}}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" />
 
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
@@ -26,11 +26,11 @@
                     <ColumnDefinition Width="0.4*"/>
                 </Grid.ColumnDefinitions>
 
-                <Label x:Name="name" Content="{Binding _Name, UpdateSourceTrigger=PropertyChanged, Mode=Default}" Foreground="DarkOrange" Margin="10, 0" Grid.Row="0" Grid.Column="0"/>
-                <Label x:Name="description" Content="Description" Foreground="DarkOrange" Margin="10, 0" Grid.Row="1" Grid.Column="0"/>
+                <Label x:Name="name" Content="{Binding ReminderName, UpdateSourceTrigger=PropertyChanged, Mode=Default}" Foreground="DarkOrange" Margin="10, 0" Grid.Row="0" Grid.Column="0"/>
+                <Label x:Name="description" Content="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=Default}" Foreground="DarkOrange" Margin="10, 0" Grid.Row="1" Grid.Column="0"/>
 
                 <Border BorderBrush="black" BorderThickness="2,0,0,0" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2"></Border>
-                <TextBlock x:Name="date" Text="{Binding _Date, UpdateSourceTrigger=PropertyChanged, Mode=Default}" Foreground="DarkOrange" Margin="10, 0" Grid.Row="0" Grid.Column="1"/>
+                <TextBlock x:Name="date" Text="{Binding Date, UpdateSourceTrigger=PropertyChanged, Mode=Default}" Foreground="DarkOrange" Margin="10, 0" Grid.Row="0" Grid.Column="1"/>
 
                 <Grid Grid.Row="1" Grid.Column="1">
                     <Grid.ColumnDefinitions>
@@ -38,8 +38,8 @@
                         <ColumnDefinition Width="0.5*"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock x:Name="time" Text="{Binding _Time, UpdateSourceTrigger=PropertyChanged, Mode=Default}" Foreground="DarkOrange" Margin="10, 0" Grid.Column="0" />
-                    <TextBlock x:Name="frequency" Text="{Binding _Frequency, UpdateSourceTrigger=PropertyChanged, Mode=Default}" Foreground="DarkOrange" Margin="10, 0" Grid.Column="1" />
+                    <TextBlock x:Name="time" Text="{Binding Time, UpdateSourceTrigger=PropertyChanged, Mode=Default}" Foreground="DarkOrange" Margin="10, 0" Grid.Column="0" />
+                    <TextBlock x:Name="frequency" Text="{Binding Frequency, UpdateSourceTrigger=PropertyChanged, Mode=Default}" Foreground="DarkOrange" Margin="10, 0" Grid.Column="1" />
 
                 </Grid>
                

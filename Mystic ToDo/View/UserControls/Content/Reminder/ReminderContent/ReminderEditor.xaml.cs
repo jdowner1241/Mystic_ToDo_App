@@ -301,8 +301,16 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
 
         private void bEdit_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-          
+            int orginalReminderID = CurrentID;
+            var currentReminder = LoadFromForm();
 
+            if (currentReminder != null) 
+            {
+                currentReminder.Id = orginalReminderID;
+            }
+            SaveToDatabase(currentReminder);
+
+            MessageBox.Show($"Reminder Updated!!! \nEdited Reminder: \nReminder ID:{orginalReminderID} \nReminder Name: {currentReminder.Name}");
         }
 
         private void bClear_Click(object sender, System.Windows.RoutedEventArgs e)

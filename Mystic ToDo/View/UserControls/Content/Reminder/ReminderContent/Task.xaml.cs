@@ -16,6 +16,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -42,6 +43,13 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
         private string _folder;
         private string _userName;
 
+        private bool singleSelected = false;
+        private bool multiSelected = false;
+        private static List<int> selectedTaskIds = new List<int>();
+        private static List<Task> allTasks = new List<Task>();
+
+        public event Action<List<int>> MultiSelectionUpdate;
+        public event Action<int> SingleSelectionUpdate; 
 
         public Task()
         {
@@ -50,6 +58,8 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             this.MouseEnter += this.OnMouseEnter;
             this.MouseLeave += this.OnMouseLeave;
             this.MouseLeftButtonDown += this.OnMouseLeftButtonDown;
+
+            allTasks.Add(this);
         }
 
 
@@ -59,7 +69,6 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
         }
 
         public static readonly DependencyProperty UpdateSelectedIdEventProperty = DependencyProperty.Register("UpdateSelectedIDEvent", typeof(Action<int>), typeof(Task), new PropertyMetadata(null));
-
 
         public Action<int> UpdateSelectedIdEvent
         {
@@ -223,22 +232,85 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
 
         private void OnMouseEnter (object sender, MouseEventArgs e)
         {
-            backgroud.Background = Brushes.LightBlue;
+            if (!singleSelected && !multiSelected)
+            {
+                background.Background = Brushes.LightBlue;
+            }
         }
 
         private void OnMouseLeave(object sender, MouseEventArgs e)
         {
-            backgroud.Background = Brushes.LightGray;
+            if (!singleSelected && !multiSelected)
+            {
+                background.Background = Brushes.LightGray;
+            }
         }
 
         private void OnMouseLeftButtonDown(object sender, MouseEventArgs e) 
         {
-            if(DataContext == this)
+            if (DataContext == this)
             {
-                UpdateSelectedIdEvent?.Invoke(ID);
-                Debug.WriteLine("Selected reminder Id and event Invoked");
+                if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift)) 
+                {
+                    Debug.WriteLine("Multiselection");
+                    Multiselection();
+                    MultiSelectionUpdate?.Invoke(selectedTaskIds);
+                }
+                else  
+                {
+                    Debug.WriteLine("Singleselection");
+                    DeselectAllTasks();
+                    Singleselection();
+                    SingleSelectionUpdate?.Invoke(ID);
+                }
             }
         }
+
+        private void Multiselection()
+        {
+            if (multiSelected)
+            {
+                background.Background = Brushes.LightGray;
+                selectedTaskIds.Remove(ID);
+            }
+            else
+            {
+                background.Background = Brushes.LightSkyBlue;
+                selectedTaskIds.Add(ID);
+            }
+            multiSelected = !multiSelected; 
+        }
+
+        private void Singleselection()
+        {
+            foreach (var task in allTasks)
+            {
+                if ( task != this)
+                {
+                    task.Deselect();
+                }
+            }
+
+            background.Background = Brushes.LightSkyBlue;
+            singleSelected = true;
+        }
+
+        private void DeselectAllTasks()
+        {
+            foreach (var task in allTasks)
+            {
+                task.Deselect();
+            }
+            selectedTaskIds.Clear();
+        }          
+
+        private void Deselect()
+        {
+            singleSelected = false;
+            multiSelected = false;
+            background.Background = Brushes.LightGray; 
+        }
+
 
         public void addInfo(ReminderDb.Reminder newReminder)
         {

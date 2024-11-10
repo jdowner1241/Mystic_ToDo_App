@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent"
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="768">
-    <Border x:Name="backgroud" BorderBrush="black" Background="{Binding Background, RelativeSource={RelativeSource AncestorType=UserControl}}" BorderThickness="2" Margin="5, 5" Padding="5, 5" CornerRadius="10">
+    <Border x:Name="background" BorderBrush="black" Background="{Binding Background, RelativeSource={RelativeSource AncestorType=UserControl}}" BorderThickness="2" Margin="5, 5" Padding="5, 5" CornerRadius="10">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="40"/>

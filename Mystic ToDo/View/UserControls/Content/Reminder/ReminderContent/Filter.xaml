@@ -7,41 +7,88 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="348.507">
 
-    <Grid>
-        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-            <TextBox Width="200" Height="30" HorizontalAlignment="Center" 
-                     Margin="0,10,0,5" />
-            <Button Content="Search" Width="100" Height="30" 
-                    HorizontalAlignment="Center"/>
+    <Grid Grid.Row="3">
+
+        <!-- Search Filtering -->
+        <StackPanel >
+            <TextBox x:Name="NormalSearchBox" Width="164" Height="30" 
+                 Margin="10,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" />
+            <Image Source="/path/to/your/search-icon.png" Width="20" Height="20"/>
         </StackPanel>
 
 
-        <StackPanel Margin="0,98,0,0">
-            <TextBlock Text="Category Type" FontWeight="Bold" FontSize="16" Margin="0,0,0,10"/>
+        <StackPanel Margin="10,59,22,6">
 
 
-            <CheckBox Content="Option with ComboBox" Margin="1,5" Width="355" RenderTransformOrigin="0.502,0.445">
-                <CheckBox.ContentTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
 
-                            <ComboBox Width="120" VerticalAlignment="Center">
-                                <ComboBoxItem Content="ReminderId"/>
-                                <ComboBoxItem Content="ReminderName"/>
-                                <ComboBoxItem Content="ReminderDescription"/>
-                                <ComboBoxItem Content="ReminderIscomplete"/>
-                                <ComboBoxItem Content="ReminderHasAlarm"/>
-                                <ComboBoxItem Content="ReminderDate"/>
-                                <ComboBoxItem Content="ReminderTime"/>
-                            </ComboBox>
-                        </StackPanel>
-                    </DataTemplate>
-                </CheckBox.ContentTemplate>
-            </CheckBox>
 
 
             <StackPanel Orientation="Horizontal" Margin="0,5" Width="286"/>
-            <DataGrid Height="277" d:ItemsSource="{d:SampleData ItemCount=5}" Width="310"/>
+
+            <!-- Checkbox Filtering -->
+            <StackPanel Grid.Column="1" Margin="10">
+                <TextBlock Text="Filtering Type" FontWeight="Bold"/>
+                <WrapPanel Height="177" Width="292">
+                    <ToggleButton IsChecked="True" Margin="5">
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Content="ReminderId" IsChecked="True"/>
+                        </StackPanel>
+                    </ToggleButton>
+                    <ToggleButton Margin="5">
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Content="ReminderName"/>
+                        </StackPanel>
+                    </ToggleButton>
+                    <ToggleButton IsChecked="True" Margin="5">
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Content="ReminderDescription" IsChecked="True"/>
+                        </StackPanel>
+                    </ToggleButton>
+                    <ToggleButton Margin="5">
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Content="ReminderIscomplete" Width="136"/>
+                        </StackPanel>
+                    </ToggleButton>
+                    <ToggleButton Margin="5">
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Content="ReminderHasAlarm" Width="130"/>
+                        </StackPanel>
+                    </ToggleButton>
+                    <ToggleButton Margin="5">
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Content="ReminderDate" Height="17" Width="102"/>
+                        </StackPanel>
+                    </ToggleButton>
+                    <ToggleButton IsChecked="True" Margin="5">
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Content="ReminderTime" IsChecked="True" Width="104"/>
+                        </StackPanel>
+                    </ToggleButton>
+                </WrapPanel>
+            </StackPanel>
+            <DataGrid AutoGenerateColumns="False" Margin="10" 
+                      Height="524" d:ItemsSource="{d:SampleData ItemCount=5}" Width="256"/>
+
+
+
+
+
+            <!--<CheckBox Content="CheckBox" Margin="5,0,0,5"/>
+             <CheckBox Content="CheckBox" Width="338" Checked="CheckBox_Checked" 
+            Margin="0,0,0,5"/>  -->
         </StackPanel>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="185,10,0,0" 
+                VerticalAlignment="Top" Height="30" Width="52">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" 
+                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="2">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+
     </Grid>
 </UserControl>

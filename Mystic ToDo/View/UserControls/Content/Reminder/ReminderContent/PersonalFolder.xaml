@@ -6,14 +6,25 @@
              mc:Ignorable="d"
              d:DesignHeight="450"
              d:DesignWidth="400">
-    <Grid>
+    <Grid Grid.Row=" 3">
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.4*"/>
-            <RowDefinition Height="0.6*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <TextBlock Text="My Files" FontSize="22" FontWeight="Bold" Margin="10"/>
 
-        <TextBox Grid.Row="0" Background="AliceBlue"/>
-        <TextBox Grid.Row="1" Background="Red"/>
+        <DataGrid Grid.Row="1" AutoGenerateColumns="False" Margin="10"   >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
+                <DataGridTextColumn Header="File Item" Binding="{Binding FileItem}" Width="*"/>
+                <DataGridTextColumn Header="Last Modified" Binding="{Binding LastModified}" Width="*"/>
+                <DataGridTextColumn Header="File Size" Binding="{Binding FileSize}" Width="*"/>
+            </DataGrid.Columns>
+            
 
+        </DataGrid> 
+        
+
+        
     </Grid>
 </UserControl>

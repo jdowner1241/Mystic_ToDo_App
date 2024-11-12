@@ -25,6 +25,9 @@ namespace Mystic_ToDo.View.UserControls.Header
             InitializeComponent();
         }
 
-   
+        private void MenuBarButton_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

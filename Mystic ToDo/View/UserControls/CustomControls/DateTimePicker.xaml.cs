@@ -17,6 +17,7 @@ namespace Mystic_ToDo.View.UserControls.CustomControls
         private DateTime? date;
         private TimeSpan? time;
         private DateTime? dateWithTime;
+        private bool isUpdating = false;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -25,8 +26,6 @@ namespace Mystic_ToDo.View.UserControls.CustomControls
             DataContext = this;
             InitializeComponent();
             timePicker.Visibility =  System.Windows.Visibility.Collapsed;
-            timePickerPlaceholder();
-            
         }
 
         private void DatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
@@ -38,30 +37,7 @@ namespace Mystic_ToDo.View.UserControls.CustomControls
             {
                 timePicker.Visibility = System.Windows.Visibility.Collapsed;
             }
-        }
-
-        private void timePickerPlaceholder()
-        {
-            DateTime? d;
-            TimeSpan? t;
-            DateTime? dt;
-
-            if (datePicker.SelectedDate.HasValue) 
-            {
-                d = datePicker.SelectedDate.Value;
-            }else
-            {
-                d = DateTime.Today;
-            }
-            
-            t = new TimeSpan(0, 0, 0, 0);
-            dt = d + t;
-
-            if (dt.HasValue)
-            {
-                timePicker.Value = dt.Value;
-            }
-
+            UpdateDateTime();
         }
 
         public string Placeholder
@@ -74,12 +50,41 @@ namespace Mystic_ToDo.View.UserControls.CustomControls
             }
         }
 
+        public DateTime? DateWithTime
+        {
+            get { return dateWithTime; }
+            set 
+            {
+                if (!isUpdating) 
+                {
+                    isUpdating = true;
+                    dateWithTime = value;
+                    OnPropertyChanged();
+
+                    if (dateWithTime.HasValue)
+                    {
+                        datePicker.SelectedDate = dateWithTime.Value.Date;
+                        timePicker.Value = dateWithTime.Value;
+                        timePicker.Visibility = System.Windows.Visibility.Visible;
+                    }
+                    else
+                    {
+                        datePicker.SelectedDate = null;
+                        timePicker.Value = null;
+                        //datePicker.Visibility = System.Windows.Visibility.Collapsed;
+                        timePicker.Visibility= System.Windows.Visibility.Collapsed;
+                    }
+                    isUpdating = false;
+                }
+            }
+        }
+
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void setDateTime()
+        private void UpdateDateTime()
         {
             try
             {
@@ -88,20 +93,20 @@ namespace Mystic_ToDo.View.UserControls.CustomControls
 
                 if (date != null && time != null)
                 {
-                    dateWithTime = date.Value + time.Value;
+                    DateWithTime = date.Value + time.Value;
                 }
                 else
                 {
-                    MessageBox.Show("Missing or Incomplete Date/Time selection.");
+                    DateWithTime = null;
                 }
-
             }
             catch { }
         }
 
         public DateTime? getDateTime()
         {
-            return dateWithTime.HasValue ? dateWithTime : null;
+            UpdateDateTime(); 
+            return DateWithTime;
         }
 
     }

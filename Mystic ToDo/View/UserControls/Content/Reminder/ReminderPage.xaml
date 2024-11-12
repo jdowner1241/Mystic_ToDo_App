@@ -1,15 +1,15 @@
-﻿<UserControl
+﻿<UserControl x:Class="Mystic_ToDo.View.UserControls.Content.Reminder.ReminderPage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Mystic_ToDo.View.UserControls.Content.Reminder" 
              xmlns:reminderEditor="clr-namespace:Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent"
-             xmlns:Database="clr-namespace:Mystic_ToDo.Database" x:Class="Mystic_ToDo.View.UserControls.Content.Reminder.ReminderPage"
+             xmlns:Database="clr-namespace:Mystic_ToDo.Database" 
              mc:Ignorable="d" 
              d:DesignHeight="720" d:DesignWidth="1280">
     <!-- Content Section -->
-    <Grid>
+    <Grid x:Name="ReminderPageRoot">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width=".2*"/>
             <ColumnDefinition Width=".6*"/>
@@ -28,11 +28,15 @@
             </Grid.RowDefinitions>
 
             <!-- Task Entry -->
-            <reminderEditor:ReminderEditor Grid.Row="0"/>
+            <reminderEditor:ReminderEditor x:Name="ReminderEditorContent" ReminderUpdate="LoadDataFromReminderPage" Grid.Row="0"/>
 
 
             <!-- Task List -->
-            <DataGrid Grid.Row="1" x:Name="reminderListDB"/>
+            <!--<DataGrid Grid.Row="1" x:Name="reminderListDB"/>-->
+            <Grid Grid.Row="1" x:Name="reminderListDB">
+                <reminderEditor:TaskList/>
+            </Grid>
+            
 
         </Grid>
 

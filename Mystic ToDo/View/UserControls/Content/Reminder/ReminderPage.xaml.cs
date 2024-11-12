@@ -1,20 +1,15 @@
 ﻿using Mystic_ToDo.Data;
+using Mystic_ToDo.Database;
+using Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent;
 using System;
-using System.Collections.Generic;
-using System.Data.Entity;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
+using Xceed.Wpf.AvalonDock.Layout;
+using static Mystic_ToDo.Database.ReminderDb;
 
 namespace Mystic_ToDo.View.UserControls.Content.Reminder
 {
@@ -23,36 +18,100 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
     /// </summary>
     public partial class ReminderPage : UserControl
     {
-        private readonly MysticToDo_DBEntities DbContext;
-        
+        private readonly ReminderContext DbContext;
+        public static readonly DependencyProperty SelectedReminderIdProperty = DependencyProperty.Register("SelectedReminderId", typeof(int?), typeof(ReminderPage), new PropertyMetadata(null, OnSelectedReminderChanged));
+
+        public event EventHandler ReminderChanged;
+
+        public int? SelectedReminderId
+        {
+            get => (int?)GetValue(SelectedReminderIdProperty);
+            set => SetValue(SelectedReminderIdProperty, value);
+        }
 
         public ReminderPage()
         {
             InitializeComponent();
-            DbContext = new MysticToDo_DBEntities();
-            LoadData();
+            DataContext = this;
 
+            DbContext = new ReminderContext();
+            LoadDataFromReminderPage();
+
+            var reminderEditor = (ReminderEditor)FindName("ReminderEditorContent");
+            if (reminderEditor != null)
+            {
+                reminderEditor.SubscribeToReminderPageEvents(this);
+            }
         }
 
-        private void LoadData()
+        //Grid version
+        //public void LoadDataFromReminderPage()
+        //{
+        //    Debug.WriteLine("LoadData method invoked");
+
+        //    if (DbContext.Reminders == null)
+        //    {
+        //        MessageBox.Show("Reminders DbSet is null");
+        //    }
+
+        //    var reminderList = DbContext.Reminders.ToList();
+
+        //    reminderListDB.ItemsSource = reminderList;
+        //    Debug.WriteLine("Data loaded successfully");
+        //    reminderListDB.Items.Refresh();
+        //}
+
+
+        //Stackpanel version
+        public void LoadDataFromReminderPage()
         {
+            Debug.WriteLine("LoadData method invoked");
+
             var reminderList = DbContext.Reminders.ToList();
-            reminderListDB.ItemsSource = reminderList;
+            TaskList taskList = new TaskList();
+            taskList.reminderListDBSub.Children.Clear();
+            reminderListDB.Children.Clear();
+
+            foreach (var reminder in reminderList)
+            {
+                if (reminder != null) 
+                {
+                    ReminderContent.Task task = new ReminderContent.Task();
+                    task.addInfo(reminder);
+                    task.UpdateSelectedIdEvent = UpdateSelectedIdEvent;
+                    
+
+                    taskList.reminderListDBSub.Children.Add(task);
+                }
+            }
+            reminderListDB.Children.Add(taskList);
+
+            Debug.WriteLine("Data loaded successfully");
+            OnReminderChanged();
+        }
+       
+        private void UpdateSelectedIdEvent(int reminderId)
+        {
+            SelectedReminderId = reminderId;
+            Debug.WriteLine("Selected reminder Id update on Reminder page");
+            Debug.WriteLine(reminderId.ToString());
+
+            OnReminderChanged();
         }
 
-        private void clear()
+        private static void OnSelectedReminderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-
+            var reminderPage = d as ReminderPage;
+            if (reminderPage != null)
+            {
+                var reminderEditor = (ReminderEditor)reminderPage.ReminderEditorContent;
+                reminderEditor.LoadData((int?)e.NewValue);
+            }
         }
 
-        private void addReminder()
+        protected virtual void OnReminderChanged()
         {
-
-        }
-
-        private void removeReminder()
-        {
-            
+            ReminderChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

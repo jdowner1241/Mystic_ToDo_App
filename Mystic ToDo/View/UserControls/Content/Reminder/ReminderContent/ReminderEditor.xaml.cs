@@ -4,7 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Windows.Controls;
 using Xceed.Wpf.Toolkit;
 using static Mystic_ToDo.Database.ReminderDb;
@@ -18,92 +20,297 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
     public partial class ReminderEditor : UserControl
     {
 
-        private readonly MysticToDo_DBEntities DbContext;
+        private ReminderContext DbContext;
+        private ReminderDb.Reminder newReminder;
+        private int CurrentID {  get; set; }
 
-
-        private enum alarmFrequencyList
-        {
-            NotSet = 0,
-            Daily = 1,
-            Weekly = 2,
-            Monthly = 3,
-            Yearly = 4
-        }
+        private ReminderPage reminderPage;
+        public event Action ReminderUpdate;
 
         public ReminderEditor()
         {
-            InitializeComponent();
             DataContext = this;
-            DbContext = new MysticToDo_DBEntities();
-            setCboxObj();
+            InitializeComponent();
+
+            DbContext = new ReminderContext();
+            newReminder = new ReminderDb.Reminder();
+
+            SetCboxObj();
             dtpAlarm.Visibility = System.Windows.Visibility.Collapsed;
             cboxItems.Visibility = System.Windows.Visibility.Collapsed;
+
         }
 
-        private void LoadFromForm()
+        public void SubscribeToReminderPageEvents(ReminderPage reminderPage)
         {
-            var newReminder = new ReminderDb.Reminder();
+            reminderPage.ReminderChanged += ReminderPage_ReminderChanged;
+            Debug.WriteLine("RefreshEditor Event subcried correctly");
+        }
 
-            if (txtboxName.txtBox.Text != string.Empty)
+        private void ReminderPage_ReminderChanged(object sender, EventArgs e)
+        {
+            Debug.WriteLine("Reminder changed event received in ReminderEditor");
+
+            RefreshEditor();
+        }
+
+        private void RefreshEditor()
+        {
+            Debug.WriteLine("ReminderEditor is being refreshed");
+            LoadData(CurrentID); 
+        }
+
+      
+        private ReminderDb.Reminder LoadFromForm()
+        {
+            
+            //Name
+            if (!string.IsNullOrEmpty(txtboxName.txtBox.Text))
             {
                 newReminder.Name = txtboxName.txtBox.Text;
             }
 
-            if (txtboxDescription.txtBox.Text != string.Empty)
+            //Description
+            if (!string.IsNullOrEmpty(txtboxDescription.txtBox.Text))
             {
                 newReminder.Description = txtboxDescription.txtBox.Text;
             }
+            else
+            {
+                newReminder.Description = string.Empty; 
+            }
 
+            //HasAlarm
             if (checkAlarm.IsChecked == true)
             {
                 newReminder.HasAlarms = true;
 
-                if (dtpAlarm.getDateTime() != null)
+                //Alarm
+                dtpAlarm.getDateTime(); 
+                if (dtpAlarm.DateWithTime != null)
                 {
-                    newReminder.Alarm = dtpAlarm.getDateTime(); 
+                    newReminder.Alarm = dtpAlarm.DateWithTime;
+                }
+                else
+                {
+                    newReminder.Alarm = null;
                 }
 
+                //Periodic
                 if (checkRepeat.IsChecked == true)
                 {
                     newReminder.Periodic = true;
+
+                    //TimeFrameSelection
                     if (cboxItems.comboBox.SelectedIndex != -1)
                     {
-                        newReminder.TimeFrameSelection = (TimeFrame)cboxItems.comboBox.SelectedIndex;
+                        //newReminder.TimeFrameSelection = (ReminderDb.TimeFrameId)cboxItems.comboBox.SelectedIndex;
+
+                        var selectedTimeFrameId = (ReminderDb.TimeFrameId)cboxItems.comboBox.SelectedIndex;
+                        newReminder.TimeFrameSelection = DbContext.TimeFrames.Single(tf => tf.TimeFrameId == selectedTimeFrameId);
                     }
                     else
                     {
-                        newReminder.TimeFrameSelection = 0; 
+                        //newReminder.TimeFrameSelection = ReminderDb.TimeFrameId.NotSet;
+
+                        var selectedTimeFrameId = ReminderDb.TimeFrameId.NotSet;
+                        newReminder.TimeFrameSelection = DbContext.TimeFrames.Single(tf => tf.TimeFrameId == selectedTimeFrameId);
                     }
                 }
                 else
                 {
                     newReminder.Periodic = false;
                 }
-
-            }else
+            }
+            else
             {
                 newReminder.HasAlarms = false;
-            }    
+            }
+
+            newReminder.UserId = "YourUserIdHere";
+            newReminder.Folder = "test";
+            return newReminder;
         }
 
-        public void setCboxObj()
+
+        private void SaveToDatabase(ReminderDb.Reminder addReminder)
         {
-            cboxItems.CboxItems.Clear(); // Clear existing items if any
-            foreach (var value in Enum.GetValues(typeof(alarmFrequencyList)))
+            var existingReminder = DbContext.Reminders.FirstOrDefault(r => r.Name == addReminder.Name);
+
+            if (existingReminder != null)
             {
-                cboxItems.CboxItems.Add(value.ToString());
+                // Handle case where a reminder with the same name already exists
+                MessageBox.Show("A reminder with this name already exists.");
+                return;
+            }
+
+
+            DbContext.SaveReminder(addReminder);
+            ReminderUpdate();
+        }
+
+        public void LoadData(int? reminderId)
+        {
+            if (reminderId.HasValue)
+            {
+                CurrentID = reminderId.Value;
+                using ( var dbContext = new ReminderContext())
+                {
+                    var reminderDetail = dbContext.Reminders.FirstOrDefault(r => r.Id == reminderId.Value);
+                    if (reminderDetail != null)
+                    {
+                        LoadToForm(reminderDetail);
+                    }
+                }
+            }
+        }
+
+        private void LoadToForm(ReminderDb.Reminder reminder)
+        {
+            // Name
+            txtboxName.txtBox.Text = reminder.Name;
+
+            // Description
+            txtboxDescription.txtBox.Text = reminder.Description ?? string.Empty;
+
+            // HasAlarm
+            checkAlarm.IsChecked = reminder.HasAlarms;
+
+            if (reminder.HasAlarms)
+            {
+                dtpAlarm.Visibility = System.Windows.Visibility.Visible;
+                dtpAlarm.DateWithTime = reminder.Alarm;
+                
+
+                checkRepeat.IsChecked = reminder.Periodic;
+                if (reminder.Periodic)
+                {
+                    cboxItems.Visibility = System.Windows.Visibility.Visible;
+                    cboxItems.comboBox.SelectedIndex = (int)reminder.TimeFrameId;
+                }
+                else
+                {
+                    cboxItems.Visibility = System.Windows.Visibility.Collapsed;
+                }
+            }
+            else
+            {
+                dtpAlarm.Visibility = System.Windows.Visibility.Collapsed;
+                dtpAlarm.DateWithTime = null;
+                checkRepeat.IsChecked = false;
+                cboxItems.Visibility = System.Windows.Visibility.Collapsed;
+            }
+        }
+
+
+        private void LoadToForm1(ReminderDb.Reminder reminder)
+        {
+            //Name
+            if (!string.IsNullOrEmpty(txtboxName.txtBox.Text))
+            {
+                txtboxName.txtBox.Text = reminder.Name;
+            }
+
+            //Description
+            if (!string.IsNullOrEmpty(newReminder.Description))
+            {
+                txtboxDescription.txtBox.Text = newReminder.Description;
+            }
+            else
+            {
+                txtboxDescription.txtBox.Text = string.Empty;
+            }
+
+            //HasAlarm
+            if (newReminder.HasAlarms == true)
+            {
+                checkAlarm.IsChecked = true;
+
+                //Alarm
+
+                if (newReminder.Alarm != null)
+                {
+                    //dtpAlarm.getDateTime();
+                    dtpAlarm.DateWithTime = newReminder.Alarm;
+                }
+                else
+                {
+                    dtpAlarm.DateWithTime = null;
+                }
+
+                //Periodic
+                if (newReminder.Periodic == true)
+                {
+                    checkRepeat.IsChecked = true;
+
+                    //TimeFrameSelection
+                    if (newReminder.TimeFrameId != 0)
+                    {
+                        cboxItems.comboBox.SelectedIndex = (int)newReminder.TimeFrameId;
+                        //var selectedTimeFrameId = (ReminderDb.TimeFrameId)cboxItems.comboBox.SelectedIndex;
+                        //newReminder.TimeFrameSelection = DbContext.TimeFrames.Single(tf => tf.TimeFrameId == selectedTimeFrameId);
+                    }
+                    else
+                    {
+                        cboxItems.comboBox.SelectedIndex = 0;
+
+                        //newReminder.TimeFrameSelection = ReminderDb.TimeFrameId.NotSet;
+                        //var selectedTimeFrameId = ReminderDb.TimeFrameId.NotSet;
+                        //newReminder.TimeFrameSelection = DbContext.TimeFrames.Single(tf => tf.TimeFrameId == selectedTimeFrameId);
+                    }
+                }
+                else
+                {
+                    checkRepeat.IsChecked = false;
+                }
+            }
+            else
+            {
+                checkAlarm.IsChecked = false;
+            }
+        }
+
+        public void SetCboxObj()
+        {
+            var timeFrames = Enum.GetValues(typeof(ReminderDb.TimeFrameId))
+                                 .Cast<ReminderDb.TimeFrameId>()
+                                 .Select(e => e.ToString())
+                                 .ToList();
+
+            cboxItems.CboxItems.Clear();
+
+            foreach (var timeFrame in timeFrames) 
+            {
+                cboxItems.CboxItems.Add(timeFrame);
             }
         }
 
         private void bAdd_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            LoadFromForm();
+            try
+            {
+                var newReminder = LoadFromForm();
+                if (newReminder != null)
+                {
+                    SaveToDatabase(newReminder);
+                }
+            }
+            catch (Exception ex) { }
 
         }
 
         private void bEdit_Click(object sender, System.Windows.RoutedEventArgs e)
         {
+            int orginalReminderID = CurrentID;
+            var currentReminder = LoadFromForm();
 
+            if (currentReminder != null) 
+            {
+                currentReminder.Id = orginalReminderID;
+            }
+            SaveToDatabase(currentReminder);
+
+            MessageBox.Show($"Reminder Updated!!! \nEdited Reminder: \nReminder ID:{orginalReminderID} \nReminder Name: {currentReminder.Name}");
         }
 
         private void bClear_Click(object sender, System.Windows.RoutedEventArgs e)

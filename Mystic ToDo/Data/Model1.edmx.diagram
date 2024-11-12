@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="cf733dbf9a39437b9b9a06161aae69cd" Name="Diagram1">
+      <Diagram DiagramId="564d578a2e2245f69dc9d57b8575745b" Name="Diagram1">
         <EntityTypeShape EntityType="MysticToDo_DBModel.Reminder" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="MysticToDo_DBModel.Timeframe" Width="1.5" PointX="0.75" PointY="2" IsExpanded="true" />
         <AssociationConnector Association="MysticToDo_DBModel.FK__Reminder__Remind__4CA06362" ManuallyRouted="false" />

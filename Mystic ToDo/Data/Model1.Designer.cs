@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'F:\Dev\SoftwareDev\Projects\ByProject\C#_GUI_XAML\Mystic_ToDo_App\Mystic ToDo\Data\Model1.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\Shemar Campbell\Source\Repos\Mystic_ToDo_App\Mystic ToDo\Data\Model1.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

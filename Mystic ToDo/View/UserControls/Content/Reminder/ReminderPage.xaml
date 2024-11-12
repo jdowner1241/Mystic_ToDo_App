@@ -17,9 +17,8 @@
         </Grid.ColumnDefinitions>
 
         <!-- Folder List -->
-        <TreeView Grid.Column="0">
-            <TreeViewItem/>
-        </TreeView>
+        <reminderEditor:PersonalFolder x:Name="PersonalFolder" Grid.Column="0"/>
+        
 
         <!-- Main Reminder Window -->
         <Grid Grid.Column="1">
@@ -38,7 +37,7 @@
         </Grid>
 
         <!-- Filter Section-->
-        <StackPanel Grid.Column="2"/>
+        <reminderEditor:Filter Grid.Column="2"/>
 
     </Grid>
 </UserControl>

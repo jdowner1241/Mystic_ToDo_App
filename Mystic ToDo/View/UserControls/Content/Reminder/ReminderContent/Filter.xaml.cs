@@ -24,5 +24,10 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
         {
             InitializeComponent();
         }
+
+        private void FilteringTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

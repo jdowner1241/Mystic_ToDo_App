@@ -54,7 +54,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             Task reminderTask = new Task();
             if (newReminder == null)
             {
-                reminderTask.addInfo(newReminder);
+                reminderTask.AddInfo(newReminder);
             }
 
             //reminderListDBSub.Children.Add(reminderTask);

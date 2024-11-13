@@ -21,6 +21,8 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
     public partial class ReminderPage : UserControl
     {
         private readonly ReminderContext DbContext;
+        private bool _isUpdating = false;
+
         public static readonly DependencyProperty SelectedReminderIdProperty = DependencyProperty.Register("SelectedReminderId", typeof(int?), typeof(ReminderPage), new PropertyMetadata(null, OnSelectedReminderChanged));
 
         public event EventHandler ReminderChanged;
@@ -46,42 +48,96 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
             }
         }
 
-        //Stackpanel version
-        public void LoadDataFromReminderPage()
+        //Fetch reminders from the database 
+        private List<ReminderDb.Reminder> FetchReminders()
         {
-            Debug.WriteLine("LoadData method invoked");
+            return DbContext.Reminders.ToList();
+        }
 
-            var reminderList = DbContext.Reminders.ToList();
-            TaskList taskList = new TaskList();
+        //Create a TaskList from the reminders
+        private TaskList CreateTaskList(IEnumerable<ReminderDb.Reminder> reminders)
+        {
+            var taskList = new TaskList();
             taskList.reminderListDBSub.Children.Clear();
-            reminderListDB.Children.Clear();
 
-            foreach (var reminder in reminderList)
+            foreach (var reminder in reminders) 
             {
                 if (reminder != null) 
                 {
                     ReminderContent.Task task = new ReminderContent.Task();
-                    task.addInfo(reminder);
+                    task.AddInfo(reminder);
                     task.UpdateSelectedIdEvent = UpdateSelectedIdEvent;
                     task.SingleSelectionUpdate += OnSingleSelectionUpdate;
                     task.MultiSelectionUpdate += OnMultiSelectionUpdate;
-                    
 
                     taskList.reminderListDBSub.Children.Add(task);
                 }
             }
+            return taskList;
+        } 
+            
+        //Update the UI with the TaskList
+        private void UpdateUI(TaskList taskList)
+        {
+            reminderListDB.Children.Clear();
             reminderListDB.Children.Add(taskList);
-
-            Debug.WriteLine("Data loaded successfully");
-            OnReminderChanged();
         }
+
+        // Load data and update the UI
+        public void LoadDataFromReminderPage()
+        {
+            if (_isUpdating) return;
+            Debug.WriteLine("LoadData method invoked");
+
+
+            _isUpdating = true;
+            try
+            {
+                var reminders = FetchReminders();
+                var taskList = CreateTaskList(reminders);
+                UpdateUI(taskList);
+
+                //RefreshTasks(reminders);
+
+                Debug.WriteLine("Data Loaded Succesfully");
+            }
+            finally
+            {
+                _isUpdating = false;
+            }
+        }
+
+        //Refresh logic for both new and existing reminders
+        private void RefreshTasks(IEnumerable<ReminderDb.Reminder> reminders)
+        {
+            var existingTasks = reminderListDB.Children.OfType<ReminderContent.Task>().ToList();
+
+            foreach (var reminder in reminders)
+            {
+                var task = existingTasks.FirstOrDefault(t => t.ID == reminder.Id);
+                if (task != null)
+                {
+                    //Update existing task
+                    task.AddInfo(reminder);
+                }
+                else
+                {
+                    //Add new task
+                    var newTask = new ReminderContent.Task();
+                    newTask.AddInfo(reminder);
+                    newTask.UpdateSelectedIdEvent = UpdateSelectedIdEvent;
+                    newTask.SingleSelectionUpdate += OnSingleSelectionUpdate;
+                    newTask.MultiSelectionUpdate += OnMultiSelectionUpdate;
+
+                    reminderListDB.Children.Add(newTask);
+                }
+            }
+        }
+
 
         private void UpdateSelectedIdEvent(int reminderId)
         {
             SelectedReminderId = reminderId;
-            Debug.WriteLine("Selected reminder Id update on Reminder page");
-            Debug.WriteLine(reminderId.ToString());
-
             OnReminderChanged();
         }
 
@@ -95,26 +151,35 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
             }
         }
 
-        protected virtual void OnReminderChanged()
+        public virtual void OnReminderChanged()
         {
+            if (_isUpdating) return;
             ReminderChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void OnReminderUpdated()
+        {
+            LoadDataFromReminderPage();
         }
 
         private void OnSingleSelectionUpdate(int reminderId)
         {
             UpdateSelectedIdEvent(reminderId);
+
+            //testing
             Debug.WriteLine($"SingleSection:");
             Debug.WriteLine($"Selected: {reminderId}");
         }
 
         private void OnMultiSelectionUpdate(List<int> list)
         {
+
+            //testing
             Debug.WriteLine($"MultiSelection:");
             foreach (var item in list) 
             {
                 Debug.WriteLine($"Selected: {item}");
             }
-            
         }
 
 

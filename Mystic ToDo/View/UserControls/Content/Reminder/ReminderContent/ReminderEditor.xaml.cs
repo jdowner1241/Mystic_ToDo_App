@@ -3,10 +3,13 @@ using Mystic_ToDo.Database;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.Remoting.Contexts;
+using System.Windows;
 using System.Windows.Controls;
 using Xceed.Wpf.Toolkit;
 using static Mystic_ToDo.Database.ReminderDb;
@@ -17,16 +20,18 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
     /// <summary>
     /// Interaction logic for ReminderEditor.xaml
     /// </summary>
-    public partial class ReminderEditor : UserControl
+    public partial class ReminderEditor : UserControl, INotifyPropertyChanged
     {
 
         private ReminderContext DbContext;
         private ReminderDb.Reminder newReminder;
         private int CurrentID {  get; set; }
-        private bool editMode = false;
+        private bool _editMode;
 
         private ReminderPage reminderPage;
         public event Action ReminderUpdate;
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public ReminderEditor()
         {
@@ -39,11 +44,19 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             SetCboxObj();
             dtpAlarm.Visibility = System.Windows.Visibility.Collapsed;
             cboxItems.Visibility = System.Windows.Visibility.Collapsed;
+            editMode = true;
+            editMode = false;
 
+        }
+
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public void SubscribeToReminderPageEvents(ReminderPage reminderPage)
         {
+            this.reminderPage = reminderPage;
             reminderPage.ReminderChanged += ReminderPage_ReminderChanged;
             Debug.WriteLine("RefreshEditor Event subcried correctly");
         }
@@ -51,18 +64,61 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
         private void ReminderPage_ReminderChanged(object sender, EventArgs e)
         {
             Debug.WriteLine("Reminder changed event received in ReminderEditor");
-
+            editMode = true;
             RefreshEditor();
             
         }
-        
+
         private void RefreshEditor()
         {
             Debug.WriteLine("ReminderEditor is being refreshed");
             LoadData(CurrentID); 
         }
 
-      
+        private void RefreshReminderList()
+        {
+            // ReminderUpdate();
+            ReminderUpdate?.Invoke();
+        }
+
+        public bool editMode
+        {
+            get => _editMode;
+            set
+            {
+                if (_editMode != value)
+                {
+                    _editMode = value;
+                    OnPropertyChanged();
+
+                    if (_editMode)
+                    {
+                        EnableEditMode();
+                    }
+                    else
+                    {
+                        DisableEditMode();
+                    }
+                }
+            }
+        }
+
+
+        private void EnableEditMode()
+        {
+            bAddNew.Visibility = System.Windows.Visibility.Visible;
+            bEdit.Visibility = System.Windows.Visibility.Visible;
+            bAdd.Visibility = System.Windows.Visibility.Collapsed;
+        }
+
+        private void DisableEditMode()
+        {
+            bAdd.Visibility= System.Windows.Visibility.Visible;
+            bAddNew.Visibility = System.Windows.Visibility.Collapsed;
+            bEdit.Visibility = System.Windows.Visibility.Collapsed;
+        }
+
+
         private ReminderDb.Reminder LoadFromForm()
         {
             
@@ -142,13 +198,13 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             if (existingReminder != null)
             {
                 // Handle case where a reminder with the same name already exists
-                MessageBox.Show("A reminder with this name already exists.");
+                System.Windows.MessageBox.Show("A reminder with this name already exists.");
                 return;
             }
 
 
             DbContext.SaveReminder(addReminder);
-            ReminderUpdate();
+            RefreshReminderList();
         }
 
         public void LoadData(int? reminderId)
@@ -204,74 +260,6 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             }
         }
 
-
-        private void LoadToForm1(ReminderDb.Reminder reminder)
-        {
-            //Name
-            if (!string.IsNullOrEmpty(txtboxName.txtBox.Text))
-            {
-                txtboxName.txtBox.Text = reminder.Name;
-            }
-
-            //Description
-            if (!string.IsNullOrEmpty(newReminder.Description))
-            {
-                txtboxDescription.txtBox.Text = newReminder.Description;
-            }
-            else
-            {
-                txtboxDescription.txtBox.Text = string.Empty;
-            }
-
-            //HasAlarm
-            if (newReminder.HasAlarms == true)
-            {
-                checkAlarm.IsChecked = true;
-
-                //Alarm
-
-                if (newReminder.Alarm != null)
-                {
-                    //dtpAlarm.getDateTime();
-                    dtpAlarm.DateWithTime = newReminder.Alarm;
-                }
-                else
-                {
-                    dtpAlarm.DateWithTime = null;
-                }
-
-                //Periodic
-                if (newReminder.Periodic == true)
-                {
-                    checkRepeat.IsChecked = true;
-
-                    //TimeFrameSelection
-                    if (newReminder.TimeFrameId != 0)
-                    {
-                        cboxItems.comboBox.SelectedIndex = (int)newReminder.TimeFrameId;
-                        //var selectedTimeFrameId = (ReminderDb.TimeFrameId)cboxItems.comboBox.SelectedIndex;
-                        //newReminder.TimeFrameSelection = DbContext.TimeFrames.Single(tf => tf.TimeFrameId == selectedTimeFrameId);
-                    }
-                    else
-                    {
-                        cboxItems.comboBox.SelectedIndex = 0;
-
-                        //newReminder.TimeFrameSelection = ReminderDb.TimeFrameId.NotSet;
-                        //var selectedTimeFrameId = ReminderDb.TimeFrameId.NotSet;
-                        //newReminder.TimeFrameSelection = DbContext.TimeFrames.Single(tf => tf.TimeFrameId == selectedTimeFrameId);
-                    }
-                }
-                else
-                {
-                    checkRepeat.IsChecked = false;
-                }
-            }
-            else
-            {
-                checkAlarm.IsChecked = false;
-            }
-        }
-
         public void SetCboxObj()
         {
             var timeFrames = Enum.GetValues(typeof(ReminderDb.TimeFrameId))
@@ -308,11 +296,34 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
 
             if (currentReminder != null) 
             {
-                currentReminder.Id = orginalReminderID;
-            }
-            SaveToDatabase(currentReminder);
+                using (var dbContext = new ReminderContext())
+                {
+                    var existingReminder = dbContext.Reminders.SingleOrDefault(r => r.Id == orginalReminderID);
 
-            MessageBox.Show($"Reminder Updated!!! \nEdited Reminder: \nReminder ID:{orginalReminderID} \nReminder Name: {currentReminder.Name}");
+                    if (existingReminder != null)
+                    {
+                        existingReminder.Name = currentReminder.Name;
+                        existingReminder.Description = currentReminder.Description;
+                        existingReminder.IsComplete = currentReminder.IsComplete;
+                        existingReminder.HasAlarms = currentReminder.HasAlarms;
+                        existingReminder.Alarm = currentReminder.Alarm;
+                        existingReminder.Periodic = currentReminder.Periodic;
+                        existingReminder.TimeFrameId = currentReminder.TimeFrameId;
+                        existingReminder.UserId = currentReminder.UserId;
+                        existingReminder.Folder = currentReminder.Folder;
+
+                        dbContext.SaveChanges();
+                        RefreshReminderList();
+                        System.Windows.MessageBox.Show($"Reminder Updated!!! \nEdited Reminder: \nReminder ID:{orginalReminderID} \nReminder Name: {currentReminder.Name}");
+                        reminderPage?.OnReminderChanged();
+                    }
+                    else
+                    {
+                        System.Windows.MessageBox.Show("Reminder not found");
+                    }
+                }
+            }
+
         }
 
         private void bClear_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -338,6 +349,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
                 checkAlarm.IsChecked = false;
                 
             }
+            editMode = false;
         }
 
         private void bDelete_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -385,7 +397,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
                 {
                     if (checkRepeat.IsChecked == true)
                     {
-                        MessageBox.Show("Alarm required");
+                        System.Windows.MessageBox.Show("Alarm required");
                         checkRepeat.IsChecked = false;
                     }
                     cboxItems.Visibility = System.Windows.Visibility.Collapsed;

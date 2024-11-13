@@ -331,7 +331,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
         }
 
 
-        public void addInfo(ReminderDb.Reminder newReminder)
+        public void AddInfo(ReminderDb.Reminder newReminder)
         {
             ID = newReminder.Id;
             ReminderName = newReminder.Name;

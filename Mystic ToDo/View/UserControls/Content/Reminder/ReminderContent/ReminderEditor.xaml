@@ -64,10 +64,21 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <!---->
-            <Button Grid.Column="0" Panel.ZIndex="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10" 
+            <Button Grid.Column="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10" 
                     Content="Add" x:Name="bAdd" Click="bAdd_Click" />
-            <Button Grid.Column="0" Panel.ZIndex="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10" 
-                    Content="Edit" x:Name="bEdit" Click="bEdit_Click"/>
+            
+            <Grid Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                
+                <Button Grid.Column="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10" 
+                        Content="Add New" x:Name="bAddNew" Click="bAdd_Click" />
+                <Button Grid.Column="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10" 
+                        Content="Edit" x:Name="bEdit" Click="bEdit_Click"/>
+            </Grid>
+            
 
             <!---->
             <Button Grid.Column="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10"

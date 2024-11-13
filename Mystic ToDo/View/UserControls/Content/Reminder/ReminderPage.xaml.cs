@@ -60,9 +60,9 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
             var taskList = new TaskList();
             taskList.reminderListDBSub.Children.Clear();
 
-            foreach (var reminder in reminders) 
+            foreach (var reminder in reminders)
             {
-                if (reminder != null) 
+                if (reminder != null)
                 {
                     ReminderContent.Task task = new ReminderContent.Task();
                     task.AddInfo(reminder);
@@ -74,8 +74,8 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
                 }
             }
             return taskList;
-        } 
-            
+        }
+
         //Update the UI with the TaskList
         private void UpdateUI(TaskList taskList)
         {
@@ -176,7 +176,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
 
             //testing
             Debug.WriteLine($"MultiSelection:");
-            foreach (var item in list) 
+            foreach (var item in list)
             {
                 Debug.WriteLine($"Selected: {item}");
             }

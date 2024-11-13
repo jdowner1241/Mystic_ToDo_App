@@ -38,7 +38,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
         private DateTime _dateWithTime;
         private string _date;
         private string _time;
-        private int _frequencySelection; 
+        private int _frequencySelection;
         private string _frequency;
         private string _folder;
         private string _userName;
@@ -49,12 +49,12 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
         private static List<Task> allTasks = new List<Task>();
 
         public event Action<List<int>> MultiSelectionUpdate;
-        public event Action<int> SingleSelectionUpdate; 
+        public event Action<int> SingleSelectionUpdate;
 
         public Task()
         {
             InitializeComponent();
-            DataContext = this; 
+            DataContext = this;
             this.MouseEnter += this.OnMouseEnter;
             this.MouseLeave += this.OnMouseLeave;
             this.MouseLeftButtonDown += this.OnMouseLeftButtonDown;
@@ -79,9 +79,9 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
         public int ID
         {
             get => _id;
-            set 
+            set
             {
-                if (_id != value) 
+                if (_id != value)
                 {
                     _id = value;
                     OnPropertyChanged();
@@ -92,16 +92,16 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
         public bool IsCompleted
         {
             get => _isComplete;
-            set 
+            set
             {
-                if (_isComplete != value) 
+                if (_isComplete != value)
                 {
                     _isComplete = value;
                     OnPropertyChanged();
                 }
             }
         }
-        
+
         public string ReminderName
         {
             get => _name;
@@ -150,7 +150,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             {
                 if (_date != value)
                 {
-                    _date = value; 
+                    _date = value;
                     OnPropertyChanged();
                 }
             }
@@ -159,9 +159,9 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
         public string Time
         {
             get => _time;
-            set 
+            set
             {
-                if(_time != value)
+                if (_time != value)
                 {
                     _time = value;
                     OnPropertyChanged();
@@ -174,7 +174,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             get => _frequencySelection;
             set
             {
-                if ( _frequencySelection != value)
+                if (_frequencySelection != value)
                 {
                     _frequencySelection = value;
                     OnPropertyChanged();
@@ -184,12 +184,12 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
 
         public string Frequency
         {
-            get => _frequency; 
+            get => _frequency;
             set
             {
                 if (_frequency != value)
                 {
-                    _frequency = value; 
+                    _frequency = value;
                     OnPropertyChanged();
                 }
             }
@@ -227,10 +227,10 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             set { SetValue(BackgroundProperty, value); }
         }
 
-        public static readonly DependencyProperty BackgroudProperty = 
+        public static readonly DependencyProperty BackgroudProperty =
             DependencyProperty.Register("Background", typeof(Brush), typeof(Task), new PropertyMetadata(Brushes.LightGray));
 
-        private void OnMouseEnter (object sender, MouseEventArgs e)
+        private void OnMouseEnter(object sender, MouseEventArgs e)
         {
             if (!singleSelected && !multiSelected)
             {
@@ -246,17 +246,17 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             }
         }
 
-        private void OnMouseLeftButtonDown(object sender, MouseEventArgs e) 
+        private void OnMouseLeftButtonDown(object sender, MouseEventArgs e)
         {
             if (DataContext == this)
             {
-                if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift)) 
+                if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
                 {
                     Debug.WriteLine("Multiselection");
                     Multiselection();
                     MultiSelectionUpdate?.Invoke(selectedTaskIds);
                 }
-                else  
+                else
                 {
                     Debug.WriteLine("Singleselection");
                     DeselectAllTasks();
@@ -268,7 +268,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
 
         private void Multiselection()
         {
-           
+
             if (multiSelected)
             {
                 background.Background = Brushes.LightGray;
@@ -282,14 +282,14 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
                     selectedTaskIds.Add(ID);
                 }
             }
-            multiSelected = !multiSelected; 
+            multiSelected = !multiSelected;
         }
 
         private void Singleselection()
         {
             foreach (var task in allTasks)
             {
-                if ( task != this)
+                if (task != this)
                 {
                     task.Deselect();
                 }
@@ -302,8 +302,8 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             }
             else
             {
-                background.Background= Brushes.LightSkyBlue;
-                if (!selectedTaskIds.Contains(ID)) 
+                background.Background = Brushes.LightSkyBlue;
+                if (!selectedTaskIds.Contains(ID))
                 {
                     selectedTaskIds.Add(ID);
                 }
@@ -319,7 +319,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
                 task.Deselect();
             }
             selectedTaskIds.Clear();
-        }          
+        }
 
         private void Deselect()
         {
@@ -327,7 +327,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             multiSelected = false;
             background.Background = Brushes.LightGray;
 
-            selectedTaskIds.Remove(ID); 
+            selectedTaskIds.Remove(ID);
         }
 
 
@@ -347,7 +347,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
 
             if (!string.IsNullOrEmpty(newReminder.Description))
             {
-               Description = newReminder.Description;
+                Description = newReminder.Description;
             }
             else
             {
@@ -381,7 +381,8 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             if (!string.IsNullOrEmpty(newReminder.UserId))
             {
                 UserName = newReminder.UserId;
-            }else
+            }
+            else
             {
                 UserName = "Anonymous";
             }
@@ -389,7 +390,8 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             if (!string.IsNullOrEmpty(newReminder.Folder))
             {
                 Folder = newReminder.Folder;
-            }else
+            }
+            else
             {
                 Folder = "Folder Not set";
             }

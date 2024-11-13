@@ -25,7 +25,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
 
         private ReminderContext DbContext;
         private ReminderDb.Reminder newReminder;
-        private int CurrentID {  get; set; }
+        private int CurrentID { get; set; }
         private bool _editMode;
 
         private ReminderPage reminderPage;
@@ -66,13 +66,13 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             Debug.WriteLine("Reminder changed event received in ReminderEditor");
             editMode = true;
             RefreshEditor();
-            
+
         }
 
         private void RefreshEditor()
         {
             Debug.WriteLine("ReminderEditor is being refreshed");
-            LoadData(CurrentID); 
+            LoadData(CurrentID);
         }
 
         private void RefreshReminderList()
@@ -113,7 +113,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
 
         private void DisableEditMode()
         {
-            bAdd.Visibility= System.Windows.Visibility.Visible;
+            bAdd.Visibility = System.Windows.Visibility.Visible;
             bAddNew.Visibility = System.Windows.Visibility.Collapsed;
             bEdit.Visibility = System.Windows.Visibility.Collapsed;
         }
@@ -121,7 +121,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
 
         private ReminderDb.Reminder LoadFromForm()
         {
-            
+
             //Name
             if (!string.IsNullOrEmpty(txtboxName.txtBox.Text))
             {
@@ -135,7 +135,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             }
             else
             {
-                newReminder.Description = string.Empty; 
+                newReminder.Description = string.Empty;
             }
 
             //HasAlarm
@@ -144,7 +144,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
                 newReminder.HasAlarms = true;
 
                 //Alarm
-                dtpAlarm.getDateTime(); 
+                dtpAlarm.getDateTime();
                 if (dtpAlarm.DateWithTime != null)
                 {
                     newReminder.Alarm = dtpAlarm.DateWithTime;
@@ -212,7 +212,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             if (reminderId.HasValue)
             {
                 CurrentID = reminderId.Value;
-                using ( var dbContext = new ReminderContext())
+                using (var dbContext = new ReminderContext())
                 {
                     var reminderDetail = dbContext.Reminders.FirstOrDefault(r => r.Id == reminderId.Value);
                     if (reminderDetail != null)
@@ -238,7 +238,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             {
                 dtpAlarm.Visibility = System.Windows.Visibility.Visible;
                 dtpAlarm.DateWithTime = reminder.Alarm;
-                
+
 
                 checkRepeat.IsChecked = reminder.Periodic;
                 if (reminder.Periodic)
@@ -269,7 +269,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
 
             cboxItems.CboxItems.Clear();
 
-            foreach (var timeFrame in timeFrames) 
+            foreach (var timeFrame in timeFrames)
             {
                 cboxItems.CboxItems.Add(timeFrame);
             }
@@ -294,7 +294,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             int orginalReminderID = CurrentID;
             var currentReminder = LoadFromForm();
 
-            if (currentReminder != null) 
+            if (currentReminder != null)
             {
                 using (var dbContext = new ReminderContext())
                 {
@@ -334,8 +334,8 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             }
 
             if (txtboxDescription.txtBox.Text != string.Empty)
-            { 
-                txtboxDescription.txtBox.Clear(); 
+            {
+                txtboxDescription.txtBox.Clear();
             }
 
             if (checkAlarm.IsChecked == true)
@@ -347,7 +347,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
                 dtpAlarm.datePicker.ClearValue(DatePicker.SelectedDateProperty);
                 checkRepeat.IsChecked = false;
                 checkAlarm.IsChecked = false;
-                
+
             }
             editMode = false;
         }
@@ -377,7 +377,8 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             }
         }
 
-        private void checkRepeat_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void checkRepeat_PropertyChanged(object sender, 
+            System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(checkRepeat.IsChecked))
             {

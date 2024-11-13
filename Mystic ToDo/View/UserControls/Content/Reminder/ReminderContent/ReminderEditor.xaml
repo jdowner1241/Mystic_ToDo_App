@@ -7,7 +7,7 @@
              xmlns:customControls="clr-namespace:Mystic_ToDo.View.UserControls.CustomControls" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" d:DataContext="{d:DesignInstance Type=customControls:ComboBoxWithLabel}"
              mc:Ignorable="d" 
              d:DesignHeight="250" d:DesignWidth="800">
-            
+
     <Grid Background="white">
         <Grid.RowDefinitions>
             <RowDefinition Height=".2*"/>
@@ -23,16 +23,16 @@
             </Grid.ColumnDefinitions>
             <!---->
             <customControls:TxtBoxWithLabel Placeholder="Name" Margin="0,0,10,2" Width="380"
-                                            x:Name="txtboxName"/>
-            
+                                        x:Name="txtboxName"/>
+
             <!---->
             <customControls:SwitchWithLabel Grid.Column="1" Placeholder="Alarm"
-                                            x:Name="checkAlarm" PropertyChanged="checkAlarm_PropertyChanged"/>
+                                        x:Name="checkAlarm" PropertyChanged="checkAlarm_PropertyChanged"/>
 
             <!---->
             <customControls:SwitchWithLabel Grid.Column="2" Placeholder="Repeat"
-                                            x:Name="checkRepeat" PropertyChanged="checkRepeat_PropertyChanged"/>
-            
+                                        x:Name="checkRepeat" PropertyChanged="checkRepeat_PropertyChanged"/>
+
         </Grid>
 
         <!---->
@@ -44,15 +44,15 @@
             </Grid.ColumnDefinitions>
             <!---->
             <customControls:TxtBoxWithLabel Placeholder="Description" Margin="0,0,10,2" Width="380"  VerticalContentAlignment="Center"
-                                            x:Name="txtboxDescription"/>
+                                        x:Name="txtboxDescription"/>
 
             <!---->
             <customControls:DateTimePicker Grid.Column="1" Placeholder="Alarm" Margin="0,0,10,2" VerticalContentAlignment="Top" 
-                                           x:Name="dtpAlarm"/>
+                                       x:Name="dtpAlarm"/>
 
             <!---->
             <customControls:ComboBoxWithLabel Grid.Column="2" Placeholder="Alarm Frequency" Margin="0,0,10,2" VerticalContentAlignment="Top"
-                                              x:Name="cboxItems" />
+                                          x:Name="cboxItems" />
 
         </Grid>
 
@@ -65,28 +65,28 @@
             </Grid.ColumnDefinitions>
             <!---->
             <Button Grid.Column="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10" 
-                    Content="Add" x:Name="bAdd" Click="bAdd_Click" />
-            
+                Content="Add" x:Name="bAdd" Click="bAdd_Click" />
+
             <Grid Grid.Column="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                
+
                 <Button Grid.Column="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10" 
-                        Content="Add New" x:Name="bAddNew" Click="bAdd_Click" />
+                    Content="Add New" x:Name="bAddNew" Click="bAdd_Click" />
                 <Button Grid.Column="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10" 
-                        Content="Edit" x:Name="bEdit" Click="bEdit_Click"/>
+                    Content="Edit" x:Name="bEdit" Click="bEdit_Click"/>
             </Grid>
-            
+
 
             <!---->
             <Button Grid.Column="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10"
-                    Content="Clear" x:Name="bClear" Click="bClear_Click"/>
-            
+                Content="Clear" x:Name="bClear" Click="bClear_Click"/>
+
             <!---->
             <Button Grid.Column="2" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10"
-                    Content="Delete" x:Name="bDelete" Click="bDelete_Click"/>
+                Content="Delete" x:Name="bDelete" Click="bDelete_Click"/>
 
         </Grid>
     </Grid>

@@ -24,5 +24,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
         {
             InitializeComponent();
         }
+
+      
     }
 }

@@ -46,7 +46,7 @@
             </Grid.ColumnDefinitions>
 
             <customControls:MenuBarButton Grid.Column="0" Margin="20,5" Placeholder="Reminders"/>
-            <customControls:MenuBarButton Grid.Column="1" Margin="20,5" Placeholder="Calender"/>
+            <customControls:MenuBarButton Grid.Column="1" Margin="20,5" Placeholder="Calender" Loaded="MenuBarButton_Loaded"/>
             <customControls:MenuBarButton Grid.Column="2" Margin="20,5" Placeholder="Timetable"/>
             <customControls:MenuBarButton Grid.Column="3" Margin="20,5" Placeholder="Time Tracker" />
             

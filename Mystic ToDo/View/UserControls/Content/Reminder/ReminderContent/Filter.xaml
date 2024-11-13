@@ -5,8 +5,90 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+             d:DesignHeight="450" d:DesignWidth="348.507">
+
+    <Grid Grid.Row="3">
+
+        <!-- Search Filtering -->
+        <StackPanel >
+            <TextBox x:Name="NormalSearchBox" Width="164" Height="30" 
+                 Margin="10,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" />
+            <Image Source="/path/to/your/search-icon.png" Width="20" Height="20"/>
+        </StackPanel>
+
+
+        <StackPanel Margin="10,59,22,6">
+
+
+
+
+
+            <StackPanel Orientation="Horizontal" Margin="0,5" Width="286"/>
+
+            <!-- Checkbox Filtering -->
+            <StackPanel Grid.Column="1" Margin="10">
+                <TextBlock Text="Filtering Type" FontWeight="Bold"/>
+                <WrapPanel Height="177" Width="292">
+                    <ToggleButton IsChecked="True" Margin="5">
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Content="ReminderId" IsChecked="True"/>
+                        </StackPanel>
+                    </ToggleButton>
+                    <ToggleButton Margin="5">
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Content="ReminderName"/>
+                        </StackPanel>
+                    </ToggleButton>
+                    <ToggleButton IsChecked="True" Margin="5">
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Content="ReminderDescription" IsChecked="True"/>
+                        </StackPanel>
+                    </ToggleButton>
+                    <ToggleButton Margin="5">
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Content="ReminderIscomplete" Width="136"/>
+                        </StackPanel>
+                    </ToggleButton>
+                    <ToggleButton Margin="5">
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Content="ReminderHasAlarm" Width="130"/>
+                        </StackPanel>
+                    </ToggleButton>
+                    <ToggleButton Margin="5">
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Content="ReminderDate" Height="17" Width="102"/>
+                        </StackPanel>
+                    </ToggleButton>
+                    <ToggleButton IsChecked="True" Margin="5">
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Content="ReminderTime" IsChecked="True" Width="104"/>
+                        </StackPanel>
+                    </ToggleButton>
+                </WrapPanel>
+            </StackPanel>
+            <DataGrid AutoGenerateColumns="False" Margin="10" 
+                      Height="524" d:ItemsSource="{d:SampleData ItemCount=5}" Width="256"/>
+
+
+
+
+
+            <!--<CheckBox Content="CheckBox" Margin="5,0,0,5"/>
+             <CheckBox Content="CheckBox" Width="338" Checked="CheckBox_Checked" 
+            Margin="0,0,0,5"/>  -->
+        </StackPanel>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="185,10,0,0" 
+                VerticalAlignment="Top" Height="30" Width="52">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" 
+                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="2">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+
     </Grid>
 </UserControl>

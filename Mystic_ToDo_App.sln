@@ -5,6 +5,8 @@ VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mystic ToDo", "Mystic ToDo\Mystic ToDo.csproj", "{84E8714F-02F4-425B-91C6-4967326A5717}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "filterCustomControl", "filterCustomControl\filterCustomControl.csproj", "{D13B27BA-76FC-40D8-ADBF-F02DD230548C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{84E8714F-02F4-425B-91C6-4967326A5717}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{84E8714F-02F4-425B-91C6-4967326A5717}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{84E8714F-02F4-425B-91C6-4967326A5717}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D13B27BA-76FC-40D8-ADBF-F02DD230548C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D13B27BA-76FC-40D8-ADBF-F02DD230548C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D13B27BA-76FC-40D8-ADBF-F02DD230548C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D13B27BA-76FC-40D8-ADBF-F02DD230548C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

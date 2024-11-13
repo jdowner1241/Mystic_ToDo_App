@@ -23,6 +23,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
         private ReminderContext DbContext;
         private ReminderDb.Reminder newReminder;
         private int CurrentID {  get; set; }
+        private bool editMode = false;
 
         private ReminderPage reminderPage;
         public event Action ReminderUpdate;
@@ -52,8 +53,9 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             Debug.WriteLine("Reminder changed event received in ReminderEditor");
 
             RefreshEditor();
+            
         }
-
+        
         private void RefreshEditor()
         {
             Debug.WriteLine("ReminderEditor is being refreshed");

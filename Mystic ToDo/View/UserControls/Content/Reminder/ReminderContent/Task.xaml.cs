@@ -268,6 +268,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
 
         private void Multiselection()
         {
+           
             if (multiSelected)
             {
                 background.Background = Brushes.LightGray;
@@ -276,7 +277,10 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             else
             {
                 background.Background = Brushes.LightSkyBlue;
-                selectedTaskIds.Add(ID);
+                if (!selectedTaskIds.Contains(ID))
+                {
+                    selectedTaskIds.Add(ID);
+                }
             }
             multiSelected = !multiSelected; 
         }
@@ -291,8 +295,21 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
                 }
             }
 
-            background.Background = Brushes.LightSkyBlue;
-            singleSelected = true;
+            if (singleSelected)
+            {
+                background.Background = Brushes.LightGray;
+                selectedTaskIds.Remove(ID);
+            }
+            else
+            {
+                background.Background= Brushes.LightSkyBlue;
+                if (!selectedTaskIds.Contains(ID)) 
+                {
+                    selectedTaskIds.Add(ID);
+                }
+            }
+
+            singleSelected = !singleSelected;
         }
 
         private void DeselectAllTasks()
@@ -308,7 +325,9 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
         {
             singleSelected = false;
             multiSelected = false;
-            background.Background = Brushes.LightGray; 
+            background.Background = Brushes.LightGray;
+
+            selectedTaskIds.Remove(ID); 
         }
 
 

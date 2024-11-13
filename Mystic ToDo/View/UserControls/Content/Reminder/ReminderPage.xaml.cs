@@ -2,6 +2,7 @@
 using Mystic_ToDo.Database;
 using Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using Xceed.Wpf.AvalonDock.Layout;
+using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 using static Mystic_ToDo.Database.ReminderDb;
 
 namespace Mystic_ToDo.View.UserControls.Content.Reminder
@@ -44,24 +46,6 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
             }
         }
 
-        //Grid version
-        //public void LoadDataFromReminderPage()
-        //{
-        //    Debug.WriteLine("LoadData method invoked");
-
-        //    if (DbContext.Reminders == null)
-        //    {
-        //        MessageBox.Show("Reminders DbSet is null");
-        //    }
-
-        //    var reminderList = DbContext.Reminders.ToList();
-
-        //    reminderListDB.ItemsSource = reminderList;
-        //    Debug.WriteLine("Data loaded successfully");
-        //    reminderListDB.Items.Refresh();
-        //}
-
-
         //Stackpanel version
         public void LoadDataFromReminderPage()
         {
@@ -79,6 +63,8 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
                     ReminderContent.Task task = new ReminderContent.Task();
                     task.addInfo(reminder);
                     task.UpdateSelectedIdEvent = UpdateSelectedIdEvent;
+                    task.SingleSelectionUpdate += OnSingleSelectionUpdate;
+                    task.MultiSelectionUpdate += OnMultiSelectionUpdate;
                     
 
                     taskList.reminderListDBSub.Children.Add(task);
@@ -89,7 +75,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
             Debug.WriteLine("Data loaded successfully");
             OnReminderChanged();
         }
-       
+
         private void UpdateSelectedIdEvent(int reminderId)
         {
             SelectedReminderId = reminderId;
@@ -113,5 +99,42 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
         {
             ReminderChanged?.Invoke(this, EventArgs.Empty);
         }
+
+        private void OnSingleSelectionUpdate(int reminderId)
+        {
+            UpdateSelectedIdEvent(reminderId);
+            Debug.WriteLine($"SingleSection:");
+            Debug.WriteLine($"Selected: {reminderId}");
+        }
+
+        private void OnMultiSelectionUpdate(List<int> list)
+        {
+            Debug.WriteLine($"MultiSelection:");
+            foreach (var item in list) 
+            {
+                Debug.WriteLine($"Selected: {item}");
+            }
+            
+        }
+
+
+        //Grid version
+        //public void LoadDataFromReminderPage()
+        //{
+        //    Debug.WriteLine("LoadData method invoked");
+
+        //    if (DbContext.Reminders == null)
+        //    {
+        //        MessageBox.Show("Reminders DbSet is null");
+        //    }
+
+        //    var reminderList = DbContext.Reminders.ToList();
+
+        //    reminderListDB.ItemsSource = reminderList;
+        //    Debug.WriteLine("Data loaded successfully");
+        //    reminderListDB.Items.Refresh();
+        //}
+
+
     }
 }

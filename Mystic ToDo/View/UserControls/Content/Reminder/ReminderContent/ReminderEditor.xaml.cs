@@ -84,6 +84,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             Debug.WriteLine("Reminder changed event received in ReminderEditor");
             editMode = true;
             singleSelected = true;
+            multiSelected = false;
             RefreshEditor();
             
         }

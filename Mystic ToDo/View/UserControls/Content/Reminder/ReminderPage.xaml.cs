@@ -4,6 +4,7 @@ using Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,15 +23,24 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
     {
         private readonly ReminderContext DbContext;
         private bool _isUpdating = false;
+        private TaskList CurrentTaskList { get; set; }
 
         public static readonly DependencyProperty SelectedReminderIdProperty = DependencyProperty.Register("SelectedReminderId", typeof(int?), typeof(ReminderPage), new PropertyMetadata(null, OnSelectedReminderChanged));
+        public static readonly DependencyProperty SelectedReminderIdListProperty = DependencyProperty.Register("SelectedReminderIdList", typeof(List<int?>), typeof(ReminderPage), new PropertyMetadata(null, OnSelectedReminderListChanged));
 
         public event EventHandler ReminderChanged;
+        public event EventHandler ReminderListChanged;
 
         public int? SelectedReminderId
         {
             get => (int?)GetValue(SelectedReminderIdProperty);
             set => SetValue(SelectedReminderIdProperty, value);
+        }
+
+        public List<int?> SelectedReminderIdList
+        {
+            get => (List<int?>)GetValue(SelectedReminderIdListProperty);
+            set => SetValue(SelectedReminderIdListProperty, value);
         }
 
         public ReminderPage()
@@ -51,7 +61,8 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
         //Fetch reminders from the database 
         private List<ReminderDb.Reminder> FetchReminders()
         {
-            return DbContext.Reminders.ToList();
+            var renewDatabase = new ReminderContext().Reminders.ToList();
+            return renewDatabase; 
         }
 
         //Create a TaskList from the reminders
@@ -66,7 +77,6 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
                 {
                     ReminderContent.Task task = new ReminderContent.Task();
                     task.AddInfo(reminder);
-                    task.UpdateSelectedIdEvent = UpdateSelectedIdEvent;
                     task.SingleSelectionUpdate += OnSingleSelectionUpdate;
                     task.MultiSelectionUpdate += OnMultiSelectionUpdate;
 
@@ -77,11 +87,14 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
         } 
             
         //Update the UI with the TaskList
-        private void UpdateUI(TaskList taskList)
+        private void UpdateUI()
         {
+            if (CurrentTaskList == null) return;
+
             reminderListDB.Children.Clear();
-            reminderListDB.Children.Add(taskList);
+            reminderListDB.Children.Add(CurrentTaskList);
         }
+
 
         // Load data and update the UI
         public void LoadDataFromReminderPage()
@@ -89,15 +102,12 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
             if (_isUpdating) return;
             Debug.WriteLine("LoadData method invoked");
 
-
             _isUpdating = true;
             try
             {
                 var reminders = FetchReminders();
-                var taskList = CreateTaskList(reminders);
-                UpdateUI(taskList);
-
-                //RefreshTasks(reminders);
+                CurrentTaskList = CreateTaskList(reminders);
+                UpdateUI();
 
                 Debug.WriteLine("Data Loaded Succesfully");
             }
@@ -105,42 +115,18 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
             {
                 _isUpdating = false;
             }
+
         }
 
-        //Refresh logic for both new and existing reminders
-        private void RefreshTasks(IEnumerable<ReminderDb.Reminder> reminders)
+        // ReminderEdit event
+        public void ReminderEditUpdate()
         {
-            var existingTasks = reminderListDB.Children.OfType<ReminderContent.Task>().ToList();
-
-            foreach (var reminder in reminders)
-            {
-                var task = existingTasks.FirstOrDefault(t => t.ID == reminder.Id);
-                if (task != null)
-                {
-                    //Update existing task
-                    task.AddInfo(reminder);
-                }
-                else
-                {
-                    //Add new task
-                    var newTask = new ReminderContent.Task();
-                    newTask.AddInfo(reminder);
-                    newTask.UpdateSelectedIdEvent = UpdateSelectedIdEvent;
-                    newTask.SingleSelectionUpdate += OnSingleSelectionUpdate;
-                    newTask.MultiSelectionUpdate += OnMultiSelectionUpdate;
-
-                    reminderListDB.Children.Add(newTask);
-                }
-            }
+            LoadDataFromReminderPage();
         }
 
+    /*Single Selected Events*/
 
-        private void UpdateSelectedIdEvent(int reminderId)
-        {
-            SelectedReminderId = reminderId;
-            OnReminderChanged();
-        }
-
+        //Update Reminder Editor using ReminderID on propertychange.
         private static void OnSelectedReminderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var reminderPage = d as ReminderPage;
@@ -151,28 +137,32 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
             }
         }
 
+        //Get single selected reminder Id from Task control
+        private void OnSingleSelectionUpdate(int reminderId)
+        {
+            SelectedReminderId = (int?)reminderId;
+            OnReminderChanged(); //Trigger changes on the editor control 
+        }
+
+        //Event to invoke on Editor Control
         public virtual void OnReminderChanged()
         {
             if (_isUpdating) return;
             ReminderChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        public void OnReminderUpdated()
+    /*Multi Selected Events*/
+
+        //Update Reminder Editor using ReminderID List on propertychange.
+        private static void OnSelectedReminderListChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            LoadDataFromReminderPage();
+            Debug.WriteLine($"On reminder list change event value:{e.NewValue}");
         }
 
-        private void OnSingleSelectionUpdate(int reminderId)
+        private void OnMultiSelectionUpdate(List<int?> list)
         {
-            UpdateSelectedIdEvent(reminderId);
-
-            //testing
-            Debug.WriteLine($"SingleSection:");
-            Debug.WriteLine($"Selected: {reminderId}");
-        }
-
-        private void OnMultiSelectionUpdate(List<int> list)
-        {
+            SelectedReminderIdList = (List<int?>)list;
+            OnReminderChanged();
 
             //testing
             Debug.WriteLine($"MultiSelection:");
@@ -182,24 +172,10 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
             }
         }
 
-
-        //Grid version
-        //public void LoadDataFromReminderPage()
-        //{
-        //    Debug.WriteLine("LoadData method invoked");
-
-        //    if (DbContext.Reminders == null)
-        //    {
-        //        MessageBox.Show("Reminders DbSet is null");
-        //    }
-
-        //    var reminderList = DbContext.Reminders.ToList();
-
-        //    reminderListDB.ItemsSource = reminderList;
-        //    Debug.WriteLine("Data loaded successfully");
-        //    reminderListDB.Items.Refresh();
-        //}
-
-
+        //Event to invoke on Editor Control for multiple selection
+        public virtual void OnReminderListChanged()
+        {
+            ReminderListChanged?.Invoke(this, EventArgs.Empty); 
+        }
     }
 }

@@ -28,7 +28,7 @@
             </Grid.RowDefinitions>
 
             <!-- Task Entry -->
-            <reminderEditor:ReminderEditor x:Name="ReminderEditorContent" ReminderUpdate="LoadDataFromReminderPage" Grid.Row="0"/>
+            <reminderEditor:ReminderEditor x:Name="ReminderEditorContent" ReminderUpdate="LoadDataFromReminderPage" ReminderEdited="LoadDataFromReminderPage" Grid.Row="0"/>
 
 
             <!-- Task List -->

@@ -30,6 +30,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
 
         private ReminderPage reminderPage;
         public event Action ReminderUpdate;
+        public event Action ReminderEdited; 
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -58,6 +59,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
         {
             this.reminderPage = reminderPage;
             reminderPage.ReminderChanged += ReminderPage_ReminderChanged;
+            reminderPage.ReminderListChanged += ReminderPage_ReminderListChanged;
             Debug.WriteLine("RefreshEditor Event subcried correctly");
         }
 
@@ -67,6 +69,14 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             editMode = true;
             RefreshEditor();
             
+        }
+
+        private void ReminderPage_ReminderListChanged(object sender, EventArgs e)
+        {
+            Debug.WriteLine("ReminderList changed event received in ReminderEditor");
+            editMode = true;
+            RefreshEditor();
+
         }
 
         private void RefreshEditor()
@@ -323,6 +333,8 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
                     }
                 }
             }
+            ReminderEdited();
+            ReminderUpdate();
 
         }
 

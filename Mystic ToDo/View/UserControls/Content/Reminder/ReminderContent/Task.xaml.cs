@@ -45,10 +45,10 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
 
         private bool singleSelected = false;
         private bool multiSelected = false;
-        private static List<int> selectedTaskIds = new List<int>();
+        private static List<int?> selectedTaskIds = new List<int?>();
         private static List<Task> allTasks = new List<Task>();
 
-        public event Action<List<int>> MultiSelectionUpdate;
+        public event Action<List<int?>> MultiSelectionUpdate;
         public event Action<int> SingleSelectionUpdate; 
 
         public Task()

@@ -29,7 +29,9 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
         public static readonly DependencyProperty SelectedReminderIdListProperty = DependencyProperty.Register("SelectedReminderIdList", typeof(List<int?>), typeof(ReminderPage), new PropertyMetadata(null, OnSelectedReminderListChanged));
 
         public event EventHandler ReminderChanged;
+        public event Action<int?> SelectedReminderIdChanged;                                                                                
         public event EventHandler ReminderListChanged;
+        public event Action<List<int?>> SelectedReminderListChanged;
 
         public int? SelectedReminderId
         {
@@ -142,6 +144,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
         {
             SelectedReminderId = (int?)reminderId;
             OnReminderChanged(); //Trigger changes on the editor control 
+            SelectedReminderIdChanged(reminderId);
         }
 
         //Event to invoke on Editor Control
@@ -162,7 +165,8 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
         private void OnMultiSelectionUpdate(List<int?> list)
         {
             SelectedReminderIdList = (List<int?>)list;
-            OnReminderChanged();
+            OnReminderListChanged();
+            SelectedReminderListChanged(list);
 
             //testing
             Debug.WriteLine($"MultiSelection:");

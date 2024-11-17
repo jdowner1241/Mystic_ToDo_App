@@ -362,3 +362,7 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /Mystic ToDo/View/UserControls/Content/Reminder/ReminderContent/PersonalFolder.xaml
+/Mystic ToDo/View/UserControls/Content/Reminder/ReminderContent/ReminderEditor.xaml.cs
+/Mystic ToDo/View/UserControls/Content/Reminder/ReminderContent/Task.xaml.cs
+/Mystic ToDo/View/UserControls/Content/Reminder/ReminderPage.xaml.cs
+/.gitignore

@@ -24,7 +24,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
     /// <summary>
     /// Interaction logic for TaskList.xaml
     /// </summary>
-    public partial class TaskList : UserControl, INotifyPropertyChanged
+    public partial class TaskList : UserControl, INotifyPropertyChanged 
     {
         //private ObservableCollection<int> currectReminderListIds = new ObservableCollection<int>();
         private readonly ReminderContext DbContext;
@@ -41,7 +41,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-
+    
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -62,7 +62,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
 
         public void removeReminderTolist()
         {
-
+            
         }
     }
 }

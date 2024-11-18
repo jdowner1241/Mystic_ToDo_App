@@ -35,7 +35,5 @@ namespace Mystic_ToDo.Data
             SaveChanges();
             NotifyReminderDataChanged();
         }
-
-
     }
 }

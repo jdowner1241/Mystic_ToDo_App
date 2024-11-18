@@ -25,7 +25,10 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
 
         private ReminderContext DbContext;
         private ReminderDb.Reminder newReminder;
-        private int CurrentID {  get; set; }
+        private int CurrentId { get; set; }
+        private bool singleSelected;
+        private List<int> CurrentIdList { get; set; }
+        private bool multiSelected;
         private bool _editMode;
 
         private ReminderPage reminderPage;
@@ -58,21 +61,48 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
         {
             this.reminderPage = reminderPage;
             reminderPage.ReminderChanged += ReminderPage_ReminderChanged;
+            reminderPage.SelectedReminderIdChanged += OnSelectedReminderIdChanged;
+            reminderPage.ReminderListChanged += ReminderPage_ReminderListChanged;
+            reminderPage.SelectedReminderListChanged += OnSelectedReminderIdListChanged;
+
             Debug.WriteLine("RefreshEditor Event subcried correctly");
         }
+
+        private void OnSelectedReminderIdChanged(int? selectedReminderId)
+        {
+            CurrentId = selectedReminderId.Value;
+        }
+
+        private void OnSelectedReminderIdListChanged(List<int?> list)
+        {
+            CurrentIdList = list.Where(x => x.HasValue).Select(x => x.Value).ToList();
+        }
+
 
         private void ReminderPage_ReminderChanged(object sender, EventArgs e)
         {
             Debug.WriteLine("Reminder changed event received in ReminderEditor");
             editMode = true;
+            singleSelected = true;
+            multiSelected = false;
             RefreshEditor();
-            
+
+        }
+
+        private void ReminderPage_ReminderListChanged(object sender, EventArgs e)
+        {
+            Debug.WriteLine("ReminderList changed event received in ReminderEditor");
+            editMode = true;
+            multiSelected = true;
+            singleSelected = false;
+            //RefreshEditor();
+
         }
 
         private void RefreshEditor()
         {
             Debug.WriteLine("ReminderEditor is being refreshed");
-            LoadData(CurrentID); 
+            LoadData(CurrentId);
         }
 
         private void RefreshReminderList()
@@ -113,7 +143,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
 
         private void DisableEditMode()
         {
-            bAdd.Visibility= System.Windows.Visibility.Visible;
+            bAdd.Visibility = System.Windows.Visibility.Visible;
             bAddNew.Visibility = System.Windows.Visibility.Collapsed;
             bEdit.Visibility = System.Windows.Visibility.Collapsed;
         }
@@ -121,7 +151,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
 
         private ReminderDb.Reminder LoadFromForm()
         {
-            
+
             //Name
             if (!string.IsNullOrEmpty(txtboxName.txtBox.Text))
             {
@@ -135,7 +165,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             }
             else
             {
-                newReminder.Description = string.Empty; 
+                newReminder.Description = string.Empty;
             }
 
             //HasAlarm
@@ -144,7 +174,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
                 newReminder.HasAlarms = true;
 
                 //Alarm
-                dtpAlarm.getDateTime(); 
+                dtpAlarm.getDateTime();
                 if (dtpAlarm.DateWithTime != null)
                 {
                     newReminder.Alarm = dtpAlarm.DateWithTime;
@@ -211,8 +241,8 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
         {
             if (reminderId.HasValue)
             {
-                CurrentID = reminderId.Value;
-                using ( var dbContext = new ReminderContext())
+                CurrentId = reminderId.Value;
+                using (var dbContext = new ReminderContext())
                 {
                     var reminderDetail = dbContext.Reminders.FirstOrDefault(r => r.Id == reminderId.Value);
                     if (reminderDetail != null)
@@ -238,7 +268,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             {
                 dtpAlarm.Visibility = System.Windows.Visibility.Visible;
                 dtpAlarm.DateWithTime = reminder.Alarm;
-                
+
 
                 checkRepeat.IsChecked = reminder.Periodic;
                 if (reminder.Periodic)
@@ -269,7 +299,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
 
             cboxItems.CboxItems.Clear();
 
-            foreach (var timeFrame in timeFrames) 
+            foreach (var timeFrame in timeFrames)
             {
                 cboxItems.CboxItems.Add(timeFrame);
             }
@@ -291,39 +321,54 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
 
         private void bEdit_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            int orginalReminderID = CurrentID;
+            int orginalReminderID = CurrentId;
             var currentReminder = LoadFromForm();
 
-            if (currentReminder != null) 
+            MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show(
+                " Do you want to override the current Reminder?",
+                "Override",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question
+                );
+
+            if (messageBoxResult == MessageBoxResult.Yes)
             {
-                using (var dbContext = new ReminderContext())
+                if (currentReminder != null)
                 {
-                    var existingReminder = dbContext.Reminders.SingleOrDefault(r => r.Id == orginalReminderID);
-
-                    if (existingReminder != null)
+                    using (var dbContext = new ReminderContext())
                     {
-                        existingReminder.Name = currentReminder.Name;
-                        existingReminder.Description = currentReminder.Description;
-                        existingReminder.IsComplete = currentReminder.IsComplete;
-                        existingReminder.HasAlarms = currentReminder.HasAlarms;
-                        existingReminder.Alarm = currentReminder.Alarm;
-                        existingReminder.Periodic = currentReminder.Periodic;
-                        existingReminder.TimeFrameId = currentReminder.TimeFrameId;
-                        existingReminder.UserId = currentReminder.UserId;
-                        existingReminder.Folder = currentReminder.Folder;
+                        var existingReminder = dbContext.Reminders.SingleOrDefault(r => r.Id == orginalReminderID);
+                        var beforechange = existingReminder;
 
-                        dbContext.SaveChanges();
-                        RefreshReminderList();
-                        System.Windows.MessageBox.Show($"Reminder Updated!!! \nEdited Reminder: \nReminder ID:{orginalReminderID} \nReminder Name: {currentReminder.Name}");
-                        reminderPage?.OnReminderChanged();
-                    }
-                    else
-                    {
-                        System.Windows.MessageBox.Show("Reminder not found");
+                        System.Windows.MessageBox.Show($"Reminder Updated!!! \nReminder ID: {orginalReminderID} " +
+                            $"\n\nBefore: \nReminder Name: {beforechange.Name}" +
+                            $"\n\nAfter: \nReminder Name: {currentReminder.Name}");
+
+                        if (existingReminder != null)
+                        {
+                            existingReminder.Name = currentReminder.Name;
+                            existingReminder.Description = currentReminder.Description;
+                            existingReminder.IsComplete = currentReminder.IsComplete;
+                            existingReminder.HasAlarms = currentReminder.HasAlarms;
+                            existingReminder.Alarm = currentReminder.Alarm;
+                            existingReminder.Periodic = currentReminder.Periodic;
+                            existingReminder.TimeFrameId = currentReminder.TimeFrameId;
+                            existingReminder.UserId = currentReminder.UserId;
+                            existingReminder.Folder = currentReminder.Folder;
+
+                            dbContext.SaveChanges();
+                            RefreshReminderList();
+                            
+                            reminderPage?.OnReminderChanged();
+                        }
+                        else
+                        {
+                            System.Windows.MessageBox.Show("Reminder not found");
+                        }
                     }
                 }
+                ReminderUpdate();
             }
-
         }
 
         private void bClear_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -334,8 +379,8 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             }
 
             if (txtboxDescription.txtBox.Text != string.Empty)
-            { 
-                txtboxDescription.txtBox.Clear(); 
+            {
+                txtboxDescription.txtBox.Clear();
             }
 
             if (checkAlarm.IsChecked == true)
@@ -347,14 +392,92 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
                 dtpAlarm.datePicker.ClearValue(DatePicker.SelectedDateProperty);
                 checkRepeat.IsChecked = false;
                 checkAlarm.IsChecked = false;
-                
+
             }
             editMode = false;
         }
 
         private void bDelete_Click(object sender, System.Windows.RoutedEventArgs e)
         {
+            var currentReminder = LoadFromForm();
 
+            MessageBoxResult result = System.Windows.MessageBox.Show(
+                $" Do you want to Delete this reminder? \n Reminder Name: {currentReminder.Name}",
+                "Delete Reminder !!!",
+                MessageBoxButton.OKCancel,
+                MessageBoxImage.Warning
+            );
+
+            if (result == MessageBoxResult.OK) 
+            {
+                if (singleSelected)
+                {
+                    DeleteSingleReminder();
+                }
+
+                if (multiSelected)
+                {
+                    DeleteMultipleReminders();
+                }
+
+                ReminderUpdate();
+            }
+        }
+
+        private void DeleteSingleReminder()
+        {
+            using (var dbContext = new ReminderContext())
+            {
+                var existingReminder = dbContext.Reminders.SingleOrDefault(r => r.Id == CurrentId);
+
+                if (existingReminder != null)
+                {
+                    System.Windows.MessageBox.Show($"Reminder Removed!!! \n\nReminder ID: {existingReminder.Id} \nReminder Name: {existingReminder.Name}");
+                    dbContext.Reminders.Remove(existingReminder);
+
+                    dbContext.SaveChanges();
+                    RefreshReminderList();
+
+                    reminderPage?.OnReminderChanged();
+                }
+                else
+                {
+                    System.Windows.MessageBox.Show("Reminder not found");
+                }
+            }
+            singleSelected = false;
+        }
+
+        private void DeleteMultipleReminders()
+        {
+            string message = "Reminder Removed:";
+
+            using (var dbContext = new ReminderContext())
+            {
+                foreach (var CurrentId in CurrentIdList)
+                {
+                    var existingReminder = dbContext.Reminders.SingleOrDefault(r => r.Id == CurrentId);
+
+                    if (existingReminder != null)
+                    {
+                        message += $"\n\nReminder ID: {existingReminder.Id} \nReminder Name: {existingReminder.Name}";
+
+                        dbContext.Reminders.Remove(existingReminder);
+
+                        dbContext.SaveChanges();
+                        RefreshReminderList();
+
+                        reminderPage?.OnReminderChanged();
+                    }
+                    else
+                    {
+                        System.Windows.MessageBox.Show("Reminder not found");
+                    }
+
+                }
+            }
+            System.Windows.MessageBox.Show(message);
+            multiSelected = false;
         }
 
 

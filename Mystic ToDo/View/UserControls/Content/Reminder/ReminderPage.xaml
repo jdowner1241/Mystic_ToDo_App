@@ -41,7 +41,7 @@
         </Grid>
 
         <!-- Filter Section-->
-        <reminderEditor:Filter Grid.Column="2"/>
+        <reminderEditor:Filter1 Grid.Column="2"/>
 
     </Grid>
 </UserControl>

@@ -115,11 +115,23 @@
     <Compile Include="View\UserControls\Content\Reminder\ReminderContent\Filter.xaml.cs">
       <DependentUpon>Filter.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\UserControls\Content\Reminder\ReminderContent\Filter1.xaml.cs">
+      <DependentUpon>Filter1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\Content\Reminder\ReminderContent\FilterItems.xaml.cs">
+      <DependentUpon>FilterItems.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\Content\Reminder\ReminderContent\FilterItemsCbox.xaml.cs">
+      <DependentUpon>FilterItemsCbox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\UserControls\Content\Reminder\ReminderContent\PersonalFolder.xaml.cs">
       <DependentUpon>PersonalFolder.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\UserControls\Content\Reminder\ReminderContent\ReminderEditor.xaml.cs">
       <DependentUpon>ReminderEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\Content\Reminder\ReminderContent\SortItem.xaml.cs">
+      <DependentUpon>SortItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\UserControls\Content\Reminder\ReminderContent\Task.xaml.cs">
       <DependentUpon>Task.xaml</DependentUpon>
@@ -171,11 +183,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\UserControls\Content\Reminder\ReminderContent\Filter1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\Content\Reminder\ReminderContent\FilterItems.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\Content\Reminder\ReminderContent\FilterItemsCbox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\UserControls\Content\Reminder\ReminderContent\PersonalFolder.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\UserControls\Content\Reminder\ReminderContent\ReminderEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\Content\Reminder\ReminderContent\SortItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

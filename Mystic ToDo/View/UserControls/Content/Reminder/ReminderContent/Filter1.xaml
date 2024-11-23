@@ -6,10 +6,11 @@
              xmlns:reminderContent="clr-namespace:Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent"
              mc:Ignorable="d" 
              d:DesignHeight="650" d:DesignWidth="400">
+    
     <Grid Margin="10,5,0,1">
         <Grid.RowDefinitions>
             <RowDefinition MaxHeight="100"/>
-            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         
         <!-- Search -->
@@ -27,8 +28,8 @@
                    Content="Search" HorizontalContentAlignment="Left" FontSize="25" FontWeight="Bold" FontStyle="Italic" 
                    Foreground="Blue"/>
 
-            <TextBox Grid.Row="1" Grid.Column="0" Margin="10,5,10,5" Padding="10,1,10,1" VerticalAlignment="Center" Height="30"
-                     BorderBrush="AliceBlue" Foreground="Black" Text="test" TextElement.FontSize="20" Background="LightBlue"
+            <TextBox Grid.Row="1" Grid.Column="0" Margin="10,5,10,5" Padding="8,1,8,1" VerticalAlignment="Center" Height="26"
+                     BorderBrush="AliceBlue" Foreground="Black" Text="" TextElement.FontSize="18" Background="LightBlue"
                      TextAlignment="Left" VerticalContentAlignment="Center" TextWrapping="WrapWithOverflow" AutoWordSelection="True" />
 
             <Button Grid.Row="1" Grid.Column="1" Padding="21,10,20,21" VerticalAlignment="Center" HorizontalAlignment="Center" 
@@ -37,97 +38,88 @@
         </Grid>
 
         <!-- Scrollable Sort and filter -->
-
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-
+            
             <!-- Sort -->
-                <Grid Grid.Row="0" Margin="5,10">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="40"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-
-                    <Label Grid.Row="0" Content="Sort" HorizontalContentAlignment="Left" FontSize="25" FontWeight="Bold" FontStyle="Italic" 
-                                    Foreground="Blue"/>
-
-                    <Expander Grid.Row="1">
-                        
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="30"/>
-                            </Grid.RowDefinitions>
-
-                            
-                            <Grid Grid.Row="0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="auto"/>
-                                </Grid.ColumnDefinitions>
-
-                                <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto" >
-                                    <StackPanel Margin="0,5,0,10">
-                                        <reminderContent:SortItem />
-                                        <reminderContent:SortItem />
-                                        <reminderContent:SortItem />
-                                        <reminderContent:SortItem />
-                                        <reminderContent:SortItem />
-                                        <reminderContent:SortItem />
-                                        <reminderContent:SortItem />
-                                        <reminderContent:SortItem />
-                                        <reminderContent:SortItem />
-                                        <reminderContent:SortItem />
-                                        <reminderContent:SortItem />
-                                        <reminderContent:SortItem />
-                                        <reminderContent:SortItem />
-                                        <reminderContent:SortItem />
-                                        <reminderContent:SortItem />
-                                        <reminderContent:SortItem />
-                                    </StackPanel>
-                                </ScrollViewer>
-                            </Grid>
-
-                            <Button Grid.Row="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
-                                            Margin="50,5,50,5" Content="Add"/>
-
-                        </Grid>
-                    </Expander>
-                </Grid>
-
-
-                <!-- Filter -->
-            <Grid Grid.Row="1" Margin="5,10">
+            <Grid Grid.Row="0" Margin="5,5">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="40"/>
-                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" Content="Sort" HorizontalContentAlignment="Left" FontSize="25" FontWeight="Bold" FontStyle="Italic" 
+                                Foreground="Blue"/>
+
+                <Expander Grid.Row="1">
+                    
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+
+                        
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto" Height="150" >
+                                <StackPanel Margin="0,5,0,10">
+                                    <reminderContent:SortItem />
+                                    <reminderContent:SortItem />
+                                    <reminderContent:SortItem />
+                                    <reminderContent:SortItem />
+                                    <reminderContent:SortItem />
+                                    <reminderContent:SortItem />
+                                    <reminderContent:SortItem />
+                                    <reminderContent:SortItem />
+                                    <reminderContent:SortItem />
+                                    <reminderContent:SortItem />
+                                    <reminderContent:SortItem />
+                                    <reminderContent:SortItem />
+                                    <reminderContent:SortItem />
+                                    <reminderContent:SortItem />
+                                    <reminderContent:SortItem />
+                                    <reminderContent:SortItem />
+                                </StackPanel>
+                            </ScrollViewer>
+                        </Grid>
+
+                        <Button Grid.Row="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                                        Margin="50,5,50,5" Content="Add"/>
+
+                    </Grid>
+                </Expander>
+            </Grid>
+
+            <!-- Filter -->
+            <Grid Grid.Row="1" Margin="5,5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
                 <Label Grid.Row="0" Content="Filter" HorizontalContentAlignment="Left" FontSize="25" FontWeight="Bold" FontStyle="Italic" 
                                 Foreground="Blue"/>
 
                 <Expander Grid.Row="1" >
-                    <ScrollViewer VerticalScrollBarVisibility="Auto" >
-                        <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="auto"/>
-                        </Grid.ColumnDefinitions>
-
-                        <StackPanel Grid.Column="0" Orientation="Vertical" VerticalAlignment="Top">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" Height="150">
+                        <StackPanel Orientation="Vertical">
                             <reminderContent:FilterItems/>
                             <reminderContent:FilterItems/>
                             <reminderContent:FilterItems/>
                             <reminderContent:FilterItems/>
                         </StackPanel>
-                    </Grid>
-                    </ScrollViewer>    
+                    </ScrollViewer>
                 </Expander>
             </Grid>
-
         </Grid>
+        
     </Grid>
 </UserControl>

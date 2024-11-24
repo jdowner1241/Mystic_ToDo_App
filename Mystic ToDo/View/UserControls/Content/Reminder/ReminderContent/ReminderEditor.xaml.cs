@@ -402,7 +402,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             var currentReminder = LoadFromForm();
 
             MessageBoxResult result = System.Windows.MessageBox.Show(
-                $" Do you want to Delete this reminder? \n Reminder Name: {currentReminder.Name}",
+                $" Do you want to Delete this reminder?",
                 "Delete Reminder !!!",
                 MessageBoxButton.OKCancel,
                 MessageBoxImage.Warning

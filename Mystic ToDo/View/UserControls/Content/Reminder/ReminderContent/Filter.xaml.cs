@@ -1,6 +1,10 @@
-﻿using System;
+﻿using Mystic_ToDo.Database;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,9 +27,15 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
         public Filter()
         {
             InitializeComponent();
+            loadData();
         }
 
+        private void loadData()
+        {
+            var reminder = fetchReminders();
+            var reminders = new ObservableCollection<ReminderDb.Reminder>(reminder);
 
+        }
 
 
         private void FilteringTextBox_GotFocus(object sender, RoutedEventArgs e)

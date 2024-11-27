@@ -17,7 +17,7 @@
         </Grid.ColumnDefinitions>
 
         <!-- Folder List -->
-        <reminderEditor:PersonalFolder1 x:Name="PersonalFolder" Grid.Column="0"/>
+        <reminderEditor:PersonalFolder x:Name="PersonalFolder" Grid.Column="0"/>
         
 
         <!-- Main Reminder Window -->

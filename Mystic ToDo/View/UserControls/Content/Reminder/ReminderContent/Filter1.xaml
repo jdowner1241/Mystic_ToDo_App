@@ -28,12 +28,13 @@
                    Content="Search" HorizontalContentAlignment="Left" FontSize="25" FontWeight="Bold" FontStyle="Italic" 
                    Foreground="Blue"/>
 
-            <TextBox Grid.Row="1" Grid.Column="0" Margin="10,5,10,5" Padding="8,1,8,1" VerticalAlignment="Center" Height="26"
-                     BorderBrush="AliceBlue" Foreground="Black" Text="" TextElement.FontSize="18" Background="LightBlue"
-                     TextAlignment="Left" VerticalContentAlignment="Center" TextWrapping="WrapWithOverflow" AutoWordSelection="True" />
+            <TextBox x:Name="txtSearch" Text="{Binding SearchValue, UpdateSourceTrigger=PropertyChanged, Mode=Default}" 
+                     Grid.Row="1" Grid.Column="0" Margin="10,5,10,5" Padding="8,1,8,1" VerticalAlignment="Center" Height="26"
+                     BorderBrush="AliceBlue" Foreground="Black" TextElement.FontSize="18" Background="LightBlue"
+                     TextAlignment="Left" VerticalContentAlignment="Center" TextWrapping="WrapWithOverflow" AutoWordSelection="True"/>
 
-            <Button Grid.Row="1" Grid.Column="1" Padding="21,10,20,21" VerticalAlignment="Center" HorizontalAlignment="Center" 
-                    Margin="0,0,10,0"/>
+            <Button x:Name="bSearch" Grid.Row="1" Grid.Column="1" Padding="21,10,20,21" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                    Margin="0,0,10,0" Click="BSearch_Click"/>
 
         </Grid>
 

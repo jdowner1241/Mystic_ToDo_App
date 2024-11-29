@@ -34,14 +34,14 @@
             <!-- Task List -->
             <!--<DataGrid Grid.Row="1" x:Name="reminderListDB"/>-->
             <Grid Grid.Row="1" x:Name="reminderListDB">
-                <reminderEditor:TaskList/>
+                
             </Grid>
             
 
         </Grid>
 
         <!-- Filter Section-->
-        <reminderEditor:Filter1 Grid.Column="2"/>
+        <reminderEditor:Filter1 x:Name="FilterContent" Grid.Column="2"/>
 
     </Grid>
 </UserControl>

@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="650" d:DesignWidth="400">
     
-    <Grid Margin="10,15,0,1">
+    <Grid Margin="10,5,0,1">
         <Grid.RowDefinitions>
             <RowDefinition MaxHeight="100"/>
             <RowDefinition Height="Auto"/>
@@ -16,7 +16,7 @@
         <!-- Search -->
         <Grid Grid.Row="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="50"/>
+                <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
@@ -24,7 +24,7 @@
                 <ColumnDefinition Width="0.25*"/>
             </Grid.ColumnDefinitions>
 
-            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" VerticalContentAlignment="Center"
+            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
                    Content="Search" HorizontalContentAlignment="Left" FontSize="25" FontWeight="Bold" FontStyle="Italic" 
                    Foreground="Blue"/>
 

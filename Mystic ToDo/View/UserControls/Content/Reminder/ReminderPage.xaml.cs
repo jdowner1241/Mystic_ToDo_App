@@ -23,7 +23,9 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
     {
         private readonly ReminderContext DbContext;
         private bool _isUpdating = false;
+        private string searchValue;
         private TaskList CurrentTaskList { get; set; }
+        private TaskList SearchedTaskList { get; set; }
 
         public static readonly DependencyProperty SelectedReminderIdProperty = DependencyProperty.Register("SelectedReminderId", typeof(int?), typeof(ReminderPage), new PropertyMetadata(null, OnSelectedReminderChanged));
         public static readonly DependencyProperty SelectedReminderIdListProperty = DependencyProperty.Register("SelectedReminderIdList", typeof(List<int?>), typeof(ReminderPage), new PropertyMetadata(null, OnSelectedReminderListChanged));
@@ -32,6 +34,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
         public event Action<int?> SelectedReminderIdChanged;
         public event EventHandler ReminderListChanged;
         public event Action<List<int?>> SelectedReminderListChanged;
+        public event Action<string> ReminderPageSearchValueChanged;
 
         public int? SelectedReminderId
         {
@@ -43,6 +46,16 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
         {
             get => (List<int?>)GetValue(SelectedReminderIdListProperty);
             set => SetValue(SelectedReminderIdListProperty, value);
+        }
+
+
+        public string SearchValue
+        {
+            get => searchValue;
+            set
+            {
+                searchValue = value;
+            }
         }
 
         public ReminderPage()
@@ -58,6 +71,11 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
             {
                 reminderEditor.SubscribeToReminderPageEvents(this);
             }
+            var filter = (Filter1)FindName("FilterContent");
+            if (filter != null)
+            {
+                filter.SubscribeToReminderPageEvents(this);
+            }
         }
 
         //Fetch reminders from the database 
@@ -65,6 +83,26 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
         {
             var renewDatabase = new ReminderContext().Reminders.ToList();
             return renewDatabase;
+        }
+
+        //Fetch Searched Value from the database
+        private List<ReminderDb.Reminder> FetchSearchValue(string searchValue)
+        {
+            using (var db = new ReminderContext())
+            {
+               var searchResults = db.Reminders
+                                    .Where(r => r.Name.Contains(searchValue) ||
+                                                r.Description.Contains(searchValue) ||
+                                                r.Folder.Contains(searchValue) ||
+                                                r.UserId.Contains(searchValue))
+                                    .ToList();
+                return searchResults;
+            }
+        }
+
+        public void ReminderPageSearch(ReminderDb.Reminder reminder)
+        {
+            SearchValueFromReminderPage(searchValue);
         }
 
         //Create a TaskList from the reminders
@@ -97,6 +135,14 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
             reminderListDB.Children.Add(CurrentTaskList);
         }
 
+        private void UpdateSearchUI()
+        {
+            if (SearchedTaskList == null) return;
+
+            reminderListDB.Children.Clear();
+            reminderListDB.Children.Add(SearchedTaskList);
+        }
+
 
         // Load data and update the UI
         public void LoadDataFromReminderPage()
@@ -119,6 +165,28 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
             }
 
         }
+
+        //Load searched data and update the Ui
+        public void SearchValueFromReminderPage(string searchValue)
+        {
+            if (_isUpdating) return;   
+
+            _isUpdating = true ;
+            try
+            {
+                Debug.WriteLine("Search triggered");
+
+                SearchValue = searchValue;
+                var reminders = FetchSearchValue(searchValue);
+                SearchedTaskList = CreateTaskList(reminders);
+                UpdateSearchUI();
+            }
+            finally
+            { 
+                _isUpdating = false; 
+            }
+        }
+
 
         // ReminderEdit event
         public void ReminderEditUpdate()

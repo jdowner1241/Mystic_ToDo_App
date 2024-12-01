@@ -89,9 +89,11 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
 
         }
 
-        private void ReminderPage_ReminderListChanged(object sender, EventArgs e)
+        private void ReminderPage_ReminderListChanged(object sender, 
+            EventArgs e)
         {
-            Debug.WriteLine("ReminderList changed event received in ReminderEditor");
+            Debug.WriteLine("ReminderList changed event received in " +
+                "ReminderEditor");
             editMode = true;
             multiSelected = true;
             singleSelected = false;

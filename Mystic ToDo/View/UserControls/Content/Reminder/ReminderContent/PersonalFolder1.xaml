@@ -50,11 +50,11 @@
                         <local:PersonalFolderItem Placeholder="Test" />
                         <local:PersonalFolderItem Placeholder="Test" />
                     </StackPanel>
-                </ScrollViewer>
+                </ScrollViewer> 
             </Grid>
 
             <Button Grid.Row="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
-                    Margin="50,5,50,5" Content="Add New Folder"/>
+                    Margin="50,5,50,5" Content="Add New Folder" x:Name="addNewButton" Click="addNewButton_Click"/>
 
         </Grid>
     </Grid>

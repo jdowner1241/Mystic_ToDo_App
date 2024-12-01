@@ -72,7 +72,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
         {
             var taskList = new TaskList();
             taskList.reminderListDBSub.Children.Clear();
-
+            
             foreach (var reminder in reminders)
             {
                 if (reminder != null)

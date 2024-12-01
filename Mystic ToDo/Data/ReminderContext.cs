@@ -18,6 +18,8 @@ namespace Mystic_ToDo.Data
         public DbSet<ReminderDb.Reminder> Reminders { get; set; }
         public DbSet<ReminderDb.TimeFrame> TimeFrames { get; set; }
 
+        public DbSet<ReminderDb.Folder> Folders { get; set; }
+
         private ReminderPage _reminderPage;
 
         public event EventHandler ReminderDataChanged;

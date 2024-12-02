@@ -62,9 +62,10 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
         }
 
 
-        private void BSearch_Click(object sender, RoutedEventArgs e)
+        private void bClearSearch_Click(object sender, RoutedEventArgs e)
         {
-            SearchValueChanged?.Invoke(SearchValue);
+            txtSearch.Clear();
+            txtSearch.Focus();  
         }
     }
 }

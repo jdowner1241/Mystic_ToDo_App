@@ -52,8 +52,8 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             editMode = true;
             editMode = false;
 
-            CurrentFolderId = 0;
-            CurrentUserId = 0;
+            CurrentFolderId = 1;
+            CurrentUserId = 1;
         }
 
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -199,14 +199,14 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
                     if (cboxItems.comboBox.SelectedIndex != -1)
                     {
                         newReminder.TimeFrameId = (TimeFrameId)cboxItems.comboBox.SelectedIndex;
-                        newReminder.TimeFrameSelection = DbContext.TimeFrames.Single(tf => tf.TimeFrameId == newReminder.TimeFrameId);
+                        newReminder.TimeFrameSelection = DbContext.TimeFrames.SingleOrDefault(tf => tf.TimeFrameId == newReminder.TimeFrameId);
                         
                        
                     }
                     else
                     {
                         newReminder.TimeFrameId = TimeFrameId.NotSet;
-                        newReminder.TimeFrameSelection = DbContext.TimeFrames.Single(tf => tf.TimeFrameId == newReminder.TimeFrameId);
+                        newReminder.TimeFrameSelection = DbContext.TimeFrames.SingleOrDefault(tf => tf.TimeFrameId == newReminder.TimeFrameId);
                     }
                 }
                 else
@@ -223,25 +223,29 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             if (CurrentFolderId != 0)
             {
                 newReminder.FolderId = CurrentFolderId;
-                newReminder.SelectedFolder = DbContext.Folders.Single(f => f.FolderId == newReminder.FolderId);
+                newReminder.SelectedFolder = DbContext.Folders.SingleOrDefault(f => f.FolderId == newReminder.FolderId);
             }
             else 
             {
                 newReminder.FolderId = 0;
-                newReminder.SelectedFolder = DbContext.Folders.Single(f => f.FolderId == newReminder.FolderId);
+                newReminder.SelectedFolder = DbContext.Folders.SingleOrDefault(f => f.FolderId == newReminder.FolderId);
             }
+
+            if (newReminder.SelectedFolder == null) { throw new InvalidOperationException("The specified FolderId was not found."); }
 
             newReminder.UserId = "Guest";
             if (CurrentUserId != 0)
             {
                 newReminder._UserId = CurrentUserId;
-                newReminder.SelectedUser = DbContext.Users.Single(f => f.UserId == newReminder._UserId);
+                newReminder.SelectedUser = DbContext.Users.SingleOrDefault(f => f.UserId == newReminder._UserId);
             }
             else
             {
                 newReminder._UserId = 0;
-                newReminder.SelectedUser = DbContext.Users.Single(f => f.UserId == newReminder._UserId);
+                newReminder.SelectedUser = DbContext.Users.SingleOrDefault(f => f.UserId == newReminder._UserId);
             }
+
+            if (newReminder.SelectedUser == null) { throw new InvalidOperationException("The specified UserId was not found."); }
 
             return newReminder;
         }
@@ -341,7 +345,10 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
                     SaveToDatabase(newReminder);
                 }
             }
-            catch (Exception ex) { }
+            catch (Exception ex) 
+            {
+                System.Windows.MessageBox.Show($"An error occurred: {ex.Message}");
+            }
 
         }
 

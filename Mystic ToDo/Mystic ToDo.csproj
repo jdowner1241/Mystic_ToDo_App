@@ -9,7 +9,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>Mystic_ToDo</RootNamespace>
     <AssemblyName>Mystic ToDo</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -17,6 +17,7 @@
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -40,6 +41,9 @@
   <PropertyGroup>
     <Nullable>enable</Nullable>
     <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Mystic_ToDo.App</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -150,9 +154,6 @@
     <Compile Include="View\UserControls\Content\Reminder\ReminderPage.xaml.cs">
       <DependentUpon>ReminderPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\UserControls\Content\Timetable\ReminderPage.xaml.cs">
-      <DependentUpon>ReminderPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\UserControls\CustomControls\ComboBoxWithLabel.xaml.cs">
       <DependentUpon>ComboBoxWithLabel.xaml</DependentUpon>
     </Compile>
@@ -241,10 +242,6 @@
     <Page Include="View\UserControls\Content\Reminder\ReminderPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\UserControls\Content\Timetable\ReminderPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\UserControls\CustomControls\ComboBoxWithLabel.xaml">
       <SubType>Designer</SubType>

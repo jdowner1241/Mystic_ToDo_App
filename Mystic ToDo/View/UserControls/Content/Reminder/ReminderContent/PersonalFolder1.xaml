@@ -15,7 +15,7 @@
         <!--Header-->
         <Label Grid.Row="0" Margin="10,5,10,5" Content="Favorate" HorizontalContentAlignment="Left" VerticalContentAlignment="center"   
                FontSize="25" FontWeight="Bold" Foreground="Blue" FontStyle="Italic" />
-
+            
         <!--Folders-->
         <Grid Grid.Row="1" Margin="0,10,0,5">
             <Grid.RowDefinitions>

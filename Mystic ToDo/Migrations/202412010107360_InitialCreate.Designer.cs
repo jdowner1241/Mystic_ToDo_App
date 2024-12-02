@@ -13,7 +13,7 @@ namespace Mystic_ToDo.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202410251816492_InitialCreate"; }
+            get { return "202412010107360_InitialCreate"; }
         }
         
         string IMigrationMetadata.Source

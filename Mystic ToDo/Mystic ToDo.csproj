@@ -101,7 +101,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Data\ReminderEventManager.cs" />
     <Compile Include="Data\ReminderContext.cs" />
     <Compile Include="Data\ReminderDb.cs" />
     <Compile Include="Migrations\202410251816492_InitialCreate.cs" />
@@ -126,12 +125,6 @@
     </Compile>
     <Compile Include="View\UserControls\Content\Reminder\ReminderContent\PersonalFolder.xaml.cs">
       <DependentUpon>PersonalFolder.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\UserControls\Content\Reminder\ReminderContent\PersonalFolder1.xaml.cs">
-      <DependentUpon>PersonalFolder1.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\UserControls\Content\Reminder\ReminderContent\PersonalFolderItem.xaml.cs">
-      <DependentUpon>PersonalFolderItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\UserControls\Content\Reminder\ReminderContent\ReminderEditor.xaml.cs">
       <DependentUpon>ReminderEditor.xaml</DependentUpon>
@@ -202,14 +195,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\UserControls\Content\Reminder\ReminderContent\PersonalFolder.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\UserControls\Content\Reminder\ReminderContent\PersonalFolder1.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\UserControls\Content\Reminder\ReminderContent\PersonalFolderItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

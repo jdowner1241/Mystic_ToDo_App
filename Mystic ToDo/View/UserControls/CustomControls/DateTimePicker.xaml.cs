@@ -28,16 +28,27 @@ namespace Mystic_ToDo.View.UserControls.CustomControls
             timePicker.Visibility =  System.Windows.Visibility.Collapsed;
         }
 
+
         private void DatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
             if (datePicker.SelectedDate != null)
             {
                 timePicker.Visibility = System.Windows.Visibility.Visible;
-            }else
+            }
+            else
             {
                 timePicker.Visibility = System.Windows.Visibility.Collapsed;
             }
-            UpdateDateTime();
+            date = datePicker.SelectedDate;
+            //UpdateDateTime();
+        }
+
+        private void TimePicker_SelectedTimeChanged(Object sender, SelectionChangedEventArgs e)
+        {
+            if (date.HasValue) 
+            {
+                time = timePicker.Value?.TimeOfDay;
+            }
         }
 
         public string Placeholder
@@ -71,7 +82,7 @@ namespace Mystic_ToDo.View.UserControls.CustomControls
                     {
                         datePicker.SelectedDate = null;
                         timePicker.Value = null;
-                        //datePicker.Visibility = System.Windows.Visibility.Collapsed;
+                        datePicker.Visibility = System.Windows.Visibility.Collapsed;
                         timePicker.Visibility= System.Windows.Visibility.Collapsed;
                     }
                     isUpdating = false;

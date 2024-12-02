@@ -25,7 +25,7 @@
                       SelectedDateFormat="Short" ToolTip="MM/DD/YY" />
 
 
-        <xctk:TimePicker x:Name="timePicker"  Grid.Row="2" Format="Custom" FormatString="hh:mm tt" Margin="5, 0" 
+        <xctk:TimePicker x:Name="timePicker"  Grid.Row="2" Format="Custom" FormatString="hh:mm tt" Margin="5, 0"
                          BorderThickness="1" BorderBrush="LightBlue" Background="White" Foreground="Black" FontSize="15" FontFamily="hooge 05_53" TextAlignment="Center"/>
 
 

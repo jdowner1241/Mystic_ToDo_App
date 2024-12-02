@@ -28,6 +28,8 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
         private int CurrentId { get; set; }
         private bool singleSelected;
         private List<int> CurrentIdList { get; set; }
+        private int CurrentFolderId {  get; set; } 
+        private int CurrentUserId { get; set; }
         private bool multiSelected;
         private bool _editMode;
 
@@ -50,6 +52,8 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             editMode = true;
             editMode = false;
 
+            CurrentFolderId = 0;
+            CurrentUserId = 0;
         }
 
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -192,17 +196,15 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
                     //TimeFrameSelection
                     if (cboxItems.comboBox.SelectedIndex != -1)
                     {
-                        //newReminder.TimeFrameSelection = (ReminderDb.TimeFrameId)cboxItems.comboBox.SelectedIndex;
-
-                        var selectedTimeFrameId = (ReminderDb.TimeFrameId)cboxItems.comboBox.SelectedIndex;
-                        newReminder.TimeFrameSelection = DbContext.TimeFrames.Single(tf => tf.TimeFrameId == selectedTimeFrameId);
+                        newReminder.TimeFrameId = (TimeFrameId)cboxItems.comboBox.SelectedIndex;
+                        newReminder.TimeFrameSelection = DbContext.TimeFrames.Single(tf => tf.TimeFrameId == newReminder.TimeFrameId);
+                        
+                       
                     }
                     else
                     {
-                        //newReminder.TimeFrameSelection = ReminderDb.TimeFrameId.NotSet;
-
-                        var selectedTimeFrameId = ReminderDb.TimeFrameId.NotSet;
-                        newReminder.TimeFrameSelection = DbContext.TimeFrames.Single(tf => tf.TimeFrameId == selectedTimeFrameId);
+                        newReminder.TimeFrameId = TimeFrameId.NotSet;
+                        newReminder.TimeFrameSelection = DbContext.TimeFrames.Single(tf => tf.TimeFrameId == newReminder.TimeFrameId);
                     }
                 }
                 else
@@ -215,8 +217,30 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
                 newReminder.HasAlarms = false;
             }
 
-            newReminder.UserId = "YourUserIdHere";
-            newReminder.Folder = "test";
+            newReminder.Folder = "Default";
+            if (CurrentFolderId != 0)
+            {
+                newReminder.FolderId = CurrentFolderId;
+                newReminder.SelectedFolder = DbContext.Folders.Single(f => f.FolderId == newReminder.FolderId);
+            }
+            else 
+            {
+                newReminder.FolderId = 0;
+                newReminder.SelectedFolder = DbContext.Folders.Single(f => f.FolderId == newReminder.FolderId);
+            }
+
+            newReminder.UserId = "Guest";
+            if (CurrentUserId != 0)
+            {
+                newReminder._UserId = CurrentUserId;
+                newReminder.SelectedUser = DbContext.Users.Single(f => f.UserId == newReminder._UserId);
+            }
+            else
+            {
+                newReminder._UserId = 0;
+                newReminder.SelectedUser = DbContext.Users.Single(f => f.UserId == newReminder._UserId);
+            }
+
             return newReminder;
         }
 
@@ -402,7 +426,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             var currentReminder = LoadFromForm();
 
             MessageBoxResult result = System.Windows.MessageBox.Show(
-                $" Do you want to Delete this reminder?",
+                $" Do you want to Delete this reminder? \n Reminder Name: {currentReminder.Name}",
                 "Delete Reminder !!!",
                 MessageBoxButton.OKCancel,
                 MessageBoxImage.Warning

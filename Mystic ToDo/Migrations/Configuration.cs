@@ -24,7 +24,6 @@
                     new ReminderDb.TimeFrame(timeFrameId) // Use constructor to set Name
                 );
             }
-
             context.SaveChanges();
         }
     }

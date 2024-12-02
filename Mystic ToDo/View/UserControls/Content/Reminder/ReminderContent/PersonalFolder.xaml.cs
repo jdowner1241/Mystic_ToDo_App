@@ -25,6 +25,9 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             InitializeComponent();
         }
 
-      
+        internal void Show()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

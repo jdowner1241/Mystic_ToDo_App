@@ -8,6 +8,15 @@
         public override void Up()
         {
             CreateTable(
+                "dbo.Folders",
+                c => new
+                    {
+                        FolderId = c.Int(nullable: false, identity: true),
+                        FolderName = c.String(),
+                    })
+                .PrimaryKey(t => t.FolderId);
+            
+            CreateTable(
                 "dbo.Reminders",
                 c => new
                     {
@@ -21,11 +30,13 @@
                         PeriodicAlarm = c.DateTime(),
                         IsComplete = c.Boolean(nullable: false),
                         UserId = c.String(),
-                        Folder = c.String(),
+                        FolderId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Folders", t => t.FolderId, cascadeDelete: true)
                 .ForeignKey("dbo.TimeFrames", t => t.TimeFrameId, cascadeDelete: true)
-                .Index(t => t.TimeFrameId);
+                .Index(t => t.TimeFrameId)
+                .Index(t => t.FolderId);
             
             CreateTable(
                 "dbo.TimeFrames",
@@ -41,9 +52,12 @@
         public override void Down()
         {
             DropForeignKey("dbo.Reminders", "TimeFrameId", "dbo.TimeFrames");
+            DropForeignKey("dbo.Reminders", "FolderId", "dbo.Folders");
+            DropIndex("dbo.Reminders", new[] { "FolderId" });
             DropIndex("dbo.Reminders", new[] { "TimeFrameId" });
             DropTable("dbo.TimeFrames");
             DropTable("dbo.Reminders");
+            DropTable("dbo.Folders");
         }
     }
 }

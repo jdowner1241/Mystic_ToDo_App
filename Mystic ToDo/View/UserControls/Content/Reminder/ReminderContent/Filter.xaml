@@ -11,6 +11,9 @@
 
         <!-- Search Filtering -->
         <StackPanel >
+            <Border>
+                
+            </Border>
             <TextBox x:Name="NormalSearchBox" Width="164" Height="30" 
                  Margin="10,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" />
             <Image Source="/path/to/your/search-icon.png" Width="20" Height="20"/>
@@ -26,46 +29,100 @@
             <StackPanel Orientation="Horizontal" Margin="0,5" Width="286"/>
 
             <!-- Checkbox Filtering -->
-            <StackPanel Grid.Column="1" Margin="10">
-                <TextBlock Text="Filtering Type" FontWeight="Bold"/>
-                <WrapPanel Height="177" Width="292">
-                    <ToggleButton IsChecked="True" Margin="5">
-                        <StackPanel Orientation="Horizontal">
-                            <CheckBox Content="ReminderId" IsChecked="True"/>
-                        </StackPanel>
-                    </ToggleButton>
-                    <ToggleButton Margin="5">
-                        <StackPanel Orientation="Horizontal">
-                            <CheckBox Content="ReminderName"/>
-                        </StackPanel>
-                    </ToggleButton>
-                    <ToggleButton IsChecked="True" Margin="5">
-                        <StackPanel Orientation="Horizontal">
-                            <CheckBox Content="ReminderDescription" IsChecked="True"/>
-                        </StackPanel>
-                    </ToggleButton>
-                    <ToggleButton Margin="5">
-                        <StackPanel Orientation="Horizontal">
-                            <CheckBox Content="ReminderIscomplete" Width="136"/>
-                        </StackPanel>
-                    </ToggleButton>
-                    <ToggleButton Margin="5">
-                        <StackPanel Orientation="Horizontal">
-                            <CheckBox Content="ReminderHasAlarm" Width="130"/>
-                        </StackPanel>
-                    </ToggleButton>
-                    <ToggleButton Margin="5">
-                        <StackPanel Orientation="Horizontal">
-                            <CheckBox Content="ReminderDate" Height="17" Width="102"/>
-                        </StackPanel>
-                    </ToggleButton>
-                    <ToggleButton IsChecked="True" Margin="5">
-                        <StackPanel Orientation="Horizontal">
-                            <CheckBox Content="ReminderTime" IsChecked="True" Width="104"/>
-                        </StackPanel>
-                    </ToggleButton>
-                </WrapPanel>
+     <StackPanel Grid.Column="1" Margin="10">
+     <TextBlock Text="Filtering Type" FontWeight="Bold"/>
+                <Expander Header= "ReminderHasAlarm" Margin="5"> 
+        <WrapPanel Height="177" Width="292">
+        <ToggleButton IsChecked="True" Margin="5">
+            <ToggleButton.Template>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Border CornerRadius="3" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                </ControlTemplate>
+            </ToggleButton.Template>
+            <StackPanel Orientation="Horizontal">
+                <CheckBox Content="ReminderId" IsChecked="True"/>
             </StackPanel>
+        </ToggleButton>
+        <ToggleButton Margin="5">
+            <ToggleButton.Template>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Border CornerRadius="3" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                </ControlTemplate>
+            </ToggleButton.Template>
+            <StackPanel Orientation="Horizontal">
+                <CheckBox Content="ReminderName"/>
+            </StackPanel>
+        </ToggleButton>
+        <ToggleButton IsChecked="True" Margin="5">
+            <ToggleButton.Template>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Border CornerRadius="3" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                </ControlTemplate>
+            </ToggleButton.Template>
+            <StackPanel Orientation="Horizontal">
+                <CheckBox Content="ReminderDescription" IsChecked="True"/>
+            </StackPanel>
+        </ToggleButton>
+        <ToggleButton Margin="5">
+            <ToggleButton.Template>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Border CornerRadius="3" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                </ControlTemplate>
+            </ToggleButton.Template>
+            <StackPanel Orientation="Horizontal">
+                <CheckBox Content="ReminderIscomplete" Width="136"/>
+            </StackPanel>
+        </ToggleButton>
+        <ToggleButton Margin="5">
+            <ToggleButton.Template>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Border CornerRadius="3" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                </ControlTemplate>
+            </ToggleButton.Template>
+            <StackPanel Orientation="Horizontal">
+                <CheckBox Content="ReminderHasAlarm" Width="130"/>
+            </StackPanel>
+        </ToggleButton>
+        <ToggleButton Margin="5">
+            <ToggleButton.Template>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Border CornerRadius="3" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                </ControlTemplate>
+            </ToggleButton.Template>
+            <StackPanel Orientation="Horizontal">
+                <CheckBox Content="ReminderDate" Height="17" Width="102"/>
+            </StackPanel>
+        </ToggleButton>
+        <ToggleButton IsChecked="True" Margin="5">
+            <ToggleButton.Template>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Border CornerRadius="3" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                </ControlTemplate>
+            </ToggleButton.Template>
+            <StackPanel Orientation="Horizontal">
+                <CheckBox Content="ReminderTime" IsChecked="True" Width="104"/>
+            </StackPanel>
+        </ToggleButton>
+    </WrapPanel>
+                </Expander>
+
+
+            </StackPanel>
+
             <DataGrid AutoGenerateColumns="False" Margin="10" 
                       Height="524" d:ItemsSource="{d:SampleData ItemCount=5}" Width="256"/>
 
@@ -83,7 +140,8 @@
                 <ControlTemplate TargetType="Button">
                     <Border Background="{TemplateBinding Background}" 
                             BorderBrush="{TemplateBinding BorderBrush}" 
-                            BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="2">
+                            BorderThickness="{TemplateBinding BorderThickness}" 
+                            CornerRadius="2">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
                 </ControlTemplate>

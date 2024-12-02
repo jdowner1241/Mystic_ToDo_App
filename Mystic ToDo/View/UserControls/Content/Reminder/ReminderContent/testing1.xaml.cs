@@ -10,17 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
 {
     /// <summary>
-    /// Interaction logic for PersonalFolder1.xaml
+    /// Interaction logic for testing1.xaml
     /// </summary>
-    public partial class PersonalFolder1 : UserControl
+    public partial class testing1 : Window
     {
-        public PersonalFolder1()
+        public testing1()
         {
             InitializeComponent();
         }

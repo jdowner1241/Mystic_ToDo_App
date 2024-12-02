@@ -16,18 +16,13 @@ using System.Windows.Shapes;
 namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
 {
     /// <summary>
-    /// Interaction logic for PersonalFolder.xaml
+    /// Interaction logic for PersonalFolder1.xaml
     /// </summary>
-    public partial class PersonalFolder : UserControl
+    public partial class PersonalFolder1 : UserControl
     {
-        public PersonalFolder()
+        public PersonalFolder1()
         {
             InitializeComponent();
-        }
-
-        internal void Show()
-        {
-            throw new NotImplementedException();
         }
     }
 }

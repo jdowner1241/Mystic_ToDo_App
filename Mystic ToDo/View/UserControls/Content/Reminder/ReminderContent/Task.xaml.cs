@@ -1,4 +1,5 @@
-﻿using Mystic_ToDo.Database;
+﻿using Mystic_ToDo.Data;
+using Mystic_ToDo.Database;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -31,6 +32,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+        private readonly ReminderContext DbContext;
         private int _id;
         private bool _isComplete;
         private string _name;
@@ -55,6 +57,8 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
         {
             InitializeComponent();
             DataContext = this;
+            DbContext = new ReminderContext();
+
             this.MouseEnter += this.OnMouseEnter;
             this.MouseLeave += this.OnMouseLeave;
             this.MouseLeftButtonDown += this.OnMouseLeftButtonDown;
@@ -378,23 +382,25 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
                 FrequencySelection = 0;
             }
 
-            if (!string.IsNullOrEmpty(newReminder.UserId))
+ 
+            if (newReminder.SelectedUser != null && !string.IsNullOrEmpty(newReminder.SelectedUser.UserName))
             {
-                UserName = newReminder.UserId;
+                UserName = newReminder.SelectedUser.UserName;
             }
             else
             {
-                UserName = "Anonymous";
+                UserName = "Guest";
             }
 
-            if (!string.IsNullOrEmpty(newReminder.Folder))
+            if (newReminder.SelectedFolder != null && !string.IsNullOrEmpty(newReminder.SelectedFolder.FolderName))
             {
-                Folder = newReminder.Folder;
+                Folder = newReminder.SelectedFolder.FolderName;
             }
             else
             {
-                Folder = "Folder Not set";
+                Folder = "Default";
             }
+            
         }
 
 

@@ -24,6 +24,19 @@
                     new ReminderDb.TimeFrame(timeFrameId) // Use constructor to set Name
                 );
             }
+
+            // Seed User table
+            context.Users.AddOrUpdate(
+                u => u.UserId,
+                new ReminderDb.User { UserId = 1, UserName = "Guest" }
+                );
+
+            // Seed Folder table
+            context.Folders.AddOrUpdate(
+                f => f.FolderId,
+                new ReminderDb.Folder { FolderId = 1, FolderName = "Default" }
+                );
+
             context.SaveChanges();
 
         }

@@ -219,30 +219,28 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
                 newReminder.HasAlarms = false;
             }
 
-            newReminder.Folder = "Default";
-            if (CurrentFolderId != 0)
+            if (CurrentFolderId != 1)
             {
                 newReminder.FolderId = CurrentFolderId;
                 newReminder.SelectedFolder = DbContext.Folders.SingleOrDefault(f => f.FolderId == newReminder.FolderId);
             }
             else 
             {
-                newReminder.FolderId = 0;
+                newReminder.FolderId = 1;
                 newReminder.SelectedFolder = DbContext.Folders.SingleOrDefault(f => f.FolderId == newReminder.FolderId);
             }
 
             if (newReminder.SelectedFolder == null) { throw new InvalidOperationException("The specified FolderId was not found."); }
 
-            newReminder.UserId = "Guest";
-            if (CurrentUserId != 0)
+            if (CurrentUserId != 1)
             {
-                newReminder._UserId = CurrentUserId;
-                newReminder.SelectedUser = DbContext.Users.SingleOrDefault(f => f.UserId == newReminder._UserId);
+                newReminder.UserId = CurrentUserId;
+                newReminder.SelectedUser = DbContext.Users.SingleOrDefault(f => f.UserId == newReminder.UserId);
             }
             else
             {
-                newReminder._UserId = 0;
-                newReminder.SelectedUser = DbContext.Users.SingleOrDefault(f => f.UserId == newReminder._UserId);
+                newReminder.UserId = 1;
+                newReminder.SelectedUser = DbContext.Users.SingleOrDefault(f => f.UserId == newReminder.UserId);
             }
 
             if (newReminder.SelectedUser == null) { throw new InvalidOperationException("The specified UserId was not found."); }
@@ -287,6 +285,10 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
         {
             // Name
             txtboxName.txtBox.Text = reminder.Name;
+            reminder.UserId = CurrentUserId;
+            reminder.SelectedUser = DbContext.Users.SingleOrDefault(f => f.UserId == reminder.UserId);
+            //reminder.FolderId = CurrentFolderId;
+            reminder.SelectedFolder = DbContext.Folders.SingleOrDefault(f => f.FolderId == reminder.FolderId);
 
             // Description
             txtboxDescription.txtBox.Text = reminder.Description ?? string.Empty;
@@ -387,7 +389,9 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
                             existingReminder.Periodic = currentReminder.Periodic;
                             existingReminder.TimeFrameId = currentReminder.TimeFrameId;
                             existingReminder.UserId = currentReminder.UserId;
-                            existingReminder.Folder = currentReminder.Folder;
+                            existingReminder.SelectedUser = currentReminder.SelectedUser;
+                            existingReminder.FolderId = currentReminder.FolderId;
+                            existingReminder.SelectedFolder = currentReminder.SelectedFolder;
 
                             dbContext.SaveChanges();
                             RefreshReminderList();

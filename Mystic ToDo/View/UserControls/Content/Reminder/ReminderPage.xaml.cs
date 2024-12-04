@@ -93,8 +93,8 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
                var searchResults = db.Reminders
                                     .Where(r => r.Name.Contains(searchValue) ||
                                                 r.Description.Contains(searchValue) ||
-                                                r.Folder.Contains(searchValue) ||
-                                                r.UserId.Contains(searchValue))
+                                                r.SelectedFolder.FolderName.Contains(searchValue) ||
+                                                r.SelectedUser.UserName.Contains(searchValue))
                                     .ToList();
                 return searchResults;
             }

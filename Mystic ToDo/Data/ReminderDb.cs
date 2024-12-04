@@ -39,14 +39,13 @@ namespace Mystic_ToDo.Database
             public DateTime? PeriodicAlarm { get; set; }
             public bool IsComplete { get; set; }
             
-            public string? Folder {  get; set; }
+            
             public int? FolderId { get; set; }
             [ForeignKey(nameof(FolderId))]
             public Folder? SelectedFolder { get; set; }
 
-            public string? UserId { get; set; }
-            public int? _UserId {  get; set; }
-            [ForeignKey(nameof(_UserId))]
+            public int? UserId {  get; set; }
+            [ForeignKey(nameof(UserId))]
             public User? SelectedUser { get; set; }
         }
 

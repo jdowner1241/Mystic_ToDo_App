@@ -7,23 +7,25 @@
         xmlns:header="clr-namespace:Mystic_ToDo.View.UserControls.Header"
         xmlns:customControls="clr-namespace:Mystic_ToDo.View.UserControls.CustomControls"
         xmlns:reminderPage="clr-namespace:Mystic_ToDo.View.UserControls.Content.Reminder"
+        xmlns:LoginPage="clr-namespace:Mystic_ToDo.View.UserControls.Content.LoginPage"
         mc:Ignorable="d"
-        Title="MainWindow" Height="720" Width="1280">
+        Title="Mystic ToDo" Height="720" Width="1280">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
             <RowDefinition/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
-        
-        <!-- MenuBar -->
+
+        <!-- MenuBar  -->
         <header:MenuBar Grid.Row="0"/>
 
         <!-- Content Section -->
-        <Grid Grid.Row="1">
-            <reminderPage:ReminderPage SelectedReminderId="{Binding SelectedEventId, Mode=TwoWay}" Grid.Row="0"/>
+         <Grid Grid.Row="1">
+            <reminderPage:ReminderPage  SelectedReminderId="{Binding SelectedEventId, Mode=TwoWay}"  Grid.Row="0"/>
             
-        </Grid>
+        </Grid> 
+        
 
         <!-- Footer -->
         <Rectangle Grid.Row="2" Fill="Gold"/>

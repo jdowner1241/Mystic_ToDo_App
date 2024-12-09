@@ -32,23 +32,9 @@
                 <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
                     <StackPanel>
                         <local:PersonalFolderItem Placeholder="Default" />
-                        <local:PersonalFolderItem Placeholder="Text" />
-                        <local:PersonalFolderItem Placeholder="Test" />
-                        <local:PersonalFolderItem Placeholder="Test" />
-                        <local:PersonalFolderItem Placeholder="Test" />
-                        <local:PersonalFolderItem Placeholder="Test" />
-                        <local:PersonalFolderItem Placeholder="Test" />
-                        <local:PersonalFolderItem Placeholder="Test" />
-                        <local:PersonalFolderItem Placeholder="Test" />
-                        <local:PersonalFolderItem Placeholder="Test" />
-                        <local:PersonalFolderItem Placeholder="Test" />
-                        <local:PersonalFolderItem Placeholder="Test" />
-                        <local:PersonalFolderItem Placeholder="Test" />
-                        <local:PersonalFolderItem Placeholder="Test" />
-                        <local:PersonalFolderItem Placeholder="Test" />
-                        <local:PersonalFolderItem Placeholder="Test" />
-                        <local:PersonalFolderItem Placeholder="Test" />
-                        <local:PersonalFolderItem Placeholder="Test" />
+                        <local:PersonalFolderItem Placeholder="School Reminders" />
+                        <local:PersonalFolderItem Placeholder="Work Reminders" />
+                        <local:PersonalFolderItem Placeholder="Important" />
                     </StackPanel>
                 </ScrollViewer>
             </Grid>

@@ -26,6 +26,7 @@ namespace Mystic_ToDo.Data
         public event EventHandler ReminderDataChanged;
 
 
+
         public void NotifyReminderDataChanged()
         {
             Debug.WriteLine("Notifying data change");

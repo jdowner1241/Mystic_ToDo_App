@@ -64,7 +64,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
             DataContext = this;
 
             DbContext = new ReminderContext();
-            LoadDataFromReminderPage();
+            //LoadDataFromReminderPage();
 
             var reminderEditor = (ReminderEditor)FindName("ReminderEditorContent");
             if (reminderEditor != null)

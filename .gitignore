@@ -366,3 +366,4 @@ FodyWeavers.xsd
 /Mystic ToDo/View/UserControls/Content/Reminder/ReminderContent/Task.xaml.cs
 /Mystic ToDo/View/UserControls/Content/Reminder/ReminderPage.xaml.cs
 /.gitignore
+/Mystic ToDo/View/UserControls/Content/Timetable/ReminderPage.xaml

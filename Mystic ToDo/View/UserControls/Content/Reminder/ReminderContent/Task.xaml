@@ -26,11 +26,11 @@
                     <ColumnDefinition Width="0.4*"/>
                 </Grid.ColumnDefinitions>
 
-                <Label x:Name="name" Content="{Binding ReminderName, UpdateSourceTrigger=PropertyChanged, Mode=Default}" Foreground="DarkOrange" Margin="10, 0" Grid.Row="0" Grid.Column="0"/>
-                <Label x:Name="description" Content="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=Default}" Foreground="DarkOrange" Margin="10, 0" Grid.Row="1" Grid.Column="0"/>
+                <Label x:Name="name" Content="{Binding ReminderName, UpdateSourceTrigger=PropertyChanged, Mode=Default}" Foreground="Black" Margin="10, 0" Grid.Row="0" Grid.Column="0"/>
+                <Label x:Name="description" Content="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=Default}" Foreground="Black" Margin="10, 0" Grid.Row="1" Grid.Column="0"/>
 
                 <Border BorderBrush="black" BorderThickness="2,0,0,0" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2"></Border>
-                <TextBlock x:Name="date" Text="{Binding Date, UpdateSourceTrigger=PropertyChanged, Mode=Default}" Foreground="DarkOrange" Margin="10, 0" Grid.Row="0" Grid.Column="1"/>
+                <TextBlock x:Name="date" Text="{Binding Date, UpdateSourceTrigger=PropertyChanged, Mode=Default}" Foreground="Black" Margin="10, 0" Grid.Row="0" Grid.Column="1"/>
 
                 <Grid Grid.Row="1" Grid.Column="1">
                     <Grid.ColumnDefinitions>
@@ -38,8 +38,8 @@
                         <ColumnDefinition Width="0.5*"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock x:Name="time" Text="{Binding Time, UpdateSourceTrigger=PropertyChanged, Mode=Default}" Foreground="DarkOrange" Margin="10, 0" Grid.Column="0" />
-                    <TextBlock x:Name="frequency" Text="{Binding Frequency, UpdateSourceTrigger=PropertyChanged, Mode=Default}" Foreground="DarkOrange" Margin="10, 0" Grid.Column="1" />
+                    <TextBlock x:Name="time" Text="{Binding Time, UpdateSourceTrigger=PropertyChanged, Mode=Default}" Foreground="Black" Margin="10, 0" Grid.Column="0" />
+                    <TextBlock x:Name="frequency" Text="{Binding Frequency, UpdateSourceTrigger=PropertyChanged, Mode=Default}" Foreground="Black" Margin="10, 0" Grid.Column="1" />
 
                 </Grid>
                

@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Mystic_ToDo.View.UserControls.Content.LoginPage
 {
     /// <summary>
-    /// Interaction logic for LoginPage1.xaml
+    /// Interaction logic for RegistrationPage.xaml
     /// </summary>
-    public partial class LoginPage : UserControl
+    public partial class RegistrationPage : UserControl
     {
-        public LoginPage()
+        public RegistrationPage()
         {
             InitializeComponent();
         }

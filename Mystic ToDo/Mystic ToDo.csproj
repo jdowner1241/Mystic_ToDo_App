@@ -112,11 +112,20 @@
       <DependentUpon>202412010107360_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="View\UserControls\Content\Calender\CalenderPage.xaml.cs">
+      <DependentUpon>CalenderPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\Content\LoginPage\LoginPage.cs">
+      <DependentUpon>HomeScreen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\UserControls\Content\LoginPage\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\UserControls\Content\LoginPage\LoginPageContent\LoginPageUser.xaml.cs">
       <DependentUpon>LoginPageUser.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\Content\LoginPage\RegistrationPage.xaml.cs">
+      <DependentUpon>RegistrationPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\UserControls\Content\Reminder\ReminderContent\DetailsPanel.xaml.cs">
       <DependentUpon>DetailsPanel.xaml</DependentUpon>
@@ -160,6 +169,12 @@
     <Compile Include="View\UserControls\Content\Reminder\ReminderPage.xaml.cs">
       <DependentUpon>ReminderPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\UserControls\Content\Time Tracker\TimetrackerPage.xaml.cs">
+      <DependentUpon>TimetrackerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\Content\Timetable\TimetablePage.xaml.cs">
+      <DependentUpon>TimetablePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\UserControls\CustomControls\ComboBoxWithLabel.xaml.cs">
       <DependentUpon>ComboBoxWithLabel.xaml</DependentUpon>
     </Compile>
@@ -196,11 +211,23 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\UserControls\Content\Calender\CalenderPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\Content\LoginPage\HomeScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\UserControls\Content\LoginPage\LoginPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\UserControls\Content\LoginPage\LoginPageContent\LoginPageUser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\Content\LoginPage\RegistrationPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -260,6 +287,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\UserControls\Content\Time Tracker\TimetrackerPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\Content\Timetable\TimetablePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\UserControls\CustomControls\ComboBoxWithLabel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -314,6 +349,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -324,8 +360,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="View\UserControls\Content\Calender\" />
-    <Folder Include="View\UserControls\Content\Time Tracker\" />
+    <Folder Include="View\UserControls\Content\Calender\CalenderContent\" />
+    <Folder Include="View\UserControls\Content\Time Tracker\TimeTrackerContent\" />
+    <Folder Include="View\UserControls\Content\Timetable\TImetableContent\" />
     <Folder Include="View\UserControls\Footer\" />
   </ItemGroup>
   <ItemGroup>

@@ -7,10 +7,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="200">
     <Grid>
-        <Border Background="LightGray" Margin="10, 5">
+        <Border x:Name="background" Background="{Binding Background, RelativeSource={RelativeSource AncestorType=UserControl}}" Margin="10, 5" >
             <TextBlock Text="{Binding Placeholder, UpdateSourceTrigger=PropertyChanged, Mode=Default}" FontSize="20" TextWrapping="WrapWithOverflow"
-               VerticalAlignment="Center" HorizontalAlignment="Center"/>
+               VerticalAlignment="Center" HorizontalAlignment="Center" />
         </Border>
-
+        
     </Grid>
 </UserControl>

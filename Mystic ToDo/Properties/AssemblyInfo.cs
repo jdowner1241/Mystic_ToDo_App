@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyTitle("Mystic ToDo")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Mystic Solutions")]
 [assembly: AssemblyProduct("Mystic ToDo")]
 [assembly: AssemblyCopyright("Copyright ©  2024")]
 [assembly: AssemblyTrademark("")]

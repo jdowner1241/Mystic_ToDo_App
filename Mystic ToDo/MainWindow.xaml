@@ -18,12 +18,12 @@
         </Grid.RowDefinitions>
 
         <!-- MenuBar  -->
-        <header:MenuBar Grid.Row="0"/>
+        <header:MenuBar x:Name="Menubar" Grid.Row="0"/>
 
         <!-- Content Section -->
-         <Grid Grid.Row="1">
-            <reminderPage:ReminderPage  SelectedReminderId="{Binding SelectedEventId, Mode=TwoWay}"  Grid.Row="0"/>
-            
+        <Grid Grid.Row="1" x:Name="CurrentPage">
+             
+  
         </Grid> 
         
 

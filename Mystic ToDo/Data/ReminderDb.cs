@@ -71,6 +71,8 @@ namespace Mystic_ToDo.Database
         {
             [Key]
             public int FolderId { get; set; }
+
+
             public string FolderName { get; set; }
         }
 
@@ -78,7 +80,21 @@ namespace Mystic_ToDo.Database
         {
             [Key]
             public int UserId { get; set; }
+
+            [Index(IsUnique = true)]
+            [MaxLength(450)]
             public string UserName { get; set; }
         }
+
+        public class MigrationHistory 
+        { 
+            [Key] 
+            public int Id { get; set; }
+
+            [Index(IsUnique = true)]
+            [MaxLength(450)]
+            public string Migration { get; set; } 
+        }
+
     }
 }

@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Mystic_ToDo.View.UserControls.Content.LoginPage
+namespace Mystic_ToDo.View.UserControls.Content.Time_Tracker
 {
     /// <summary>
-    /// Interaction logic for LoginPage1.xaml
+    /// Interaction logic for TimetrackerPage.xaml
     /// </summary>
-    public partial class LoginPage : UserControl
+    public partial class TimetrackerPage : UserControl
     {
-        public LoginPage()
+        public TimetrackerPage()
         {
             InitializeComponent();
         }

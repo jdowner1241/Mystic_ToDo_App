@@ -52,7 +52,8 @@ namespace Mystic_ToDo.View.UserControls.Content.LoginPage
                 if (user != null) 
                 {
                     LoginPageUser loginPageUser = new LoginPageUser();
-                    loginPageUser.Placeholder = user.UserName;
+                    loginPageUser.UserName = user.UserName;
+                    loginPageUser.UserNumber = user.UserId;
 
                     UserList.Children.Add(loginPageUser);
                 }

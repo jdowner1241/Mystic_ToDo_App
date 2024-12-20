@@ -34,16 +34,25 @@ namespace Mystic_ToDo.View.UserControls.Content.LoginPage.LoginPageContent
             this.MouseLeftButtonDown += this.OnMouseLeftButtonDown;
         }
 
-        private string placeholder;
-
+        private string username;
+        private int userNumber;
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public string Placeholder
+        public string UserName
         {
-            get { return placeholder; }
+            get { return username; }
             set
             {
-                placeholder = value;
+                username = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int UserNumber
+        {
+            get { return userNumber; }
+            set { 
+                userNumber = value; 
                 OnPropertyChanged();
             }
         }

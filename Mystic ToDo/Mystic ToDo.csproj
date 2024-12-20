@@ -184,8 +184,14 @@
     <Compile Include="View\UserControls\CustomControls\DateTimePicker.xaml.cs">
       <DependentUpon>DateTimePicker.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\UserControls\CustomControls\EmailBoxWithLabel.xaml.cs">
+      <DependentUpon>EmailBoxWithLabel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\UserControls\CustomControls\MenuBarButton.xaml.cs">
       <DependentUpon>MenuBarButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\CustomControls\PasswordBoxWithLabel.xaml.cs">
+      <DependentUpon>PasswordBoxWithLabel.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\UserControls\CustomControls\SwitchWithLabel.xaml.cs">
       <DependentUpon>SwitchWithLabel.xaml</DependentUpon>
@@ -307,7 +313,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\UserControls\CustomControls\EmailBoxWithLabel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\UserControls\CustomControls\MenuBarButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\CustomControls\PasswordBoxWithLabel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

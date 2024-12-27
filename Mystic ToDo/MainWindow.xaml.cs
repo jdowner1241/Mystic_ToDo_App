@@ -24,6 +24,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static Mystic_ToDo.Database.ReminderDb;
 
 namespace Mystic_ToDo
 {
@@ -41,6 +42,7 @@ namespace Mystic_ToDo
         private Calendar _calendar;
         private TimetablePage _timetablePage;
         private TimetrackerPage _timetrackerPage;
+        private int LoginId { get; set; }
 
         public int? SelectedReminderId
         {
@@ -86,7 +88,7 @@ namespace Mystic_ToDo
             //initialize your pages
             var _homeScreen = new HomeScreen();
             var _registrationPage = new RegistrationPage();
-            var _loginPage = new HomeScreen();
+            var _loginPage = new LoginPage();
             var _reminderPage = new ReminderPage();
             var _calenderPage = new CalenderPage();
             var _timetrackerPage = new TimetrackerPage();
@@ -101,16 +103,20 @@ namespace Mystic_ToDo
             switch (selectedPage)
             {
                 case SelectedPage.HomeScreen:
+                    _homeScreen.ChangetoLoginPage += OnLogin;
+                    _homeScreen.ChangetoRegistrationPage += OnRegistration;
+                    _homeScreen.ChangetoGuestUser += OnGuestLogin;
                     CurrentPage.Children.Add(_homeScreen);
                     Menubar.Visibility = Visibility.Collapsed;
                     break;
                 case SelectedPage.RegistrationPage:
+                    _registrationPage.ChangetoHomePage += OnHomeScreen;
+                    _registrationPage.RefreshedUserList += OnHomeScreen;
                     CurrentPage.Children.Add(_registrationPage);
                     Menubar.Visibility = Visibility.Collapsed;
                     break;
                 case SelectedPage.login:
-                    CurrentPage.Children.Add(_loginPage);
-                    Menubar.Visibility = Visibility.Collapsed;
+                    GoToLoginPage(_loginPage, LoginId);
                     break;
                 case SelectedPage.ReminderPage:
                     CurrentPage.Children.Add(_reminderPage);
@@ -150,12 +156,31 @@ namespace Mystic_ToDo
             SetCurrentPage(0);
         }
 
-        public void OnLogin()
+        public void OnLogin(int userId)
         {
-            SetCurrentPage(0);
+            LoginId = userId;
+            SetCurrentPage(2);
         }
 
-        public void OnLogout()
+        public void GoToLoginPage(LoginPage _loginPage, int userId)
+        {
+            _loginPage.UserNumber = userId;
+            CurrentPage.Children.Add(_loginPage);
+            Menubar.Visibility = Visibility.Collapsed;
+        }
+
+
+        public void OnGuestLogin(int userId)
+        {
+            SetCurrentPage(3);
+        }
+
+        public void OnRegistration()
+        {
+            SetCurrentPage(1);
+        }
+
+        public void OnLogout(int userId)
         {
             SetCurrentPage(0);
         }

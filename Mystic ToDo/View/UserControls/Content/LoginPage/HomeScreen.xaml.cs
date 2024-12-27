@@ -3,6 +3,7 @@ using Mystic_ToDo.Database;
 using Mystic_ToDo.View.UserControls.Content.LoginPage.LoginPageContent;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Common.CommandTrees;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,6 +27,10 @@ namespace Mystic_ToDo.View.UserControls.Content.LoginPage
         private LoginPageUser loginPageUser;
         private ReminderContext reminderContext;
 
+        public event Action<int> ChangetoLoginPage;
+        public event Action<int> ChangetoGuestUser;
+        public event Action ChangetoRegistrationPage; 
+
         public HomeScreen()
         {
             DataContext = this;
@@ -40,7 +45,7 @@ namespace Mystic_ToDo.View.UserControls.Content.LoginPage
         {
             var renewUserList = new ReminderContext().Users.ToList();
             return renewUserList;
-        } 
+        }
 
         //Create UI elements from the user list
         private void UpdateUI(IEnumerable<ReminderDb.User> users)
@@ -49,11 +54,12 @@ namespace Mystic_ToDo.View.UserControls.Content.LoginPage
 
             foreach (var user in users)
             {
-                if (user != null) 
+                if (user != null)
                 {
                     LoginPageUser loginPageUser = new LoginPageUser();
                     loginPageUser.UserName = user.UserName;
                     loginPageUser.UserNumber = user.UserId;
+                    loginPageUser.UserIdSelection += OnUserIdSelection;
 
                     UserList.Children.Add(loginPageUser);
                 }
@@ -65,6 +71,24 @@ namespace Mystic_ToDo.View.UserControls.Content.LoginPage
         {
             var userList = FetchUsers();
             UpdateUI(userList);
+        }
+
+        //Gets the user Id number that was selected
+        private void OnUserIdSelection(int selectedUserId)
+        {
+            if (selectedUserId == 1)
+            {
+                ChangetoGuestUser?.Invoke(selectedUserId);
+            }
+            else
+            {
+                ChangetoLoginPage?.Invoke(selectedUserId);
+            }
+        }
+
+        private void AddUser_Click(object sender, RoutedEventArgs e)
+        {
+            ChangetoRegistrationPage?.Invoke();
         }
     }
 }

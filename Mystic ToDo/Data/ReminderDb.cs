@@ -1,11 +1,13 @@
 ﻿using Mystic_ToDo.Data;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace Mystic_ToDo.Database
 {
@@ -84,6 +86,42 @@ namespace Mystic_ToDo.Database
             [Index(IsUnique = true)]
             [MaxLength(450)]
             public string UserName { get; set; }
+
+            [Index(IsUnique = true)]
+            [MaxLength(450)]
+            public string EmailAddress { get; set; }
+
+            public string Password { get; set; }
+        }
+
+        public class Calender
+        {
+            [Key]
+            public int CalenderId { get; set; }
+        }
+
+        public class Timetable
+        {
+            [Key]
+            public int TimetableId { get; set; }
+        }
+
+        public class TimeTrackerStopWatch
+        {
+            [Key]
+            public int TimeTrackerStopWatchId { get; set; }
+        }
+
+        public class TimeTrackerAlarm
+        {
+            [Key]
+            public int TimeTrackerAlarmId { get; set; }
+        }
+
+        public class TimeTrackerTimer
+        {
+            [Key]
+            public int TimeTrackerAlarmId { get; set; }
         }
 
         public class MigrationHistory 

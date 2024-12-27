@@ -38,6 +38,8 @@ namespace Mystic_ToDo.View.UserControls.Content.LoginPage.LoginPageContent
         private int userNumber;
         public event PropertyChangedEventHandler? PropertyChanged;
 
+        public event Action<int> UserIdSelection; 
+
         public string UserName
         {
             get { return username; }
@@ -84,7 +86,7 @@ namespace Mystic_ToDo.View.UserControls.Content.LoginPage.LoginPageContent
 
         private void OnMouseLeftButtonDown(object sender, MouseEventArgs e)
         {
-            
+            UserIdSelection?.Invoke(userNumber);
         }
     }
 }

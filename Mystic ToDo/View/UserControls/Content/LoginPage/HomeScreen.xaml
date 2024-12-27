@@ -26,10 +26,10 @@
 
             <Border Grid.Row="1" Background="Gray" MinHeight="50" Width="200" VerticalAlignment="Center">
                 <StackPanel x:Name="UserList">
-                  
+
                 </StackPanel>
             </Border>
-            <Button Grid.Row="2" Content="Add New User" Width="200" VerticalAlignment="Top"/>
+            <Button x:Name="AddUser" Grid.Row="2" Content="Add New User" Width="200" VerticalAlignment="Top" Click="AddUser_Click"/>
         </Grid>
     </Grid>
 </UserControl>

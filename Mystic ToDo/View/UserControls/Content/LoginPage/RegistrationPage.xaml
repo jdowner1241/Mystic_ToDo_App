@@ -4,9 +4,67 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Mystic_ToDo.View.UserControls.Content.LoginPage"
+             xmlns:CustomControls="clr-namespace:Mystic_ToDo.View.UserControls.CustomControls"  
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0"  Text="Registration" Foreground="Black" TextAlignment="Center" FontSize="40" VerticalAlignment="Center"/>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="250"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0" Background="#FFB8C3E8" Width="400">
+                <TextBlock x:Name="userName" Text="Create New User" 
+                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                       FontSize="30" FontWeight="Bold" Foreground="Black"/>
+            </Border>
+
+            <Border Grid.Row="1" Background="LightGray" Width="400">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <CustomControls:TxtBoxWithLabelWithoutClear Grid.Row="0" x:Name="txtName"
+                                                                VerticalContentAlignment="Center" Placeholder="User Name"/>
+
+                    <CustomControls:EmailBoxWithLabel Grid.Row="1"  x:Name="txtEmail"
+                                                      VerticalContentAlignment="Center" Placeholder="Email"/>
+
+                    <CustomControls:PasswordBoxWithLabel Grid.Row="2" x:Name="txtPassword"
+                                                         VerticalContentAlignment="Center" Placeholder="Password"/>
+
+                    <CustomControls:PasswordBoxWithLabel Grid.Row="3" x:Name="txtPassword2"
+                                                         VerticalContentAlignment="Center" Placeholder="Re-enter Password"/>
+                </Grid>
+
+
+            </Border>
+
+            <Border  Grid.Row="2" Background="Gray" Width="400">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0" x:Name="bCreateUser" Margin="10,10" Content="Create User" FontSize="15" Click="bCreateUser_Click" />
+                    <Button Grid.Column="1" x:Name="bCancel" Margin="10,10" Content="Cancel" FontSize="15" Click="bCancel_Click" />
+
+                </Grid>
+            </Border>
+        </Grid>
     </Grid>
 </UserControl>

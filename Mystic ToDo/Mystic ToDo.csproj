@@ -115,7 +115,7 @@
     <Compile Include="View\UserControls\Content\Calender\CalenderPage.xaml.cs">
       <DependentUpon>CalenderPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\UserControls\Content\LoginPage\LoginPage.cs">
+    <Compile Include="View\UserControls\Content\LoginPage\HomeScreen.xaml.cs">
       <DependentUpon>HomeScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\UserControls\Content\LoginPage\LoginPage.xaml.cs">
@@ -198,6 +198,9 @@
     </Compile>
     <Compile Include="View\UserControls\CustomControls\TxtBoxWithLabel.xaml.cs">
       <DependentUpon>TxtBoxWithLabel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\CustomControls\TxtBoxWithLabelWithoutClear.xaml.cs">
+      <DependentUpon>TxtBoxWithLabelWithoutClear.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\UserControls\Header\MenuBar.xaml.cs">
       <DependentUpon>MenuBar.xaml</DependentUpon>
@@ -330,6 +333,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\UserControls\CustomControls\TxtBoxWithLabel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\CustomControls\TxtBoxWithLabelWithoutClear.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

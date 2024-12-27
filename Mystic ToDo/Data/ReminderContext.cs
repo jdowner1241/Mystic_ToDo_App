@@ -24,6 +24,7 @@ namespace Mystic_ToDo.Data
         private ReminderPage _reminderPage;
 
         public event EventHandler ReminderDataChanged;
+        public event EventHandler UserDataChanged;
 
 
 
@@ -39,6 +40,22 @@ namespace Mystic_ToDo.Data
             SaveChanges();
             NotifyReminderDataChanged();
         }
+
+        public void NotifyUserDataChanged()
+        {
+            Debug.WriteLine("Notifying data change");
+            UserDataChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void SaveUser(ReminderDb.User user)
+        {
+            Users.Add(user);
+            SaveChanges();
+            NotifyUserDataChanged();
+        }
+
+       
+       
 
     }
 }

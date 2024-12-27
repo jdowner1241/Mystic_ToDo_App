@@ -34,7 +34,7 @@ namespace Mystic_ToDo.View.UserControls.Content.LoginPage
         }
 
         private string _userName;
-        private int _usernumber;
+        private int _userNumber;
         public event PropertyChangedEventHandler PropertyChanged;
 
         public string UserName
@@ -42,28 +42,33 @@ namespace Mystic_ToDo.View.UserControls.Content.LoginPage
             get { return _userName; }
             set
             {
-                using (var db = new ReminderContext())
-                {
-                    var user = db.Users.FirstOrDefault(u => u.UserId == UserNumber); 
-                    if (user != null) 
-                    { 
-                        _userName = user.UserName; 
-                    }
-                    else
-                    {
-                        _userName = value; // If user is not found, set the provided value
-                    } 
-                } 
-                OnPropertyChanged(); 
+                _userName = value;
+                OnPropertyChanged();
+                UpdateUserNameFromDatebase();
             }
         }
 
         public int UserNumber
         {
-            get { return _usernumber; }
+            get { return _userNumber; }
             set
             {
+                _userNumber = value;
                 OnPropertyChanged();
+                UpdateUserNameFromDatebase();
+            }
+        }
+
+        private void UpdateUserNameFromDatebase()
+        {
+            using (var db = new ReminderContext())
+            {
+                var user = db.Users.FirstOrDefault(u => u.UserId == UserNumber);
+                if (user != null)
+                {
+                    _userName = user.UserName;
+                    OnPropertyChanged(nameof(UserName));    
+                }
             }
         }
 

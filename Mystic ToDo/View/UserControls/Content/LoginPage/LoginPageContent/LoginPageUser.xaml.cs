@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Mystic_ToDo.Data;
+using Mystic_ToDo.View.UserControls.Content.Reminder;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -29,8 +31,6 @@ namespace Mystic_ToDo.View.UserControls.Content.LoginPage.LoginPageContent
             DataContext = this;
             InitializeComponent();
 
-            this.MouseEnter += this.OnMouseEnter;
-            this.MouseLeave += this.OnMouseLeave;
             this.MouseLeftButtonDown += this.OnMouseLeftButtonDown;
         }
 
@@ -38,7 +38,8 @@ namespace Mystic_ToDo.View.UserControls.Content.LoginPage.LoginPageContent
         private int userNumber;
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public event Action<int> UserIdSelection; 
+        public event Action<int> UserIdSelection;
+        public event Action RefreshUserList;
 
         public string UserName
         {
@@ -64,29 +65,86 @@ namespace Mystic_ToDo.View.UserControls.Content.LoginPage.LoginPageContent
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void OnMouseEnter(object sender, MouseEventArgs e)
+
+        public Brush SetBackground
         {
-           background.Background = Brushes.LightBlue;
+            get { return (Brush)GetValue(SetBackgroundProperty); }
+            set { SetValue(SetBackgroundProperty, value); }
         }
 
-        private void OnMouseLeave(object sender, MouseEventArgs e)
-        {
-           background.Background = Brushes.LightGray;
-        }
-
-
-        public Brush Background
-        {
-            get { return (Brush)GetValue(BackgroundProperty); }
-            set { SetValue(BackgroundProperty, value); }
-        }
-
-        public static readonly DependencyProperty BackgroudProperty =
-            DependencyProperty.Register("Background", typeof(Brush), typeof(LoginPageUser), new PropertyMetadata(Brushes.LightGray));
+        public static readonly DependencyProperty SetBackgroundProperty =
+            DependencyProperty.Register("SetBackground", typeof(Brush), typeof(LoginPageUser), new PropertyMetadata(Brushes.LightGray));
 
         private void OnMouseLeftButtonDown(object sender, MouseEventArgs e)
         {
             UserIdSelection?.Invoke(userNumber);
+        }
+
+        private void DeleteUser_Click(object sender, RoutedEventArgs e)
+        {
+            DeleteUser.Foreground = Brushes.Yellow;
+
+            MessageBoxResult result = System.Windows.MessageBox.Show(
+                $" Do you want to Delete this User? \n User Name: {UserName}",
+                "Delete User !!!",
+                MessageBoxButton.OKCancel,
+                MessageBoxImage.Warning
+            );
+
+            if (result == MessageBoxResult.OK) 
+            {
+                using (var dbContext = new ReminderContext())
+                {
+                    var selectedUser = dbContext.Users.SingleOrDefault(r => r.UserId == userNumber);
+
+                    if (selectedUser != null)
+                    {
+                        System.Windows.MessageBox.Show($"User Removed!!! \n\nUser ID: {userNumber} \nReminder Name: {username}");
+                        dbContext.Users.Remove(selectedUser);
+
+                        dbContext.SaveChanges();
+                        OnRefreshUserList();
+                    }
+                    else
+                    {
+                        System.Windows.MessageBox.Show("Reminder not found");
+                    }
+                }
+            }
+            else
+            {
+
+            }
+        }
+
+        private void OnRefreshUserList()
+        {
+            RefreshUserList?.Invoke();
+        }
+
+        private void DeleteUser_MouseEnter(object sender, MouseEventArgs e)
+        {
+            DeleteUser.Background = Brushes.Red;
+        }
+
+        private void DeleteUser_MouseLeave(object sender, MouseEventArgs e)
+        {
+            DeleteUser.Background = Brushes.LightGray;
+        }
+
+        private void background_MouseEnter(object sender, MouseEventArgs e)
+        {
+            background.Background = Brushes.LightBlue;
+        }
+
+        private void background_MouseLeave(object sender, MouseEventArgs e)
+        {
+            background.Background = Brushes.LightGray;
+        }
+
+        private void DeleteUser_GotFocus(object sender, RoutedEventArgs e)
+        {
+           
         }
     }
 }

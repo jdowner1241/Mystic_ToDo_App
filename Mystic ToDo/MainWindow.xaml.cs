@@ -42,7 +42,7 @@ namespace Mystic_ToDo
         private Calendar _calendar;
         private TimetablePage _timetablePage;
         private TimetrackerPage _timetrackerPage;
-        private int LoginId { get; set; }
+        private int _loginId; 
 
         public int? SelectedReminderId
         {
@@ -63,6 +63,12 @@ namespace Mystic_ToDo
             CalenderPage = 4,
             TimetrackerPage = 5,
             TimetablePage = 6
+        }
+
+        public int LoginId
+        {
+            get {  return _loginId; }
+            set { _loginId = value; }
         }
 
         public MainWindow()
@@ -119,8 +125,7 @@ namespace Mystic_ToDo
                     GoToLoginPage(_loginPage, LoginId);
                     break;
                 case SelectedPage.ReminderPage:
-                    CurrentPage.Children.Add(_reminderPage);
-                    Menubar.Visibility = Visibility.Visible;
+                    GoToReminderPage(_reminderPage, LoginId);
                     break;
                 case SelectedPage.CalenderPage:
                     CurrentPage.Children.Add(_calenderPage);
@@ -164,14 +169,31 @@ namespace Mystic_ToDo
 
         public void GoToLoginPage(LoginPage _loginPage, int userId)
         {
+            _loginPage.ChangetoHomePage += OnHomeScreen;
+            _loginPage.ChangetoReminderPage += AfterLogin;
             _loginPage.UserNumber = userId;
             CurrentPage.Children.Add(_loginPage);
             Menubar.Visibility = Visibility.Collapsed;
         }
 
+        public void AfterLogin (int userId)
+        {
+            LoginId = userId;
+            SetCurrentPage(3);
+        }
+
+        public void GoToReminderPage (ReminderPage _reminderPage, int userId)
+        {
+            _reminderPage.UserId = userId;
+            
+            CurrentPage.Children.Add(_reminderPage);
+            Menubar.Visibility = Visibility.Visible;
+        }
+
 
         public void OnGuestLogin(int userId)
         {
+            LoginId = userId;
             SetCurrentPage(3);
         }
 

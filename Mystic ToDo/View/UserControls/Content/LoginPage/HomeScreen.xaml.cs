@@ -60,6 +60,7 @@ namespace Mystic_ToDo.View.UserControls.Content.LoginPage
                     loginPageUser.UserName = user.UserName;
                     loginPageUser.UserNumber = user.UserId;
                     loginPageUser.UserIdSelection += OnUserIdSelection;
+                    loginPageUser.RefreshUserList += loadUserList; 
 
                     UserList.Children.Add(loginPageUser);
                 }

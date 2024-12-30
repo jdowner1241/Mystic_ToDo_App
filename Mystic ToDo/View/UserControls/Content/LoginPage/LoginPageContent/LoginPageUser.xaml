@@ -4,13 +4,24 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Mystic_ToDo.View.UserControls.Content.LoginPage.LoginPageContent"
+             xmlns:fa="http://schemas.fontawesome.com/icons/"
+             xmlns:fa1="http://schemas.fontawesome.io/icons/"
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="200">
     <Grid>
-        <Border x:Name="background" Background="{Binding Background, RelativeSource={RelativeSource AncestorType=UserControl}}" Margin="10, 5" >
-            <TextBlock Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged, Mode=Default}" FontSize="20" TextWrapping="WrapWithOverflow"
-               VerticalAlignment="Center" HorizontalAlignment="Center" />
+        <Grid.ColumnDefinitions>
+             <ColumnDefinition Width="*"/>
+             <ColumnDefinition Width="30"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="0" x:Name="background" Background="{Binding SetBackground, RelativeSource={RelativeSource AncestorType=UserControl}}" Margin="5, 7" MouseEnter="background_MouseEnter" MouseLeave="background_MouseLeave" >
+                <TextBlock Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged, Mode=Default}" FontSize="20" TextWrapping="WrapWithOverflow"
+                             VerticalAlignment="Center" HorizontalAlignment="Center" />
         </Border>
-        
+
+        <Button x:Name="DeleteUser" Grid.Column="1" Foreground="Gray" Margin="5, 10"
+                Click="DeleteUser_Click" MouseEnter="DeleteUser_MouseEnter" MouseLeave="DeleteUser_MouseLeave" GotFocus="DeleteUser_GotFocus">
+            <fa1:ImageAwesome Icon="Trash" Width="15" Height="15" Foreground="OrangeRed"/>
+        </Button>
     </Grid>
 </UserControl>

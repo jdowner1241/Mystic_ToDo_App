@@ -13,7 +13,7 @@
         </Grid.RowDefinitions>
 
         <!--Header-->
-        <Label Grid.Row="0" Margin="10,5,10,5" Content="Favorate" HorizontalContentAlignment="Left" VerticalContentAlignment="center"   
+        <Label Grid.Row="0" Margin="10,5,10,5" Content="Favorate" HorizontalContentAlignment="Left" VerticalContentAlignment="Top"   
                FontSize="25" FontWeight="Bold" Foreground="Blue" FontStyle="Italic" />
             
         <!--Folders-->

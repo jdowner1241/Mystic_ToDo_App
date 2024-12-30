@@ -36,10 +36,10 @@
                     </Grid.RowDefinitions>
 
 
-                    <CustomControls:EmailBoxWithLabel Grid.Row="0" VerticalContentAlignment="Center" Placeholder="Email"/>
+                    <CustomControls:EmailBoxWithLabel x:Name="EmailBox" Grid.Row="0" VerticalContentAlignment="Center" Placeholder="Email"/>
 
 
-                    <CustomControls:PasswordBoxWithLabel Grid.Row="1" VerticalContentAlignment="Center" Placeholder="Password"
+                    <CustomControls:PasswordBoxWithLabel x:Name="PasswordBox" Grid.Row="1" VerticalContentAlignment="Center" Placeholder="Password"
                                                     TextOptions.TextFormattingMode="Ideal"/>
                 </Grid>
 
@@ -53,8 +53,8 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <Button Grid.Column="0" x:Name="bLogin" Margin="10,10" Content="Login" FontSize="15" />
-                    <Button Grid.Column="1" x:Name="bCancel" Margin="10,10" Content="Cancel" FontSize="15" />
+                    <Button Grid.Column="0" x:Name="bLogin" Margin="10,10" Content="Login" FontSize="15" Click="bLogin_Click" />
+                    <Button Grid.Column="1" x:Name="bCancel" Margin="10,10" Content="Cancel" FontSize="15" Click="bCancel_Click" />
 
                 </Grid>
             </Border>

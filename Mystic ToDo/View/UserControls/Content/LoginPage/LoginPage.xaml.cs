@@ -1,4 +1,5 @@
 ﻿using Mystic_ToDo.Data;
+using Mystic_ToDo.View.UserControls.CustomControls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,8 +24,7 @@ namespace Mystic_ToDo.View.UserControls.Content.LoginPage
     /// </summary>
     public partial class LoginPage : UserControl, INotifyPropertyChanged
     {
-        private ReminderContext _context;
-
+    
         public LoginPage()
         {
             DataContext = this;
@@ -33,9 +33,13 @@ namespace Mystic_ToDo.View.UserControls.Content.LoginPage
             _context = new ReminderContext();
         }
 
+        private ReminderContext _context;
         private string _userName;
         private int _userNumber;
+
         public event PropertyChangedEventHandler PropertyChanged;
+        public Action ChangetoHomePage;
+        public Action<int> ChangetoReminderPage;
 
         public string UserName
         {
@@ -75,6 +79,42 @@ namespace Mystic_ToDo.View.UserControls.Content.LoginPage
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void bCancel_Click(object sender, RoutedEventArgs e)
+        {
+            ChangetoHomePage?.Invoke();
+        }
+
+        private void bLogin_Click(object sender, RoutedEventArgs e)
+        {
+            ValidationCheck();
+        }
+
+        private void ValidationCheck()
+        {
+            using (var db = new ReminderContext())
+            {
+                var user = db.Users.FirstOrDefault(u => u.UserId == UserNumber);
+                if (user != null)
+                {
+                   if (!string.IsNullOrEmpty(EmailBox.EmailTextBox.Text) && EmailBox.EmailTextBox.Text == user.EmailAddress)
+                    {
+                        if(!string.IsNullOrEmpty(PasswordBox.PasswordBox.Password) && PasswordBox.PasswordBox.Password == user.Password)
+                        {
+                           ChangetoReminderPage?.Invoke(UserNumber);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Email or Password incorrect.");
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Email or Password incorrect.");
+                    }
+                }
+            }
         }
     }
 }

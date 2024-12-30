@@ -19,17 +19,18 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="30"/>
+                <RowDefinition Height="40"/>
             </Grid.RowDefinitions>
 
             <TextBlock Grid.Row="0"  Text="Users" Foreground="Black" TextAlignment="Center" FontSize="30"/>
 
-            <Border Grid.Row="1" Background="Gray" MinHeight="50" Width="200" VerticalAlignment="Center">
+            <Border Grid.Row="1" Background="Gray" MinHeight="60" Width="250" VerticalAlignment="Center">
                 <StackPanel x:Name="UserList">
 
                 </StackPanel>
             </Border>
-            <Button x:Name="AddUser" Grid.Row="2" Content="Add New User" Width="200" VerticalAlignment="Top" Click="AddUser_Click"/>
+            <Button x:Name="AddUser" Grid.Row="2" Content="Add New User" FontSize="15"
+                    Width="250" VerticalAlignment="Top" Click="AddUser_Click"/>
         </Grid>
     </Grid>
 </UserControl>

@@ -4,9 +4,11 @@ using Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,11 +21,13 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
     /// <summary>
     /// Interaction logic for ReminderPage.xaml
     /// </summary>
-    public partial class ReminderPage : UserControl
+    public partial class ReminderPage : UserControl, INotifyPropertyChanged
     {
         private readonly ReminderContext DbContext;
         private bool _isUpdating = false;
         private string searchValue;
+        private int _userId;
+        private string _userName;
         private TaskList CurrentTaskList { get; set; }
         private TaskList SearchedTaskList { get; set; }
 
@@ -35,6 +39,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
         public event EventHandler ReminderListChanged;
         public event Action<List<int?>> SelectedReminderListChanged;
         public event Action<string> ReminderPageSearchValueChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public int? SelectedReminderId
         {
@@ -48,6 +53,36 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
             set => SetValue(SelectedReminderIdListProperty, value);
         }
 
+        public int UserId
+        {
+            get => _userId;
+            set
+            {
+                _userId = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string UserName
+        {
+            get 
+            {
+                using (var db = new ReminderContext())
+                {
+                    var user = db.Users.FirstOrDefault(u => u.UserId == UserId);
+                    if (user != null)
+                    {
+                        _userName = user.UserName; 
+                    }
+                }
+                return _userName;
+            }
+            set
+            {
+                _userName = value;
+                OnPropertyChanged(nameof(UserName));
+            }
+        }
 
         public string SearchValue
         {
@@ -56,6 +91,11 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
             {
                 searchValue = value;
             }
+        }
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public ReminderPage()

@@ -16,8 +16,35 @@
             <ColumnDefinition Width=".2*"/>
         </Grid.ColumnDefinitions>
 
-        <!-- Folder List -->
-        <reminderEditor:PersonalFolder1 x:Name="PersonalFolder" Grid.Column="0"/>
+        <!-- UserInfo and Folder List -->
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Margin="10, 5">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Signed In: " FontWeight="Bold"
+                           HorizontalAlignment="Right"/>
+                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged, Mode=Default}"
+                           HorizontalAlignment="Left"/>
+                <Button Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0" Content="Logout" Width="50" 
+                        VerticalAlignment="Center" HorizontalContentAlignment="Center"/>
+            </Grid>
+
+            <reminderEditor:PersonalFolder1 x:Name="PersonalFolder" Grid.Row="1"/>
+            
+        </Grid>
+        
         
 
         <!-- Main Reminder Window -->

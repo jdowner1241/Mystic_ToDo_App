@@ -30,7 +30,7 @@
                 </Grid.ColumnDefinitions>
 
                 <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
-                    <StackPanel>
+                    <StackPanel x:Name="FolderList">
                         <local:PersonalFolderItem Placeholder="Default" />
                         <local:PersonalFolderItem Placeholder="School Reminders" />
                         <local:PersonalFolderItem Placeholder="Work Reminders" />

@@ -30,18 +30,33 @@
             { 
                 context.Users.AddOrUpdate(
                     u => u.UserId, 
-                    new ReminderDb.User { UserId = 1, UserName = "Guest" }); 
+                    new ReminderDb.User { UserId = 1, UserName = "Guest", EmailAddress = string.Empty, Password = string.Empty });
+
+                context.SaveChanges();
+
+                if (!context.Folders.Any(f => f.FolderId == 1))
+                {
+                    context.Folders.AddOrUpdate(
+                    f => f.FolderId,
+                    new ReminderDb.Folder
+                    {
+                        FolderId = 1,
+                        FolderName = "Default",
+                        UserId = 1
+                    }
+                    );
+                }
+                context.SaveChanges();
             }
 
-            // Seed Folder table but first check if it exist
-            if (!context.Folders.Any(f => f.FolderId == 1)) 
-            { 
-                context.Folders.AddOrUpdate(
-                f => f.FolderId, new ReminderDb.Folder { FolderId = 1, FolderName = "Default" });
+            /*// Seed Folder table but first check if it exist
+            
+            if (context.Users.Any(u => u.UserId == 1))
+            {
+                
             }
-
             context.SaveChanges();
-
+*/
         }
     }
 }

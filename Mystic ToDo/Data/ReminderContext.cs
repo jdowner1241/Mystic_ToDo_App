@@ -16,10 +16,18 @@ namespace Mystic_ToDo.Data
 {
     public class ReminderContext : DbContext
     {
+        public DbSet<ReminderDb.User> Users { get; set; }
         public DbSet<ReminderDb.Reminder> Reminders { get; set; }
         public DbSet<ReminderDb.TimeFrame> TimeFrames { get; set; }
         public DbSet<ReminderDb.Folder> Folders { get; set; }
-        public DbSet<ReminderDb.User> Users { get; set; }
+        public DbSet<ReminderDb.Calender> Calenders { get; set; }
+        public DbSet<ReminderDb.Timetable> Timetables { get; set; }
+        public DbSet<ReminderDb.TimetableDay> TimetableDays { get; set; }
+        public DbSet<ReminderDb.DayInWeek> DayInWeeks { get; set; }
+        public DbSet<ReminderDb.TimeTrackerStopWatch> TimeTrackerStopWatchs { get; set; }
+        public DbSet<ReminderDb.TimeTrackerStopWatchLap> TimeTrackerStopWatchLaps { get; set; }
+        public DbSet<TimeTrackerAlarm> TimeTrackerAlarms { get; set; }
+        public DbSet<TimeTrackerTimer> TimeTrackerTimers { get; set; }
 
         private ReminderPage _reminderPage;
 

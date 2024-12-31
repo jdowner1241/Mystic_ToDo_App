@@ -185,7 +185,7 @@ namespace Mystic_ToDo
         public void GoToReminderPage (ReminderPage _reminderPage, int userId)
         {
             _reminderPage.UserId = userId;
-            
+            _reminderPage.Signout += OnLogout;
             CurrentPage.Children.Add(_reminderPage);
             Menubar.Visibility = Visibility.Visible;
         }
@@ -202,7 +202,7 @@ namespace Mystic_ToDo
             SetCurrentPage(1);
         }
 
-        public void OnLogout(int userId)
+        public void OnLogout()
         {
             SetCurrentPage(0);
         }

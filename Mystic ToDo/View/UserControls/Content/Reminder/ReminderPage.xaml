@@ -37,8 +37,8 @@
                            HorizontalAlignment="Right"/>
                 <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged, Mode=Default}"
                            HorizontalAlignment="Left"/>
-                <Button Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0" Content="Logout" Width="50" 
-                        VerticalAlignment="Center" HorizontalContentAlignment="Center"/>
+                <Button x:Name="bSignOut" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0" Content="Logout" Width="50" 
+                        VerticalAlignment="Center" HorizontalContentAlignment="Center" Click="bSignOut_Click"/>
             </Grid>
 
             <reminderEditor:PersonalFolder1 x:Name="PersonalFolder" Grid.Row="1"/>

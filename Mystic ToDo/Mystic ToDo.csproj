@@ -116,9 +116,13 @@
     </ApplicationDefinition>
     <Compile Include="Data\ReminderContext.cs" />
     <Compile Include="Data\ReminderDb.cs" />
-    <Compile Include="Migrations\202412010107360_InitialCreate.cs" />
-    <Compile Include="Migrations\202412010107360_InitialCreate.Designer.cs">
-      <DependentUpon>202412010107360_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\202412312208487_InitialCreate.cs" />
+    <Compile Include="Migrations\202412312208487_InitialCreate.Designer.cs">
+      <DependentUpon>202412312208487_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202412312222345_RecreateFoldersTable.cs" />
+    <Compile Include="Migrations\202412312222345_RecreateFoldersTable.Designer.cs">
+      <DependentUpon>202412312222345_RecreateFoldersTable.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="View\UserControls\Content\Calender\CalenderPage.xaml.cs">
@@ -372,8 +376,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Migrations\202412010107360_InitialCreate.resx">
-      <DependentUpon>202412010107360_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202412312208487_InitialCreate.resx">
+      <DependentUpon>202412312208487_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202412312222345_RecreateFoldersTable.resx">
+      <DependentUpon>202412312222345_RecreateFoldersTable.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

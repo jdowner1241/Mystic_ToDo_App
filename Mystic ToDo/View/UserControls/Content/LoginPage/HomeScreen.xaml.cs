@@ -40,7 +40,7 @@ namespace Mystic_ToDo.View.UserControls.Content.LoginPage
             loadUserList();
         }
 
-        //FetchUser List
+        //FetchUser List from database
         private List<ReminderDb.User> FetchUsers()
         {
             var renewUserList = new ReminderContext().Users.ToList();

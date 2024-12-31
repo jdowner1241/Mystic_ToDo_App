@@ -39,6 +39,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
         public event EventHandler ReminderListChanged;
         public event Action<List<int?>> SelectedReminderListChanged;
         public event Action<string> ReminderPageSearchValueChanged;
+        public event Action Signout;
         public event PropertyChangedEventHandler PropertyChanged;
 
         public int? SelectedReminderId
@@ -288,6 +289,11 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
         public virtual void OnReminderListChanged()
         {
             ReminderListChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void bSignOut_Click(object sender, RoutedEventArgs e)
+        {
+            Signout?.Invoke();
         }
     }
 }

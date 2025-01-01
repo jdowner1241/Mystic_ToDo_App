@@ -45,10 +45,10 @@
                 <ColumnDefinition Width=".25*"/>
             </Grid.ColumnDefinitions>
 
-            <customControls:MenuBarButton Grid.Column="0" Margin="20,5" Placeholder="Reminders"/>
-            <customControls:MenuBarButton Grid.Column="1" Margin="20,5" Placeholder="Calender" Loaded="MenuBarButton_Loaded"/>
-            <customControls:MenuBarButton Grid.Column="2" Margin="20,5" Placeholder="Timetable"/>
-            <customControls:MenuBarButton Grid.Column="3" Margin="20,5" Placeholder="Time Tracker" />
+            <customControls:MenuBarButton x:Name="bReminderpage" Grid.Column="0" Margin="20,5" Placeholder="Reminders" Click="MenuButton_Click"/>
+            <customControls:MenuBarButton x:Name="bCalenderpage" Grid.Column="1" Margin="20,5" Placeholder="Calender" Click="MenuButton_Click"/>
+            <customControls:MenuBarButton x:Name="bTimetablepage" Grid.Column="2" Margin="20,5" Placeholder="Timetable" Click="MenuButton_Click"/>
+            <customControls:MenuBarButton x:Name="bTimeTrackerpage" Grid.Column="3" Margin="20,5" Placeholder="Time Tracker" Click="MenuButton_Click" />
             
         </Grid>
     </Grid>

@@ -25,6 +25,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using static Mystic_ToDo.Database.ReminderDb;
+using System.CodeDom;
 
 namespace Mystic_ToDo
 {
@@ -61,8 +62,8 @@ namespace Mystic_ToDo
             login = 2,
             ReminderPage = 3,
             CalenderPage = 4,
-            TimetrackerPage = 5,
-            TimetablePage = 6
+            TimetablePage = 5,
+            TimetrackerPage = 6
         }
 
         public int LoginId
@@ -87,6 +88,10 @@ namespace Mystic_ToDo
 
             OnHomeScreen();
 
+            Menubar.GotoReminderPage += AfterLoginSwitchpage;
+            Menubar.GotoCalenderPage += AfterLoginSwitchpage;
+            Menubar.GotoTimetablePage += AfterLoginSwitchpage;
+            Menubar.GotoTimetrackerPage += AfterLoginSwitchpage;
         }
 
         private void SetCurrentPage(int selectPage)
@@ -113,12 +118,14 @@ namespace Mystic_ToDo
                     _homeScreen.ChangetoRegistrationPage += OnRegistration;
                     _homeScreen.ChangetoGuestUser += OnGuestLogin;
                     CurrentPage.Children.Add(_homeScreen);
+                    Menubar.UserId = 0;
                     Menubar.Visibility = Visibility.Collapsed;
                     break;
                 case SelectedPage.RegistrationPage:
                     _registrationPage.ChangetoHomePage += OnHomeScreen;
                     _registrationPage.RefreshedUserList += OnHomeScreen;
                     CurrentPage.Children.Add(_registrationPage);
+                    Menubar.UserId = 0;
                     Menubar.Visibility = Visibility.Collapsed;
                     break;
                 case SelectedPage.login:
@@ -131,12 +138,12 @@ namespace Mystic_ToDo
                     CurrentPage.Children.Add(_calenderPage);
                     Menubar.Visibility = Visibility.Visible;
                     break;
-                case SelectedPage.TimetrackerPage:
-                    CurrentPage.Children.Add(_timetrackerPage);
-                    Menubar.Visibility = Visibility.Visible;
-                    break;
                 case SelectedPage.TimetablePage:
                     CurrentPage.Children.Add(_timetablePage);
+                    Menubar.Visibility = Visibility.Visible;
+                    break;
+                case SelectedPage.TimetrackerPage:
+                    CurrentPage.Children.Add(_timetrackerPage);
                     Menubar.Visibility = Visibility.Visible;
                     break;
                 default:
@@ -182,10 +189,36 @@ namespace Mystic_ToDo
             SetCurrentPage(3);
         }
 
+        public void AfterLoginSwitchpage(int userId, int pageNumber)
+        {
+            if (userId != 0)
+            {
+               switch(pageNumber)
+                {
+                    case 1:
+                        SetCurrentPage(3);
+                        break;
+                    case 2:
+                        SetCurrentPage(4);
+                        break;
+                    case 3:
+                        SetCurrentPage(5);
+                        break;
+                    case 4: 
+                        SetCurrentPage(6);
+                        break;
+                    default:
+                        Debug.Write("User not selected");
+                        break;
+                }
+            }
+        }
+
         public void GoToReminderPage (ReminderPage _reminderPage, int userId)
         {
             _reminderPage.UserId = userId;
             _reminderPage.Signout += OnLogout;
+            Menubar.UserId = userId;
             CurrentPage.Children.Add(_reminderPage);
             Menubar.Visibility = Visibility.Visible;
         }

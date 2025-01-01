@@ -22,6 +22,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Time_Tracker
     {
         public TimetrackerPage()
         {
+            DataContext = this;
             InitializeComponent();
         }
     }

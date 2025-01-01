@@ -22,6 +22,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Calender
     {
         public CalenderPage()
         {
+            DataContext = this;
             InitializeComponent();
         }
     }

@@ -22,6 +22,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Timetable
     {
         public TimetablePage()
         {
+            DataContext = this;
             InitializeComponent();
         }
     }

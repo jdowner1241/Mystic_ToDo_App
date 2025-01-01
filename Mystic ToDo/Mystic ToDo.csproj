@@ -9,7 +9,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>Mystic_ToDo</RootNamespace>
     <AssemblyName>Mystic ToDo</AssemblyName>
-    <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -121,6 +121,12 @@
       <DependentUpon>202501010225211_IntialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="View\UserControls\Content\Calender\CalenderContent\CalenderItemControls.xaml.cs">
+      <DependentUpon>CalenderItemControls.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\Content\Calender\CalenderContent\CalenderMenuButton.xaml.cs">
+      <DependentUpon>CalenderMenuButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\UserControls\Content\Calender\CalenderPage.xaml.cs">
       <DependentUpon>CalenderPage.xaml</DependentUpon>
     </Compile>
@@ -229,6 +235,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\UserControls\Content\Calender\CalenderContent\CalenderItemControls.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\Content\Calender\CalenderContent\CalenderMenuButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\UserControls\Content\Calender\CalenderPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -395,7 +409,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="View\UserControls\Content\Calender\CalenderContent\" />
     <Folder Include="View\UserControls\Content\Time Tracker\TimeTrackerContent\" />
     <Folder Include="View\UserControls\Content\Timetable\TImetableContent\" />
     <Folder Include="View\UserControls\Footer\" />

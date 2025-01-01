@@ -3,65 +3,14 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class IntialCreate : DbMigration
+    public partial class InitialCreate : DbMigration
     {
         public override void Up()
         {
-            CreateTable(
-                "dbo.Users",
-                c => new
-                {
-                    UserId = c.Int(nullable: false, identity: true),
-                    UserName = c.String(maxLength: 450),
-                    EmailAddress = c.String(maxLength: 450),
-                    Password = c.String(),
-                })
-                .PrimaryKey(t => t.UserId)
-                .Index(t => t.UserName, unique: true)
-                .Index(t => t.EmailAddress, unique: true);
-
-            CreateTable(
-                "dbo.Folders",
-                c => new
-                {
-                    FolderId = c.Int(nullable: false, identity: true),
-                    FolderName = c.String(maxLength: 450, nullable: false),
-                    UserId = c.Int(nullable: false),
-                })
-                .PrimaryKey(t => t.FolderId)
-                .ForeignKey("dbo.Users", t => t.UserId, cascadeDelete: true)
-                .Index(t => t.FolderName, unique: true)
-                .Index(t => t.UserId);
-
-            CreateTable(
-                "dbo.TimeFrames",
-                c => new
-                {
-                    TimeFrameId = c.Int(nullable: false),
-                    Name = c.String(),
-                })
-                .PrimaryKey(t => t.TimeFrameId);
-
-            CreateTable(
-                "dbo.Reminders",
-                c => new
-                {
-                    Id = c.Int(nullable: false, identity: true),
-                    Name = c.String(),
-                    Description = c.String(),
-                    HasAlarms = c.Boolean(nullable: false),
-                    Alarm = c.DateTime(),
-                    Periodic = c.Boolean(nullable: false),
-                    TimeFrameId = c.Int(nullable: false),
-                    PeriodicAlarm = c.DateTime(),
-                    IsComplete = c.Boolean(nullable: false),
-                    UserId = c.Int(nullable: false),
-                    FolderId = c.Int(nullable: false),
-                })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.TimeFrames", t => t.TimeFrameId, cascadeDelete: true)
-                .Index(t => t.TimeFrameId);
-
+            DropForeignKey("dbo.Reminders", "FolderId", "dbo.Folders");
+            DropForeignKey("dbo.Reminders", "UserId", "dbo.Users");
+            DropIndex("dbo.Reminders", new[] { "FolderId" });
+            DropIndex("dbo.Reminders", new[] { "UserId" });
             CreateTable(
                 "dbo.Calenders",
                 c => new
@@ -84,7 +33,6 @@
                     })
                 .PrimaryKey(t => t.DayInWeekId);
             
-
             CreateTable(
                 "dbo.TimetableDays",
                 c => new
@@ -169,18 +117,24 @@
                 .PrimaryKey(t => t.TimeTrackerTimerId)
                 .ForeignKey("dbo.Users", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId);
-
-            // Add foreign key constraints for Reminders table
-            AddForeignKey("dbo.Reminders", "FolderId", "dbo.Folders", "FolderId", cascadeDelete: true); 
-            AddForeignKey("dbo.Reminders", "UserId", "dbo.Users", "UserId", cascadeDelete: false);
+            
+            AddColumn("dbo.Folders", "UserId", c => c.Int(nullable: false));
+            AlterColumn("dbo.Folders", "FolderName", c => c.String(maxLength: 450));
+            AlterColumn("dbo.Reminders", "FolderId", c => c.Int(nullable: false));
+            AlterColumn("dbo.Reminders", "UserId", c => c.Int(nullable: false));
+            CreateIndex("dbo.Folders", "FolderName", unique: true);
+            CreateIndex("dbo.Folders", "UserId");
+            CreateIndex("dbo.Reminders", "FolderId");
+            CreateIndex("dbo.Reminders", "UserId");
+            AddForeignKey("dbo.Folders", "UserId", "dbo.Users", "UserId", cascadeDelete: true);
+            AddForeignKey("dbo.Reminders", "FolderId", "dbo.Folders", "FolderId", cascadeDelete: true);
+            AddForeignKey("dbo.Reminders", "UserId", "dbo.Users", "UserId", cascadeDelete: true);
         }
-
+        
         public override void Down()
         {
-            // Drop foreign key constraints
             DropForeignKey("dbo.Reminders", "UserId", "dbo.Users");
             DropForeignKey("dbo.Reminders", "FolderId", "dbo.Folders");
-            DropForeignKey("dbo.Reminders", "TimeFrameId", "dbo.TimeFrames");
             DropForeignKey("dbo.TimeTrackerTimers", "UserId", "dbo.Users");
             DropForeignKey("dbo.TimeTrackerStopWatchLaps", "TimeTrackerStopWatchId", "dbo.TimeTrackerStopWatches");
             DropForeignKey("dbo.TimeTrackerStopWatches", "UserId", "dbo.Users");
@@ -190,8 +144,6 @@
             DropForeignKey("dbo.Timetables", "UserId", "dbo.Users");
             DropForeignKey("dbo.TimetableDays", "DayInWeekId", "dbo.DayInWeeks");
             DropForeignKey("dbo.Folders", "UserId", "dbo.Users");
-
-            // Drop indexes
             DropIndex("dbo.TimeTrackerTimers", new[] { "UserId" });
             DropIndex("dbo.TimeTrackerStopWatches", new[] { "UserId" });
             DropIndex("dbo.TimeTrackerStopWatchLaps", new[] { "TimeTrackerStopWatchId" });
@@ -202,25 +154,24 @@
             DropIndex("dbo.TimetableDays", new[] { "DayInWeekId" });
             DropIndex("dbo.Reminders", new[] { "UserId" });
             DropIndex("dbo.Reminders", new[] { "FolderId" });
-            DropIndex("dbo.Reminders", new[] { "TimeFrameId" });
-            DropIndex("dbo.Users", new[] { "EmailAddress" });
-            DropIndex("dbo.Users", new[] { "UserName" });
             DropIndex("dbo.Folders", new[] { "UserId" });
             DropIndex("dbo.Folders", new[] { "FolderName" });
-
-            // Drop tables
+            AlterColumn("dbo.Reminders", "UserId", c => c.Int());
+            AlterColumn("dbo.Reminders", "FolderId", c => c.Int());
+            AlterColumn("dbo.Folders", "FolderName", c => c.String());
+            DropColumn("dbo.Folders", "UserId");
             DropTable("dbo.TimeTrackerTimers");
             DropTable("dbo.TimeTrackerStopWatches");
             DropTable("dbo.TimeTrackerStopWatchLaps");
             DropTable("dbo.TimeTrackerAlarms");
             DropTable("dbo.Timetables");
             DropTable("dbo.TimetableDays");
-            DropTable("dbo.TimeFrames");
-            DropTable("dbo.Reminders");
-            DropTable("dbo.Users");
-            DropTable("dbo.Folders");
             DropTable("dbo.DayInWeeks");
             DropTable("dbo.Calenders");
+            CreateIndex("dbo.Reminders", "UserId");
+            CreateIndex("dbo.Reminders", "FolderId");
+            AddForeignKey("dbo.Reminders", "UserId", "dbo.Users", "UserId");
+            AddForeignKey("dbo.Reminders", "FolderId", "dbo.Folders", "FolderId");
         }
     }
 }

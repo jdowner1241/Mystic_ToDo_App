@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data.Entity;
 using System.Diagnostics;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -23,10 +24,34 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
     /// </summary>
     public partial class ReminderPage : UserControl, INotifyPropertyChanged
     {
+
+        public ReminderPage()
+        {
+            InitializeComponent();
+            DataContext = this;
+
+            DbContext = new ReminderContext();
+            //LoadDataFromReminderPage();
+
+            var reminderEditor = (ReminderEditor)FindName("ReminderEditorContent");
+            if (reminderEditor != null)
+            {
+                reminderEditor.SubscribeToReminderPageEvents(this);
+                reminderEditor.CurrentUserId = UserId;
+                reminderEditor.CurrentFolderId = CurrentFolderId;
+            }
+            var filter = (Filter1)FindName("FilterContent");
+            if (filter != null)
+            {
+                filter.SubscribeToReminderPageEvents(this);
+            }
+        }
+
         private readonly ReminderContext DbContext;
         private bool _isUpdating = false;
         private string searchValue;
         private int _userId;
+        private int _currentFolderId;
         private string _userName;
         private TaskList CurrentTaskList { get; set; }
         private TaskList SearchedTaskList { get; set; }
@@ -85,6 +110,16 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
             }
         }
 
+        public int CurrentFolderId
+        {
+            get { return _currentFolderId; }
+            set
+            {
+                _currentFolderId = value;
+                OnPropertyChanged();
+            }
+        }
+
         public string SearchValue
         {
             get => searchValue;
@@ -99,48 +134,46 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public ReminderPage()
-        {
-            InitializeComponent();
-            DataContext = this;
 
-            DbContext = new ReminderContext();
-            //LoadDataFromReminderPage();
-
-            var reminderEditor = (ReminderEditor)FindName("ReminderEditorContent");
-            if (reminderEditor != null)
-            {
-                reminderEditor.SubscribeToReminderPageEvents(this);
-            }
-            var filter = (Filter1)FindName("FilterContent");
-            if (filter != null)
-            {
-                filter.SubscribeToReminderPageEvents(this);
-            }
-        }
-
-        //Fetch reminders from the database 
+        // Fetch reminders from the database for a specific user ID
         private List<ReminderDb.Reminder> FetchReminders()
         {
-            var renewDatabase = new ReminderContext().Reminders.ToList();
-            return renewDatabase;
-        }
-
-        //Fetch Searched Value from the database
-        private List<ReminderDb.Reminder> FetchSearchValue(string searchValue)
-        {
-            using (var db = new ReminderContext())
+            if (UserId != 0)
             {
-               var searchResults = db.Reminders
-                                    .Where(r => r.Name.Contains(searchValue) ||
-                                                r.Description.Contains(searchValue) ||
-                                                r.SelectedFolder.FolderName.Contains(searchValue) ||
-                                                r.SelectedUser.UserName.Contains(searchValue))
-                                    .ToList();
-                return searchResults;
+                using (var context = new ReminderContext())
+                {
+                    var reminders = context.Reminders
+                                            .Where(reminder => reminder.UserId == UserId)
+                                            .ToList();
+                    return reminders;
+                }
+            }
+            else
+            {
+                Debug.WriteLine("User not set");
+                return new List<ReminderDb.Reminder>(); // Return an empty list to handle the case where UserId is not set
             }
         }
 
+
+        // Fetch searched value from the database
+        private List<ReminderDb.Reminder> FetchSearchValue(string searchValue)
+        {
+            var reminderList = FetchReminders(); // Retrieve reminders based on UserId
+
+            // Filter the retrieved reminders based on the search value
+            var searchResults = reminderList
+                                .Where(r => r.Name != null && r.Name.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                                            r.Description != null && r.Description.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                                            r.SelectedFolder != null && r.SelectedFolder.FolderName != null && r.SelectedFolder.FolderName.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                                            r.SelectedUser != null && r.SelectedUser.UserName != null && r.SelectedUser.UserName.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase) >= 0)
+                                .ToList();
+
+            return searchResults;
+        }
+
+
+        // Event that gets and run the search method
         public void ReminderPageSearch(ReminderDb.Reminder reminder)
         {
             SearchValueFromReminderPage(searchValue);
@@ -244,6 +277,8 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
             if (reminderPage != null)
             {
                 var reminderEditor = (ReminderEditor)reminderPage.ReminderEditorContent;
+                reminderEditor.CurrentUserId = reminderPage.UserId; 
+                reminderEditor.CurrentFolderId = reminderPage.CurrentFolderId;
                 reminderEditor.LoadData((int?)e.NewValue);
             }
         }

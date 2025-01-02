@@ -28,8 +28,8 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
         private int CurrentId { get; set; }
         private bool singleSelected;
         private List<int> CurrentIdList { get; set; }
-        private int CurrentFolderId {  get; set; } 
-        private int CurrentUserId { get; set; }
+        private int _currentUserId;
+        private int _currentFolderId;
         private bool multiSelected;
         private bool _editMode;
 
@@ -52,14 +52,34 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             editMode = true;
             editMode = false;
 
-            CurrentFolderId = 1;
-            CurrentUserId = 1;
+            
+        }
+
+        public int CurrentUserId
+        {
+            get { return _currentUserId; } 
+            set
+            {
+                _currentUserId = value;
+                OnPropertyChanged();
+            } 
+        }
+
+        public int CurrentFolderId 
+        { 
+            get { return _currentFolderId; }
+            set 
+            { 
+                _currentFolderId = value;
+                OnPropertyChanged();
+            }
         }
 
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
 
         public void SubscribeToReminderPageEvents(ReminderPage reminderPage)
         {

@@ -6,21 +6,21 @@
              xmlns:local="clr-namespace:Mystic_ToDo.View.UserControls.Header"
              xmlns:customControls="clr-namespace:Mystic_ToDo.View.UserControls.CustomControls"
              mc:Ignorable="d" 
-             Height="70" d:DesignWidth="800">
+             Height="80" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="35.96"/>
+            <RowDefinition Height="17"/>
+            <RowDefinition Height="63"/>
         </Grid.RowDefinitions>
-        
+
         <!-- File menu -->
-        <Menu Grid.Row="0" VerticalAlignment="Center">
+        <Menu VerticalAlignment="Center" Height="18">
             <MenuItem Header="File">
                 <MenuItem Header="Import Settings..."/>
                 <MenuItem Header="Export Settings..."/>
                 <MenuItem Header="Exit..."/>
             </MenuItem>
-            
+
             <MenuItem Header="Edit">
                 <MenuItem Header="Select..."/>
                 <MenuItem Header="Select All..."/>
@@ -35,21 +35,52 @@
                 <MenuItem Header="Appearance..."/>
             </MenuItem>
         </Menu>
-        
-        <!-- Feature Switch-->
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width=".25*"/>
-                <ColumnDefinition Width=".25*"/>
-                <ColumnDefinition Width=".25*"/>
-                <ColumnDefinition Width=".25*"/>
-            </Grid.ColumnDefinitions>
 
-            <customControls:MenuBarButton x:Name="bReminderpage" Grid.Column="0" Margin="20,5" Placeholder="Reminders" Click="MenuButton_Click"/>
-            <customControls:MenuBarButton x:Name="bCalenderpage" Grid.Column="1" Margin="20,5" Placeholder="Calender" Click="MenuButton_Click"/>
-            <customControls:MenuBarButton x:Name="bTimetablepage" Grid.Column="2" Margin="20,5" Placeholder="Timetable" Click="MenuButton_Click"/>
-            <customControls:MenuBarButton x:Name="bTimeTrackerpage" Grid.Column="3" Margin="20,5" Placeholder="Time Tracker" Click="MenuButton_Click" />
-            
-        </Grid>
+
+        <Border Grid.Row="1" BorderBrush="black" BorderThickness="0,1,0,2">
+            <!-- 2nd Row-->
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="200"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Feature Switch-->
+                <Grid Grid.Column="0" VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width=".25*"/>
+                        <ColumnDefinition Width=".25*"/>
+                        <ColumnDefinition Width=".25*"/>
+                        <ColumnDefinition Width=".25*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <customControls:MenuBarButton x:Name="bReminderpage" Grid.Column="0" Margin="20,5" Placeholder="Reminders" Click="MenuButton_Click"/>
+                    <customControls:MenuBarButton x:Name="bCalenderpage" Grid.Column="1" Margin="20,5" Placeholder="Calender" Click="MenuButton_Click"/>
+                    <customControls:MenuBarButton x:Name="bTimetablepage" Grid.Column="2" Margin="20,5" Placeholder="Timetable" Click="MenuButton_Click"/>
+                    <customControls:MenuBarButton x:Name="bTimeTrackerpage" Grid.Column="3" Margin="20,5" Placeholder="Time Tracker" Click="MenuButton_Click" />
+                </Grid>
+
+                <!-- User info-->
+                <Border Grid.Column="1" BorderBrush="black" BorderThickness="2,0,0,0"   VerticalAlignment="Stretch">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.4*"/>
+                            <ColumnDefinition Width="0.6*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Signed In: " FontWeight="Bold"
+                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged, Mode=Default}"
+                        HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <Button x:Name="bSignOut" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0" Content="Logout" Width="50" 
+                        VerticalAlignment="Center" HorizontalContentAlignment="Center" Click="bSignOut_Click"/>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>

@@ -16,37 +16,10 @@
             <ColumnDefinition Width=".2*"/>
         </Grid.ColumnDefinitions>
 
-        <!-- UserInfo and Folder List -->
-        <Grid Grid.Column="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
+        <!-- Folder List -->
+        <reminderEditor:PersonalFolder1 x:Name="PersonalFolder" Grid.Column="0"/>
 
-            <Grid Grid.Row="0" Margin="10, 5">
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-
-                <TextBlock Grid.Row="0" Grid.Column="0" Text="Signed In: " FontWeight="Bold"
-                           HorizontalAlignment="Right"/>
-                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged, Mode=Default}"
-                           HorizontalAlignment="Left"/>
-                <Button x:Name="bSignOut" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0" Content="Logout" Width="50" 
-                        VerticalAlignment="Center" HorizontalContentAlignment="Center" Click="bSignOut_Click"/>
-            </Grid>
-
-            <reminderEditor:PersonalFolder1 x:Name="PersonalFolder" Grid.Row="1"/>
-            
-        </Grid>
         
-        
-
         <!-- Main Reminder Window -->
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
@@ -59,7 +32,6 @@
 
 
             <!-- Task List -->
-            <!--<DataGrid Grid.Row="1" x:Name="reminderListDB"/>-->
             <Grid Grid.Row="1" x:Name="reminderListDB">
                 
             </Grid>

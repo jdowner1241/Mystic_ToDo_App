@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent"
-             xmlns:customControls="clr-namespace:Mystic_ToDo.View.UserControls.CustomControls" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" d:DataContext="{d:DesignInstance Type=customControls:ComboBoxWithLabel}"
+             xmlns:customControls="clr-namespace:Mystic_ToDo.View.UserControls.CustomControls" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" 
+             d:DataContext="{d:DesignInstance Type=customControls:ComboBoxWithLabel}"
              mc:Ignorable="d" 
              d:DesignHeight="250" d:DesignWidth="800">
             

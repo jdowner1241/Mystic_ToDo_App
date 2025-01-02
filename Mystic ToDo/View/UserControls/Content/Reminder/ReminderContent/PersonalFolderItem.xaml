@@ -5,10 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent"
              mc:Ignorable="d" 
-             d:DesignHeight="50" d:DesignWidth="400">
+             d:DesignHeight="50" d:DesignWidth="400" MouseLeftButtonDown="UserControl_MouseLeftButtonDown">
     <Grid>
         <Border Background="LightGray" Margin="10, 5">
-            <TextBlock Text="{Binding Placeholder, UpdateSourceTrigger=PropertyChanged, Mode=Default}" FontSize="20" TextWrapping="WrapWithOverflow"
+            <TextBlock Text="{Binding FolderName, UpdateSourceTrigger=PropertyChanged, Mode=Default}" FontSize="20" TextWrapping="WrapWithOverflow"
                        VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </Border>
             

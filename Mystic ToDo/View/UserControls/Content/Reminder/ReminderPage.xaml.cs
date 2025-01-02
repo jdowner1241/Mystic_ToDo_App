@@ -326,9 +326,5 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
             ReminderListChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        private void bSignOut_Click(object sender, RoutedEventArgs e)
-        {
-            Signout?.Invoke();
-        }
     }
 }

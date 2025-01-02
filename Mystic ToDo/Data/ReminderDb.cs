@@ -90,13 +90,14 @@ namespace Mystic_ToDo.Database
             [Key]
             public int FolderId { get; set; }
 
-            [Index(IsUnique = true)]
             [MaxLength(450)]
             public string FolderName { get; set; }
 
             public int UserId { get; set; }
             [ForeignKey(nameof(UserId))]
             public User SelectedUser { get; set; }
+
+            public int FolderIdPerUser { get; set; }
         }
 
 

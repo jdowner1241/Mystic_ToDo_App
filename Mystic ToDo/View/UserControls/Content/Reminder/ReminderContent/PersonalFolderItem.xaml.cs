@@ -22,22 +22,36 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
     /// </summary>
     public partial class PersonalFolderItem : UserControl, INotifyPropertyChanged
     {
-        private string placeholder;
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
         public PersonalFolderItem()
         {
             DataContext = this;
             InitializeComponent();
         }
 
-        public string Placeholder
+        private static PersonalFolderItem _lastSelectedItem;
+
+        private string _folderName;
+        private int _folderId;
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        public event Action<int> SelectedFolder;
+
+        public string FolderName
         {
-            get { return placeholder; }
+            get { return _folderName; }
             set
             {
-                placeholder = value;
+                _folderName = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int FolderId
+        {
+            get { return _folderId; }
+            set
+            {
+                _folderId = value;
                 OnPropertyChanged();
             }
         }
@@ -47,6 +61,22 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        private void UserControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            // Invoke the SelectedFolder event
+            SelectedFolder?.Invoke(FolderId);
 
+            // Change the background color of the selected item
+            this.Background = Brushes.LightBlue; 
+            
+            // Reset the background color of the previously selected item
+            if (_lastSelectedItem != null && _lastSelectedItem != this) 
+            { 
+                _lastSelectedItem.Background = Brushes.Transparent; 
+            }
+
+            // Update the last selected item
+            _lastSelectedItem = this;
+        }
     }
 }

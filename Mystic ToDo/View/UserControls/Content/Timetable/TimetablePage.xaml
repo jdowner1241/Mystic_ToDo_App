@@ -7,6 +7,23 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <TextBlock Text="Timetable Page" FontSize="50" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Timetable" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" FontWeight="Bold" Foreground="#4CAF50"/>
+
+        <DataGrid Grid.Row="1" AutoGenerateColumns="False" ItemsSource="{Binding TimetableItems}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Day" Binding="{Binding Day}"/>
+                <DataGridTextColumn Header="Time" Binding="{Binding Time}"/>
+                <DataGridTextColumn Header="Activity" Binding="{Binding Activity}"/>
+                <DataGridTextColumn Header="Notes" Binding="{Binding Notes}"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
+
+
+
 </UserControl>

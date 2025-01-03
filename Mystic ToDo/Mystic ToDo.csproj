@@ -128,6 +128,10 @@
     <Compile Include="View\UserControls\Content\Calender\CalenderContent\CalenderMenuButton.xaml.cs">
       <DependentUpon>CalenderMenuButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\UserControls\Content\Calender\CalenderContent\RelayCommand.cs" />
+    <Compile Include="View\UserControls\Content\Calender\CalenderContent\YearSelectionViewModel.cs" />
+    <Compile Include="View\UserControls\Content\Calender\CalenderContent\YearToColorConverter.cs" />
+    <Compile Include="View\UserControls\Content\Calender\CalenderContent\YearToFontSizeConverter.cs" />
     <Compile Include="View\UserControls\Content\Calender\CalenderPage.xaml.cs">
       <DependentUpon>CalenderPage.xaml</DependentUpon>
     </Compile>

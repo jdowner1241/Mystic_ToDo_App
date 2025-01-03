@@ -33,17 +33,27 @@
 
                     <!--Year Selection-->
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 50 0 30">
-                        <Button Style="{StaticResource button}">
+                        <Button Style="{StaticResource button}" Command="{Binding ChangeYearCommand}" CommandParameter="{x:Static sys:Int32.MinValue}">
                             <fa:ImageAwesome Icon="AngleLeft" Style="{StaticResource angle}"/>
                         </Button>
 
-                        <Button Content="2020" Style="{StaticResource button}"/>
-                        <Button Content="2021" Style="{StaticResource button}"/>
-                        <Button Content="2022" Style="{StaticResource button}" Foreground="#C73F69" FontSize="24"/>
-                        <Button Content="2023" Style="{StaticResource button}"/>
-                        <Button Content="2024" Style="{StaticResource button}"/>
+                        <Button Content="2020" Style="{StaticResource button}" Command="{Binding ChangeYearCommand}" CommandParameter="2020" 
+            Foreground="{Binding SelectedYear, Converter={StaticResource YearToColorConverter}, ConverterParameter=2020}" 
+            FontSize="{Binding SelectedYear, Converter={StaticResource YearToFontSizeConverter}, ConverterParameter=2020}"/>
+                        <Button Content="2021" Style="{StaticResource button}" Command="{Binding ChangeYearCommand}" CommandParameter="2021" 
+            Foreground="{Binding SelectedYear, Converter={StaticResource YearToColorConverter}, ConverterParameter=2021}" 
+            FontSize="{Binding SelectedYear, Converter={StaticResource YearToFontSizeConverter}, ConverterParameter=2021}"/>
+                        <Button Content="2022" Style="{StaticResource button}" Command="{Binding ChangeYearCommand}" CommandParameter="2022" 
+            Foreground="{Binding SelectedYear, Converter={StaticResource YearToColorConverter}, ConverterParameter=2022}" 
+            FontSize="{Binding SelectedYear, Converter={StaticResource YearToFontSizeConverter}, ConverterParameter=2022}"/>
+                        <Button Content="2023" Style="{StaticResource button}" Command="{Binding ChangeYearCommand}" CommandParameter="2023" 
+            Foreground="{Binding SelectedYear, Converter={StaticResource YearToColorConverter}, ConverterParameter=2023}" 
+            FontSize="{Binding SelectedYear, Converter={StaticResource YearToFontSizeConverter}, ConverterParameter=2023}"/>
+                        <Button Content="2024" Style="{StaticResource button}" Command="{Binding ChangeYearCommand}" CommandParameter="2024" 
+            Foreground="{Binding SelectedYear, Converter={StaticResource YearToColorConverter}, ConverterParameter=2024}" 
+            FontSize="{Binding SelectedYear, Converter={StaticResource YearToFontSizeConverter}, ConverterParameter=2024}"/>
 
-                        <Button Style="{StaticResource button}">
+                        <Button Style="{StaticResource button}" Command="{Binding ChangeYearCommand}" CommandParameter="{x:Static sys:Int32.MaxValue}">
                             <fa:ImageAwesome Icon="AngleRight" Style="{StaticResource angle}"/>
                         </Button>
                     </StackPanel>

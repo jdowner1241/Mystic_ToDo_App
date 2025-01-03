@@ -1,21 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Globalization;
 using System.Text.RegularExpressions;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 
 namespace Mystic_ToDo.View.UserControls.CustomControls
 {
@@ -26,26 +14,58 @@ namespace Mystic_ToDo.View.UserControls.CustomControls
     {
         public EmailBoxWithLabel()
         {
-            DataContext = this;
             InitializeComponent();
+            DataContext = this;
         }
 
-        private string placeholder;
-        public event PropertyChangedEventHandler? PropertyChanged;
+        public static readonly DependencyProperty PlaceholderProperty =
+            DependencyProperty.Register("Placeholder", typeof(string), typeof(EmailBoxWithLabel), new PropertyMetadata(string.Empty));
+
+        public static readonly DependencyProperty EmailProperty =
+            DependencyProperty.Register("Email", typeof(string), typeof(EmailBoxWithLabel), new PropertyMetadata(string.Empty, OnEmailChanged));
 
         public string Placeholder
         {
-            get { return placeholder; }
+            get { return (string)GetValue(PlaceholderProperty); }
             set
             {
-                placeholder = value;
+                SetValue(PlaceholderProperty, value);
                 OnPropertyChanged();
             }
         }
 
+        public string Email
+        {
+            get { return (string)GetValue(EmailProperty); }
+            set
+            {
+                SetValue(EmailProperty, value);
+                OnPropertyChanged();
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private static void OnEmailChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var control = (EmailBoxWithLabel)d;
+            control.ValidateEmail();
+        }
+
+        private void ValidateEmail()
+        {
+            var emailValidationRule = new EmailValidationRule();
+            var validationResult = emailValidationRule.Validate(Email, CultureInfo.CurrentCulture);
+            if (!validationResult.IsValid)
+            {
+                // Handle invalid email format (e.g., show a message to the user)
+                MessageBox.Show(validationResult.ErrorContent.ToString(), "Invalid Email", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
     }
 

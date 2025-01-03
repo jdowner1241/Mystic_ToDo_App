@@ -36,11 +36,12 @@
                     </Grid.RowDefinitions>
 
 
-                    <CustomControls:EmailBoxWithLabel x:Name="EmailBox" Grid.Row="0" VerticalContentAlignment="Center" Placeholder="Email"/>
+                    <CustomControls:EmailBoxWithLabel x:Name="EmailBox" Grid.Row="0" VerticalContentAlignment="Center" Placeholder="Email"
+                                                      Email="{Binding Email, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
 
 
                     <CustomControls:PasswordBoxWithLabel x:Name="PasswordBox" Grid.Row="1" VerticalContentAlignment="Center" Placeholder="Password"
-                                                    TextOptions.TextFormattingMode="Ideal"/>
+                                                    TextOptions.TextFormattingMode="Ideal" Password="{Binding Password, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                 </Grid>
 
 

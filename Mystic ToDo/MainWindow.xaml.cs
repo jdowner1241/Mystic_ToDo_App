@@ -220,6 +220,7 @@ namespace Mystic_ToDo
           /*  _reminderPage.Signout += OnLogout;*/
             Menubar.UserId = userId;
             Menubar.Signout += OnLogout;
+
             CurrentPage.Children.Add(_reminderPage);
             Menubar.Visibility = Visibility.Visible;
         }

@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Data.Entity;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -26,6 +27,14 @@ namespace Mystic_ToDo.View.UserControls.Content.LoginPage
     /// </summary>
     public partial class RegistrationPage : UserControl, INotifyPropertyChanged
     {
+        public RegistrationPage()
+        {
+            DataContext = this;
+            InitializeComponent();
+
+            _context = new ReminderContext();
+        }
+
         private ReminderContext _context;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -35,21 +44,16 @@ namespace Mystic_ToDo.View.UserControls.Content.LoginPage
         private string _name;
         private string _email;
         private string _password;
+        private string _password1;
+        private string _password2;
+        private string _passwordErrorMessage;
 
-        public RegistrationPage()
-        {
-            DataContext = this;
-            InitializeComponent();
-
-            _context = new ReminderContext();  
-        }
-
-        public string _Name 
+        public string UserName 
         {
             get { return _name; }
             set 
             { 
-                _name = txtName.TextValue;
+                _name = value;
                 OnPropertyChanged();
             }
         }
@@ -59,26 +63,55 @@ namespace Mystic_ToDo.View.UserControls.Content.LoginPage
             get { return _email; }
             set 
             { 
-                _email = txtEmail.EmailTextBox.Text;
+                _email = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string Password1
+        {
+            get { return _password1; }
+            set
+            {
+                _password1 = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string Password2
+        {
+            get { return _password2; }
+            set
+            {
+                _password2 = value;
                 OnPropertyChanged();
             }
         }
 
         public string Password
         {
-            get { return _password; }
-            set 
-            { 
-                var password1 = txtPassword.PasswordBox.Password;
-                var password2 = txtPassword2.PasswordBox.Password;
-                if (password1 == password2)
-                {
-                    _password = password1;
+            get
+            {
+                if (Password1 == Password2 && !string.IsNullOrEmpty(Password1)) 
+                { 
+                    _password = Password1;
+                    PasswordErrorMessage = string.Empty; 
                 }
-                else
-                {
-                    MessageBox.Show("Passwords are not the same. Please reconform the entered password.");
+                else 
+                { 
+                    _password = string.Empty;
+                    PasswordErrorMessage = "Passwords do not match. Please re-enter."; 
                 }
+                return _password;
+            }
+        }
+
+        public string PasswordErrorMessage
+        {
+            get { return _passwordErrorMessage; }
+            private set
+            {
+                _passwordErrorMessage = value;
                 OnPropertyChanged();
             }
         }
@@ -88,6 +121,8 @@ namespace Mystic_ToDo.View.UserControls.Content.LoginPage
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+
+
         private void bCancel_Click(object sender, RoutedEventArgs e)
         {
             ChangetoHomePage?.Invoke();
@@ -96,96 +131,18 @@ namespace Mystic_ToDo.View.UserControls.Content.LoginPage
         private void bCreateUser_Click(object sender, RoutedEventArgs e)
         {
             //var user = GetInfoFromPage();
-            SavetoDatabase();
+  
         }
 
-        //Gather Information from Registration page
-        private ReminderDb.User GetInfoFromPage()
+        //Gather Information from Registration page the save the new user
+        private void SaveNewUser()
         {
-            ReminderDb.User userInfo = new ReminderDb.User();
-
-            if (!string.IsNullOrEmpty(txtName.TextValue))
+            if (!string.IsNullOrEmpty(UserName) && !string.IsNullOrEmpty(Email) && !string.IsNullOrEmpty(Password))
             {
-                userInfo.UserName = txtName.TextValue;
+               ReminderContext context = new ReminderContext();
+               UserService.CreateInitialUser(context, UserName, Email, Password);
+               RefreshUserList();
             }
-
-            if (!string.IsNullOrEmpty(txtEmail.EmailTextBox.Text))
-            {
-                userInfo.EmailAddress = txtEmail.EmailTextBox.Text;
-            }
-
-            var password1 = txtPassword.PasswordBox.Password;
-            var password2 = txtPassword2.PasswordBox.Password;
-            if (!string.IsNullOrEmpty(password1) && !string.IsNullOrEmpty(password2))
-            {
-                if (password1 == password2)
-                {
-                    userInfo.Password = password1;
-                }
-                else
-                {
-                    MessageBox.Show("Passwords are not the same. Please reconform the entered password.");
-                }
-            }
-            else
-            {
-                MessageBox.Show("Passwords are yet reconfirmed. Please reconform the entered password.");
-            }
-            return userInfo;
-
-        }
-
-
-        public void InitializeDefaultFolder(User user)
-        {
-            using (var context = new ReminderContext())
-            {
-                var existingDefaultFolder = context.Folders
-                    .FirstOrDefault(f => f.UserId == user.UserId && f.FolderName == "Default");
-
-                if (existingDefaultFolder == null)
-                {
-                    // Check if FolderId 1 is already used, if so, find the next available ID
-                    var defaultFolderId = 1;
-                    var isFolderId1InUse = context.Folders.Any(f => f.FolderId == defaultFolderId);
-
-                    if (isFolderId1InUse)
-                    {
-                        defaultFolderId = context.Folders.Max(f => f.FolderId) + 1;
-                    }
-
-                    var defaultFolder = new Folder
-                    {
-                        FolderId = defaultFolderId,
-                        FolderName = "Default",
-                        UserId = user.UserId,
-                        SelectedUser = user
-                    };
-
-                    context.Folders.Add(defaultFolder);
-                    context.SaveChanges();
-                }
-            }
-        }
-
-
-
-
-    //Save info to the Database
-    private void SavetoDatabase()
-        {
-            ReminderDb.User addUser = GetInfoFromPage();
-            var existingUser = _context.Users.FirstOrDefault(r => r.UserName == addUser.UserName);
-
-            if (existingUser != null)
-            {
-                // Handle case where a reminder with the same name already exists
-                System.Windows.MessageBox.Show("A User with this name already exists.");
-                return;
-            }
-
-            _context.SaveUser(addUser);
-            RefreshUserList();
         }
 
         private void RefreshUserList()

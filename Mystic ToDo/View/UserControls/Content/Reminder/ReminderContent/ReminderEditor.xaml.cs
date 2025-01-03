@@ -199,7 +199,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
                 newReminder.HasAlarms = true;
 
                 //Alarm
-                dtpAlarm.getDateTime();
+                //dtpAlarm.getDateTime();
                 if (dtpAlarm.DateWithTime != null)
                 {
                     newReminder.Alarm = dtpAlarm.DateWithTime;

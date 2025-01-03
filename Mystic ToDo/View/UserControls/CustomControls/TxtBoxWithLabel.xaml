@@ -12,14 +12,14 @@
             <RowDefinition Height=".6*"/>
         </Grid.RowDefinitions>
         <!---->
-        <TextBlock x:Name="txtBoxLabel" Grid.Row="0" Text="{Binding Placeholder, UpdateSourceTrigger=PropertyChanged, Mode=Default}" 
+        <TextBlock x:Name="txtBoxLabel" Grid.Row="0" Text="{Binding Placeholder, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                    FontSize="12" Foreground="Black" FontWeight="Bold"
                    Margin="5, 3" Padding="5, 0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="15"/>
 
         <!---->
         <Grid Grid.Row="1" Margin="10, 0" Height="30">
             <TextBox x:Name="txtBox" Panel.ZIndex="0"
-                     Text="{Binding TextValue, UpdateSourceTrigger=PropertyChanged, Mode=Default}"
+                     Text="{Binding TextValue, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                      VerticalAlignment="Top" Height="20"
                      BorderThickness="1" BorderBrush="LightBlue" Background="#FF9AB7E6" Foreground="Black" FontSize="15"  />
             <Button x:Name="txtBoxClear" Click="txtBoxClear_Click" Panel.ZIndex="1" 

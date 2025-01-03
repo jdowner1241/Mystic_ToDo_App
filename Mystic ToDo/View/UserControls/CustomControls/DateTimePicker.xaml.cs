@@ -1,10 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Controls;
 using Xceed.Wpf.Toolkit;
-using Xceed.Wpf.Toolkit.Core.Converters;
-
 
 namespace Mystic_ToDo.View.UserControls.CustomControls
 {
@@ -13,80 +12,47 @@ namespace Mystic_ToDo.View.UserControls.CustomControls
     /// </summary>
     public partial class DateTimePicker : UserControl, INotifyPropertyChanged
     {
-        private string placeholder;
-        private DateTime? date;
-        private TimeSpan? time;
-        private DateTime? dateWithTime;
         private bool isUpdating = false;
 
-        public event PropertyChangedEventHandler? PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public DateTimePicker()
         {
-            DataContext = this;
             InitializeComponent();
-            timePicker.Visibility =  System.Windows.Visibility.Collapsed;
+            DataContext = this;
+            timePicker.Visibility = Visibility.Collapsed;
         }
 
+        public static readonly DependencyProperty PlaceholderProperty =
+            DependencyProperty.Register("Placeholder", typeof(string), typeof(DateTimePicker), new PropertyMetadata(string.Empty));
 
-        private void DatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (datePicker.SelectedDate != null)
-            {
-                timePicker.Visibility = System.Windows.Visibility.Visible;
-            }
-            else
-            {
-                timePicker.Visibility = System.Windows.Visibility.Collapsed;
-            }
-            date = datePicker.SelectedDate;
-            //UpdateDateTime();
-        }
+        public static readonly DependencyProperty DateWithTimeProperty =
+            DependencyProperty.Register("DateWithTime", typeof(DateTime?), typeof(DateTimePicker), new PropertyMetadata(null, OnDateWithTimeChanged));
 
-        private void TimePicker_SelectedTimeChanged(Object sender, SelectionChangedEventArgs e)
+        private static void OnDateWithTimeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (date.HasValue) 
-            {
-                time = timePicker.Value?.TimeOfDay;
-            }
+            var control = (DateTimePicker)d;
+            control.UpdateUI();
         }
 
         public string Placeholder
         {
-            get { return placeholder; }
+            get { return (string)GetValue(PlaceholderProperty); }
             set
             {
-                placeholder = value;
+                SetValue(PlaceholderProperty, value);
                 OnPropertyChanged();
             }
         }
 
         public DateTime? DateWithTime
         {
-            get { return dateWithTime; }
-            set 
+            get { return (DateTime?)GetValue(DateWithTimeProperty); }
+            set
             {
-                if (!isUpdating) 
-                {
-                    isUpdating = true;
-                    dateWithTime = value;
-                    OnPropertyChanged();
-
-                    if (dateWithTime.HasValue)
-                    {
-                        datePicker.SelectedDate = dateWithTime.Value.Date;
-                        timePicker.Value = dateWithTime.Value;
-                        timePicker.Visibility = System.Windows.Visibility.Visible;
-                    }
-                    else
-                    {
-                        datePicker.SelectedDate = null;
-                        timePicker.Value = null;
-                        datePicker.Visibility = System.Windows.Visibility.Collapsed;
-                        timePicker.Visibility= System.Windows.Visibility.Collapsed;
-                    }
-                    isUpdating = false;
-                }
+                SetValue(DateWithTimeProperty, value);
+                OnPropertyChanged();
+                UpdateUI();
             }
         }
 
@@ -95,33 +61,76 @@ namespace Mystic_ToDo.View.UserControls.CustomControls
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        private void DatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (datePicker.SelectedDate != null)
+            {
+                timePicker.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                timePicker.Visibility = Visibility.Collapsed;
+            }
+            UpdateDateTime();
+        }
+
+        private void TimePicker_SelectedTimeChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            UpdateDateTime();
+        }
+
+
         private void UpdateDateTime()
         {
-            try
+            if (!isUpdating)
             {
-                date = datePicker.SelectedDate;
-                time = timePicker.Value?.TimeOfDay;
+                isUpdating = true;
+                try
+                {
+                    var date = datePicker.SelectedDate;
+                    var time = timePicker.Value?.TimeOfDay;
 
-                if (date != null && time != null)
-                {
-                    DateWithTime = date.Value + time.Value;
+                    if (date != null && time != null)
+                    {
+                        DateWithTime = date.Value + time.Value;
+                    }
+                    else
+                    {
+                        DateWithTime = null;
+                    }
                 }
-                else
+                finally
                 {
-                    DateWithTime = null;
+                    isUpdating = false;
                 }
             }
-            catch { }
         }
 
-        public DateTime? getDateTime()
+        private void UpdateUI()
         {
-            UpdateDateTime(); 
-            return DateWithTime;
+            if (!isUpdating)
+            {
+                isUpdating = true;
+                try
+                {
+                    if (DateWithTime.HasValue)
+                    {
+                        datePicker.SelectedDate = DateWithTime.Value.Date;
+                        timePicker.Value = DateWithTime.Value;
+                        timePicker.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        datePicker.SelectedDate = null;
+                        timePicker.Value = null;
+                        timePicker.Visibility = Visibility.Collapsed;
+                    }
+                }
+                finally
+                {
+                    isUpdating = false;
+                }
+            }
         }
-
     }
 }
-
-
-

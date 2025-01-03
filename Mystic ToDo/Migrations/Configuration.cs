@@ -1,5 +1,6 @@
 ﻿namespace Mystic_ToDo.Migrations
 {
+    using Mystic_ToDo.Data;
     using Mystic_ToDo.Database;
     using System;
     using System.Data.Entity;
@@ -13,6 +14,8 @@
             AutomaticMigrationsEnabled = true;
         }
 
+
+
         protected override void Seed(Mystic_ToDo.Data.ReminderContext context)
         {
             // Seed TimeFrame data from enum
@@ -25,8 +28,17 @@
                 );
             }
 
-            // Seed User table but first check if it exist 
-            if (!context.Users.Any(u => u.UserId == 1)) 
+            // Ensure the Guest user and their Default folder are created
+            if (!context.Users.Any(u => u.UserId == 0) || !context.Users.Any(u => u.UserId == 1) ) 
+            { 
+                UserService.CreateInitialUser(context, "Guest", string.Empty, string.Empty); 
+            }
+
+
+
+
+
+            /*if (!context.Users.Any(u => u.UserId == 0 ) || !context.Users.Any(u => u.UserId == 1)) 
             { 
                 context.Users.AddOrUpdate(
                     u => u.UserId, 
@@ -34,7 +46,7 @@
 
                 context.SaveChanges();
 
-                if (!context.Folders.Any(f => f.FolderId == 1))
+                if (!context.Folders.Any(f => f.FolderId == 0) || !context.Folders.Any(f => f.FolderId == 1))
                 {
                     context.Folders.AddOrUpdate(
                     f => f.FolderId,
@@ -48,18 +60,8 @@
                     );
                 }
                 context.SaveChanges();
-            }
+            }*/
 
-
-
-            /*// Seed Folder table but first check if it exist
-            
-            if (context.Users.Any(u => u.UserId == 1))
-            {
-                
-            }
-            context.SaveChanges();
-*/
         }
     }
 }

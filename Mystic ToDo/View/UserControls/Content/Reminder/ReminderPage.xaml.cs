@@ -45,6 +45,14 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
             {
                 filter.SubscribeToReminderPageEvents(this);
             }
+
+            LoadPersonalFolders();
+            /*var personalFolder = (PersonalFolder1)FindName("PersonalFolder");
+            if (personalFolder != null) 
+            {
+                
+            }*/
+
         }
 
         private readonly ReminderContext DbContext;
@@ -326,5 +334,12 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
             ReminderListChanged?.Invoke(this, EventArgs.Empty);
         }
 
+        public void LoadPersonalFolders()
+        {
+            PersonalFolder1 personalFolder1 = new PersonalFolder1();
+            personalFolder1.UserId = UserId;
+            
+            PersonalFolder.Children.Add(personalFolder1);
+        }
     }
 }

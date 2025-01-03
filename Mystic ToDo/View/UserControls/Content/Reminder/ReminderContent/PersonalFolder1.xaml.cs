@@ -104,7 +104,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
         }
 
         // Load folderList
-        private void LoadFolderList()
+        public void LoadFolderList()
         {
             var FolderList = FetchFolders();
             UpdateUI (FolderList);

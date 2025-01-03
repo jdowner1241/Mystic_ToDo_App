@@ -116,9 +116,10 @@
     </ApplicationDefinition>
     <Compile Include="Data\ReminderContext.cs" />
     <Compile Include="Data\ReminderDb.cs" />
-    <Compile Include="Migrations\202501010225211_IntialCreate.cs" />
-    <Compile Include="Migrations\202501010225211_IntialCreate.Designer.cs">
-      <DependentUpon>202501010225211_IntialCreate.cs</DependentUpon>
+    <Compile Include="Data\UserService.cs" />
+    <Compile Include="Migrations\202501032053443_IntialCreate.cs" />
+    <Compile Include="Migrations\202501032053443_IntialCreate.Designer.cs">
+      <DependentUpon>202501032053443_IntialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="View\UserControls\Content\Calender\CalenderContent\CalenderItemControls.xaml.cs">
@@ -386,8 +387,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Migrations\202501010225211_IntialCreate.resx">
-      <DependentUpon>202501010225211_IntialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202501032053443_IntialCreate.resx">
+      <DependentUpon>202501032053443_IntialCreate.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -409,6 +410,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="View\tempfolderforIntFile\" />
     <Folder Include="View\UserControls\Content\Time Tracker\TimeTrackerContent\" />
     <Folder Include="View\UserControls\Content\Timetable\TImetableContent\" />
     <Folder Include="View\UserControls\Footer\" />

@@ -13,10 +13,10 @@
         </Grid.ColumnDefinitions>
         <!---->
         <CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,5,0"
-                  IsChecked="{Binding IsChecked, UpdateSourceTrigger=PropertyChanged, Mode=Default}"/>
+                  IsChecked="{Binding IsChecked, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
 
         <!---->
-        <TextBlock x:Name="txtBoxLabel" Grid.Column="1" Text="{Binding Placeholder, UpdateSourceTrigger=PropertyChanged, Mode=Default}" 
+        <TextBlock x:Name="txtBoxLabel" Grid.Column="1" Text="{Binding Placeholder, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                    FontSize="12" Foreground="Black" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" />
 
     </Grid>

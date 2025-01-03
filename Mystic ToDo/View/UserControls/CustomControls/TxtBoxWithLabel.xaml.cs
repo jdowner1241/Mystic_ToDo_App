@@ -6,41 +6,41 @@ using System.Windows.Controls;
 
 namespace Mystic_ToDo.View.UserControls.CustomControls
 {
-    /// <summary>
-    /// Interaction logic for txtBoxWithLabel.xaml
-    /// </summary>
     public partial class TxtBoxWithLabel : UserControl, INotifyPropertyChanged
     {
         public TxtBoxWithLabel()
         {
-            DataContext = this;
             InitializeComponent();
+            DataContext = this;
         }
 
-        private string placeholder;
-        private string textValue;
-
-        public event PropertyChangedEventHandler? PropertyChanged;
+        public static readonly DependencyProperty PlaceholderProperty =
+            DependencyProperty.Register("Placeholder", typeof(string), typeof(TxtBoxWithLabel), new PropertyMetadata(string.Empty));
 
         public string Placeholder
         {
-            get { return placeholder; }
+            get { return (string)GetValue(PlaceholderProperty); }
             set
             {
-                placeholder = value;
+                SetValue(PlaceholderProperty, value);
                 OnPropertyChanged();
             }
         }
 
+        public static readonly DependencyProperty TextValueProperty =
+            DependencyProperty.Register("TextValue", typeof(string), typeof(TxtBoxWithLabel), new PropertyMetadata(string.Empty));
+
         public string TextValue
         {
-            get { return textValue; }
+            get { return (string)GetValue(TextValueProperty); }
             set
             {
-                textValue = value;
+                SetValue(TextValueProperty, value);
                 OnPropertyChanged();
             }
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -49,7 +49,6 @@ namespace Mystic_ToDo.View.UserControls.CustomControls
 
         private void txtBoxClear_Click(object sender, RoutedEventArgs e)
         {
-            //if(txtBox = string.IsNullOrEmpty)
             txtBox.Text = string.Empty;
             txtBox.Focus();
         }

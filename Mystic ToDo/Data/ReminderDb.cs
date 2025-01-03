@@ -28,6 +28,10 @@ namespace Mystic_ToDo.Database
             public string EmailAddress { get; set; }
 
             public string Password { get; set; }
+
+            public List<Folder> Folders { get; set; } = new List<Folder>(); 
+            
+            public List<FolderPerUser> FolderPerUsers { get; set; } = new List<FolderPerUser>();
         }
 
 
@@ -85,6 +89,22 @@ namespace Mystic_ToDo.Database
             public TimeFrame() { }
         }
 
+        public class FolderPerUser
+        {
+            [Key]
+            public int FolderPerUserId { get; set; }
+
+            public int UserId { get; set; }
+            [ForeignKey(nameof(UserId))]
+            public User User { get; set; }
+
+            public int FolderId { get; set; }
+            [ForeignKey(nameof(FolderId))] 
+            public Folder Folder { get; set; }
+
+            public int FolderNumberPerUser { get; set; }
+        }
+
         public class Folder
         {
             [Key]
@@ -97,7 +117,7 @@ namespace Mystic_ToDo.Database
             [ForeignKey(nameof(UserId))]
             public User SelectedUser { get; set; }
 
-            public int FolderIdPerUser { get; set; }
+            public List<FolderPerUser> FolderPerUserList { get; set; } = new List<FolderPerUser>();
         }
 
 

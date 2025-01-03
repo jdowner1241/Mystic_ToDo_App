@@ -36,6 +36,8 @@ namespace Mystic_ToDo.View.UserControls.Content.LoginPage
         private ReminderContext _context;
         private string _userName;
         private int _userNumber;
+        private string _email;
+        private string _password;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public Action ChangetoHomePage;
@@ -63,6 +65,32 @@ namespace Mystic_ToDo.View.UserControls.Content.LoginPage
             }
         }
 
+        public string Email
+        {
+            get { return _email ?? string.Empty; }
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    _email = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public string Password
+        {
+            get { return _password ?? string.Empty; }
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    _password = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         private void UpdateUserNameFromDatebase()
         {
             using (var db = new ReminderContext())
@@ -75,6 +103,7 @@ namespace Mystic_ToDo.View.UserControls.Content.LoginPage
                 }
             }
         }
+
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -98,9 +127,9 @@ namespace Mystic_ToDo.View.UserControls.Content.LoginPage
                 var user = db.Users.FirstOrDefault(u => u.UserId == UserNumber);
                 if (user != null)
                 {
-                   if (!string.IsNullOrEmpty(EmailBox.EmailTextBox.Text) && EmailBox.EmailTextBox.Text == user.EmailAddress)
+                   if (!string.IsNullOrEmpty(Email) && Email == user.EmailAddress)
                     {
-                        if(!string.IsNullOrEmpty(PasswordBox.PasswordBox.Password) && PasswordBox.PasswordBox.Password == user.Password)
+                        if(!string.IsNullOrEmpty(Password) && Password == user.Password)
                         {
                            ChangetoReminderPage?.Invoke(UserNumber);
                         }

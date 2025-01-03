@@ -37,16 +37,16 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
 
-                    <CustomControls:TxtBoxWithLabelWithoutClear Grid.Row="0" x:Name="txtName"
+                    <CustomControls:TxtBoxWithLabelWithoutClear Grid.Row="0" x:Name="txtName" TextValue="{Binding UserName, UpdateSourceTrigger=PropertyChanged, Mode=Default}"
                                                                 VerticalContentAlignment="Center" Placeholder="User Name"/>
 
-                    <CustomControls:EmailBoxWithLabel Grid.Row="1"  x:Name="txtEmail"
+                    <CustomControls:EmailBoxWithLabel Grid.Row="1"  x:Name="txtEmail" Email="{Binding Email, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                       VerticalContentAlignment="Center" Placeholder="Email"/>
 
-                    <CustomControls:PasswordBoxWithLabel Grid.Row="2" x:Name="txtPassword"
+                    <CustomControls:PasswordBoxWithLabel Grid.Row="2" x:Name="txtPassword" Password="{Binding Password1, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                          VerticalContentAlignment="Center" Placeholder="Password"/>
 
-                    <CustomControls:PasswordBoxWithLabel Grid.Row="3" x:Name="txtPassword2"
+                    <CustomControls:PasswordBoxWithLabel Grid.Row="3" x:Name="txtPassword2" Password="{Binding Password1, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                          VerticalContentAlignment="Center" Placeholder="Re-enter Password"/>
                 </Grid>
 

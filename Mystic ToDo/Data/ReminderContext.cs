@@ -1,4 +1,5 @@
 ﻿using Mystic_ToDo.Database;
+using Mystic_ToDo.Migrations;
 using Mystic_ToDo.View.UserControls.Content.Reminder;
 using System;
 using System.Collections.Generic;
@@ -16,10 +17,12 @@ namespace Mystic_ToDo.Data
 {
     public class ReminderContext : DbContext
     {
+
         public DbSet<ReminderDb.User> Users { get; set; }
         public DbSet<ReminderDb.Reminder> Reminders { get; set; }
         public DbSet<ReminderDb.TimeFrame> TimeFrames { get; set; }
         public DbSet<ReminderDb.Folder> Folders { get; set; }
+        public DbSet<FolderPerUser> FoldersPerUser { get; set; }
         public DbSet<ReminderDb.Calender> Calenders { get; set; }
         public DbSet<ReminderDb.Timetable> Timetables { get; set; }
         public DbSet<ReminderDb.TimetableDay> TimetableDays { get; set; }
@@ -33,6 +36,36 @@ namespace Mystic_ToDo.Data
 
         public event EventHandler ReminderDataChanged;
         public event EventHandler UserDataChanged;
+
+
+/*
+        public override int SaveChanges()
+        { // Logic to handle FolderNumberPerUser increment
+          foreach (var entry in ChangeTracker.Entries<Folder>()) 
+            { if (entry.State == EntityState.Added) 
+                { 
+                    var userId = entry.Entity.UserId; 
+                    var maxFolderNumber = FoldersPerUser 
+                            .Where(fpu => fpu.UserId == userId) 
+                            .Select(fpu => fpu.FolderNumberPerUser)
+                            .DefaultIfEmpty(0) 
+                            .Max();
+                    
+                    var folderPerUser = new FolderPerUser 
+                            { 
+                                UserId = userId, 
+                                FolderId = entry.Entity.FolderId, 
+                                FolderNumberPerUser = maxFolderNumber + 1 
+                            }; 
+                    FoldersPerUser.Add(folderPerUser);
+                } 
+            } 
+            return base.SaveChanges(); 
+        }*/
+
+
+
+
 
 
 

@@ -1,4 +1,5 @@
-﻿<UserControl xmlns:CalenderContent="clr-namespace:Mystic_ToDo.View.UserControls.Content.Calender.CalenderContent"  x:Class="Mystic_ToDo.View.UserControls.Content.Calender.CalenderPage"
+﻿<UserControl x:Class="Mystic_ToDo.View.UserControls.Content.Calender.CalenderPage"
+                xmlns:CalenderContent="clr-namespace:Mystic_ToDo.View.UserControls.Content.Calender.CalenderContent"  
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -133,6 +134,8 @@
                     </Border>
 
                     <!--Notes-->
+                    
+                    
                     <CalenderContent:CalenderItemControls Title="Post on social networks" Time="09:45 - 10:30" Color="#EBA5BB" Icon="CheckCircle" IconBell="BellSlash"/>
                     <CalenderContent:CalenderItemControls Title="Review the app design" Time="11:30 - 12:00" Color="#EBA5BB" Icon="CheckCircle" IconBell="BellSlash"/>
                     <CalenderContent:CalenderItemControls Title="Build a demo of the app" Time="14:00 - 15:30" Color="#f1f1f1" Icon="CircleThin" IconBell="Bell"/>

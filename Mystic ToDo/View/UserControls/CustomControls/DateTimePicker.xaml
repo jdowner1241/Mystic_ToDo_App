@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Mystic_ToDo.View.UserControls.CustomControls" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:local="clr-namespace:Mystic_ToDo.View.UserControls.CustomControls" 
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="450">
     <Grid>
@@ -11,23 +12,20 @@
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
-
         </Grid.RowDefinitions>
-        <!---->
-        <TextBlock x:Name="txtBoxLabel" Grid.Row="0" Text="{Binding Placeholder, UpdateSourceTrigger=PropertyChanged, Mode=Default}" 
-        FontSize="12" Foreground="Black" FontWeight="Bold" 
-        Margin="5, 3" Padding="5, 0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="15"/>
 
-        <!---->
-        <DatePicker x:Name="datePicker" Grid.Row="1" Margin="5, 0" SelectedDateChanged="DatePicker_SelectedDateChanged"
-                      VerticalContentAlignment="Top" HorizontalContentAlignment="Center"
-                      BorderThickness="1" BorderBrush="LightBlue" Background="#FF9AB7E6" Foreground="Black" FontSize="15" FontFamily="hooge 05_53" 
-                      SelectedDateFormat="Short" ToolTip="MM/DD/YY" />
+        <TextBlock x:Name="txtBoxLabel" Grid.Row="0" Text="{Binding Placeholder, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                   FontSize="12" Foreground="Black" FontWeight="Bold" 
+                   Margin="5, 3" Padding="5, 0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="15"/>
 
+        <DatePicker x:Name="datePicker" Grid.Row="1" Margin="5, 0" SelectedDate="{Binding DateWithTime, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                    SelectedDateChanged="DatePicker_SelectedDateChanged" VerticalContentAlignment="Top" HorizontalContentAlignment="Center"
+                    BorderThickness="1" BorderBrush="LightBlue" Background="#FF9AB7E6" Foreground="Black" FontSize="15" FontFamily="hooge 05_53"
+                    SelectedDateFormat="Short" ToolTip="MM/DD/YY" />
 
-        <xctk:TimePicker x:Name="timePicker"  Grid.Row="2" Format="Custom" FormatString="hh:mm tt" Margin="5, 0"
+        <xctk:TimePicker x:Name="timePicker" Grid.Row="2" Format="Custom" FormatString="hh:mm tt" Margin="5, 0"
+                         Value="{Binding DateWithTime, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                         ValueChanged="TimePicker_SelectedTimeChanged" 
                          BorderThickness="1" BorderBrush="LightBlue" Background="White" Foreground="Black" FontSize="15" FontFamily="hooge 05_53" TextAlignment="Center"/>
-
-
     </Grid>
 </UserControl>

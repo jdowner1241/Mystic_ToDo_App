@@ -12,36 +12,37 @@ namespace Mystic_ToDo.View.UserControls.CustomControls
     {
         public SwitchWithLabel()
         {
-            DataContext = this;
             InitializeComponent();
+            DataContext = this;
         }
 
-        private string placeholder;
-        public bool isChecked;
-
-        public event PropertyChangedEventHandler? PropertyChanged;
+        public static readonly DependencyProperty PlaceholderProperty =
+            DependencyProperty.Register("Placeholder", typeof(string), typeof(SwitchWithLabel), new PropertyMetadata(string.Empty));
 
         public string Placeholder
         {
-            get { return placeholder; }
+            get { return (string)GetValue(PlaceholderProperty); }
             set
             {
-                placeholder = value;
+                SetValue(PlaceholderProperty, value);
                 OnPropertyChanged();
             }
         }
+
+        public static readonly DependencyProperty IsCheckedProperty =
+            DependencyProperty.Register("IsChecked", typeof(bool), typeof(SwitchWithLabel), new PropertyMetadata(false));
 
         public bool IsChecked
         {
-            get { return isChecked; }
+            get { return (bool)GetValue(IsCheckedProperty); }
             set
             {
-                isChecked = value;
+                SetValue(IsCheckedProperty, value);
                 OnPropertyChanged();
             }
         }
 
-
+        public event PropertyChangedEventHandler PropertyChanged;
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -50,14 +51,12 @@ namespace Mystic_ToDo.View.UserControls.CustomControls
 
         private void HandleCheck(object sender, RoutedEventArgs e)
         {
-                IsChecked = true;
+            IsChecked = true;
         }
 
         private void HandleUnchecked(object sender, RoutedEventArgs e)
         {
             IsChecked = false;
         }
-
-
     }
 }

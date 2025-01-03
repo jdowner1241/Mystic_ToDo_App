@@ -1,60 +1,65 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Mystic_ToDo.View.UserControls.CustomControls
 {
-    /// <summary>
-    /// Interaction logic for PasswordBoxWithLabel.xaml
-    /// </summary>
     public partial class PasswordBoxWithLabel : UserControl, INotifyPropertyChanged
     {
         public PasswordBoxWithLabel()
         {
-            DataContext = this;
             InitializeComponent();
-
+            DataContext = this;
             ShowPasswordToggle = false;
         }
 
-        private string placeholder;
-        private bool _showPasswordToggle;
-        public event PropertyChangedEventHandler? PropertyChanged;
+        public static readonly DependencyProperty PlaceholderProperty =
+            DependencyProperty.Register("Placeholder", typeof(string), typeof(PasswordBoxWithLabel), new PropertyMetadata(string.Empty));
+
+        public static readonly DependencyProperty PasswordProperty =
+            DependencyProperty.Register("Password", typeof(string), typeof(PasswordBoxWithLabel), new PropertyMetadata(string.Empty));
+
+        public static readonly DependencyProperty ShowPasswordToggleProperty =
+            DependencyProperty.Register("ShowPasswordToggle", typeof(bool), typeof(PasswordBoxWithLabel), new PropertyMetadata(false, OnShowPasswordToggleChanged));
+
+        private static void OnShowPasswordToggleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var control = (PasswordBoxWithLabel)d;
+            control.ToggleShowPassword();
+        }
 
         public string Placeholder
         {
-            get { return placeholder; }
+            get { return (string)GetValue(PlaceholderProperty); }
             set
             {
-                placeholder = value;
+                SetValue(PlaceholderProperty, value);
                 OnPropertyChanged();
             }
         }
 
-        public bool ShowPasswordToggle 
-        { get 
+        public string Password
+        {
+            get { return (string)GetValue(PasswordProperty); }
+            set
             {
-                return _showPasswordToggle; 
-            } 
-            set { 
-                _showPasswordToggle = value; 
-                OnPropertyChanged(); 
-                ToggleShowPassword(); 
-            } 
+                SetValue(PasswordProperty, value);
+                OnPropertyChanged();
+            }
         }
+
+        public bool ShowPasswordToggle
+        {
+            get { return (bool)GetValue(ShowPasswordToggleProperty); }
+            set
+            {
+                SetValue(ShowPasswordToggleProperty, value);
+                OnPropertyChanged();
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -64,19 +69,21 @@ namespace Mystic_ToDo.View.UserControls.CustomControls
         private void ShowPassword_Click(object sender, RoutedEventArgs e)
         {
             ShowPasswordToggle = !ShowPasswordToggle;
-
-            if (ShowPasswordToggle) 
-            { 
-                string password = PasswordBox.Password; 
-                ShowPassword.Text = password; 
-            }
         }
 
         private void ToggleShowPassword()
         {
+            ShowPassword.Visibility = ShowPasswordToggle ? Visibility.Visible : Visibility.Collapsed;
+
+            if (ShowPasswordToggle)
             {
-                ShowPassword.Visibility = ShowPasswordToggle ? Visibility.Visible : Visibility.Collapsed;
+                ShowPassword.Text = PasswordBox.Password;
             }
+        }
+
+        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            Password = PasswordBox.Password;
         }
     }
 }

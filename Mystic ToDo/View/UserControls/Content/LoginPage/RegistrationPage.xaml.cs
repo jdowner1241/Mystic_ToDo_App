@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static Mystic_ToDo.Database.ReminderDb;
 
 namespace Mystic_ToDo.View.UserControls.Content.LoginPage
 {
@@ -134,8 +135,44 @@ namespace Mystic_ToDo.View.UserControls.Content.LoginPage
 
         }
 
-        //Save info to the Database
-        private void SavetoDatabase()
+
+        public void InitializeDefaultFolder(User user)
+        {
+            using (var context = new ReminderContext())
+            {
+                var existingDefaultFolder = context.Folders
+                    .FirstOrDefault(f => f.UserId == user.UserId && f.FolderName == "Default");
+
+                if (existingDefaultFolder == null)
+                {
+                    // Check if FolderId 1 is already used, if so, find the next available ID
+                    var defaultFolderId = 1;
+                    var isFolderId1InUse = context.Folders.Any(f => f.FolderId == defaultFolderId);
+
+                    if (isFolderId1InUse)
+                    {
+                        defaultFolderId = context.Folders.Max(f => f.FolderId) + 1;
+                    }
+
+                    var defaultFolder = new Folder
+                    {
+                        FolderId = defaultFolderId,
+                        FolderName = "Default",
+                        UserId = user.UserId,
+                        SelectedUser = user
+                    };
+
+                    context.Folders.Add(defaultFolder);
+                    context.SaveChanges();
+                }
+            }
+        }
+
+
+
+
+    //Save info to the Database
+    private void SavetoDatabase()
         {
             ReminderDb.User addUser = GetInfoFromPage();
             var existingUser = _context.Users.FirstOrDefault(r => r.UserName == addUser.UserName);

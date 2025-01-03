@@ -1,4 +1,5 @@
-﻿using Mystic_ToDo.View.UserControls.CustomControls;
+﻿using Mystic_ToDo.Data;
+using Mystic_ToDo.View.UserControls.CustomControls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -30,6 +31,7 @@ namespace Mystic_ToDo.View.UserControls.Header
         }
 
         private int _userId;
+        private string _userName;
 
         private MenuBarButton _lastClickedButton;
 
@@ -37,6 +39,7 @@ namespace Mystic_ToDo.View.UserControls.Header
         public event Action<int, int> GotoCalenderPage;
         public event Action<int, int> GotoTimetablePage;
         public event Action<int, int> GotoTimetrackerPage;
+        public event Action Signout;
         public event PropertyChangedEventHandler PropertyChanged;
 
         private enum Pagenumber
@@ -54,6 +57,32 @@ namespace Mystic_ToDo.View.UserControls.Header
             {
                 _userId = value;
                 OnPropertyChanged();
+                UpdateUserName();
+            } 
+        }
+
+        public string UserName
+        {
+           get { return _userName; }
+           set {
+                _userName = value; 
+                OnPropertyChanged(nameof(UserName));
+               } 
+        }
+
+        private void UpdateUserName()
+        {
+            using (var db = new ReminderContext())
+            {
+                var user = db.Users.FirstOrDefault(u => u.UserId == UserId); 
+                if (user != null) 
+                { 
+                    UserName = user.UserName; 
+                }
+                else
+                {
+                    UserName = string.Empty; // Handle case where user is not found
+                } 
             } 
         }
 
@@ -98,5 +127,9 @@ namespace Mystic_ToDo.View.UserControls.Header
             }
         }
 
+        private void bSignOut_Click(object sender, RoutedEventArgs e)
+        {
+            Signout?.Invoke();
+        }
     }
 }

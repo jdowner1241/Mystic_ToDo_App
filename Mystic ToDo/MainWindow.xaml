@@ -12,13 +12,15 @@
         Title="Mystic ToDo" Height="720" Width="1280">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="70"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
 
         <!-- MenuBar  -->
         <header:MenuBar x:Name="Menubar" Grid.Row="0"/>
+
+        
 
         <!-- Content Section -->
         <Grid Grid.Row="1" x:Name="CurrentPage">

@@ -42,12 +42,15 @@
                     {
                         FolderId = 1,
                         FolderName = "Default",
-                        UserId = 1
+                        UserId = 1,
+                        FolderIdPerUser = 1
                     }
                     );
                 }
                 context.SaveChanges();
             }
+
+
 
             /*// Seed Folder table but first check if it exist
             

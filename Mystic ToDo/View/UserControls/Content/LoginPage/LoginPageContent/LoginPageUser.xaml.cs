@@ -36,8 +36,8 @@ namespace Mystic_ToDo.View.UserControls.Content.LoginPage.LoginPageContent
 
         private string username;
         private int userNumber;
-        public event PropertyChangedEventHandler? PropertyChanged;
 
+        public event PropertyChangedEventHandler? PropertyChanged;
         public event Action<int> UserIdSelection;
         public event Action RefreshUserList;
 
@@ -95,25 +95,32 @@ namespace Mystic_ToDo.View.UserControls.Content.LoginPage.LoginPageContent
             {
                 using (var dbContext = new ReminderContext())
                 {
-                    var selectedUser = dbContext.Users.SingleOrDefault(r => r.UserId == userNumber);
-
-                    if (selectedUser != null)
+                    if (UserNumber != 1)
                     {
-                        System.Windows.MessageBox.Show($"User Removed!!! \n\nUser ID: {userNumber} \nReminder Name: {username}");
-                        dbContext.Users.Remove(selectedUser);
+                        var selectedUser = dbContext.Users.SingleOrDefault(r => r.UserId == userNumber);
 
-                        dbContext.SaveChanges();
-                        OnRefreshUserList();
+                        if (selectedUser != null)
+                        {
+                            System.Windows.MessageBox.Show($"User Removed!!! \n\nUser ID: {userNumber} \nReminder Name: {username}");
+                            dbContext.Users.Remove(selectedUser);
+
+                            dbContext.SaveChanges();
+                            OnRefreshUserList();
+                        }
+                        else
+                        {
+                            System.Windows.MessageBox.Show("Reminder not found");
+                        }
                     }
                     else
                     {
-                        System.Windows.MessageBox.Show("Reminder not found");
+                        System.Windows.MessageBox.Show("Guest User cannot be deleted.");
                     }
                 }
             }
             else
             {
-
+                System.Windows.MessageBox.Show("Deletion canceled!");
             }
         }
 

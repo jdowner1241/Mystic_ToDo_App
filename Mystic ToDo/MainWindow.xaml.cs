@@ -217,8 +217,9 @@ namespace Mystic_ToDo
         public void GoToReminderPage (ReminderPage _reminderPage, int userId)
         {
             _reminderPage.UserId = userId;
-            _reminderPage.Signout += OnLogout;
+          /*  _reminderPage.Signout += OnLogout;*/
             Menubar.UserId = userId;
+            Menubar.Signout += OnLogout;
             CurrentPage.Children.Add(_reminderPage);
             Menubar.Visibility = Visibility.Visible;
         }

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,7 +23,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Time_Tracker
     /// <summary>
     /// Interaction logic for TimetrackerPage.xaml
     /// </summary>
-    public partial class TimetrackerPage : UserControl
+    public partial class TimetrackerPage : UserControl, INotifyPropertyChanged
     {
         public TimetrackerPage()
         {
@@ -41,6 +43,26 @@ namespace Mystic_ToDo.View.UserControls.Content.Time_Tracker
         private TimeSpan _timerRemaining;
         private ObservableCollection<TimeSheetEntry> _timesheetEntries;
         private ObservableCollection<Alarm> _alarms;
+
+        private int _currentUserId;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public int CurrentUserId
+        {
+            get => _currentUserId; set
+            {
+                _currentUserId = value;
+                OnPropertyChanged(nameof(CurrentUserId));
+                // Perform any action needed when CurrentUserId changes, e.g., loading data for the user
+            }
+        }
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
 
         private void InitializeClocks()
         {

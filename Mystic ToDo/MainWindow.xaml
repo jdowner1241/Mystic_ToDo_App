@@ -18,7 +18,7 @@
         </Grid.RowDefinitions>
 
         <!-- MenuBar  -->
-        <header:MenuBar x:Name="Menubar" Grid.Row="0"/>
+        <header:MenuBar x:Name="MenubarUI" Grid.Row="0"/>
 
         
 

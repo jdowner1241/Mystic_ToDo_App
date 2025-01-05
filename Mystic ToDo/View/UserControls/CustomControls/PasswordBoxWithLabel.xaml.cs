@@ -11,7 +11,8 @@ namespace Mystic_ToDo.View.UserControls.CustomControls
         {
             InitializeComponent();
             DataContext = this;
-            ShowPasswordToggle = false;
+            ShowPasswordToggle = false; // Initialize to false
+            ToggleShowPassword(); // Ensure initial state is set correctly
         }
 
         public static readonly DependencyProperty PlaceholderProperty =

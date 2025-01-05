@@ -3,6 +3,7 @@ using Mystic_ToDo.View.UserControls.CustomControls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -28,6 +29,8 @@ namespace Mystic_ToDo.View.UserControls.Header
         {
             DataContext = this;
             InitializeComponent();
+
+            
         }
 
         private int _userId;
@@ -35,10 +38,10 @@ namespace Mystic_ToDo.View.UserControls.Header
 
         private MenuBarButton _lastClickedButton;
 
-        public event Action<int, int> GotoReminderPage;
-        public event Action<int, int> GotoCalenderPage;
-        public event Action<int, int> GotoTimetablePage;
-        public event Action<int, int> GotoTimetrackerPage;
+        public event Action<int> GotoReminderPage;
+        public event Action<int> GotoCalenderPage;
+        public event Action<int> GotoTimetablePage;
+        public event Action<int> GotoTimetrackerPage;
         public event Action Signout;
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -58,6 +61,7 @@ namespace Mystic_ToDo.View.UserControls.Header
                 _userId = value;
                 OnPropertyChanged();
                 UpdateUserName();
+                Debug.Write($"\n\nMenubar with UserID: {UserId} \n\n");
             } 
         }
 
@@ -112,16 +116,16 @@ namespace Mystic_ToDo.View.UserControls.Header
                 switch (button.Name)
                 {
                     case "bReminderpage":
-                        GotoReminderPage?.Invoke(UserId, (int)Pagenumber.Reminderpage);
+                        GotoReminderPage?.Invoke( (int)Pagenumber.Reminderpage);
                         break;
                     case "bCalenderpage":
-                        GotoCalenderPage?.Invoke(UserId, (int)Pagenumber.Calenderpage);
+                        GotoCalenderPage?.Invoke((int)Pagenumber.Calenderpage);
                         break;
                     case "bTimetablepage":
-                        GotoTimetablePage?.Invoke(UserId, (int)Pagenumber.Timetable);
+                        GotoTimetablePage?.Invoke((int)Pagenumber.Timetable);
                         break;
                     case "bTimeTrackerpage":
-                        GotoTimetrackerPage?.Invoke(UserId, (int)Pagenumber.Timetracker);
+                        GotoTimetrackerPage?.Invoke((int)Pagenumber.Timetracker);
                         break;
                 }
             }

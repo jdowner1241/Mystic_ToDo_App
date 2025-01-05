@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -18,14 +20,33 @@ namespace Mystic_ToDo.View.UserControls.Content.Calender
     /// <summary>
     /// Interaction logic for CalenderPage.xaml
     /// </summary>
-    public partial class CalenderPage : UserControl
+    public partial class CalenderPage : UserControl, INotifyPropertyChanged
     {
+
         public CalenderPage()
         {
             DataContext = this;
             InitializeComponent();
         }
 
+        private int _currentUserId;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public int CurrentUserId
+        {
+            get => _currentUserId; set
+            {
+                _currentUserId = value;
+                OnPropertyChanged(nameof(CurrentUserId));
+                // Perform any action needed when CurrentUserId changes, e.g., loading data for the user
+            }
+        }
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         private void Border_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {

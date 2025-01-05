@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.Remoting.Contexts;
@@ -33,6 +34,7 @@ namespace Mystic_ToDo.View.UserControls.Content.LoginPage
             InitializeComponent();
 
             _context = new ReminderContext();
+     
         }
 
         private ReminderContext _context;
@@ -50,40 +52,67 @@ namespace Mystic_ToDo.View.UserControls.Content.LoginPage
 
         public string UserName 
         {
-            get { return _name; }
+            get { return _name = txtName.TextValue; }
             set 
             { 
-                _name = value;
+                if (!string.IsNullOrEmpty(value))
+                {
+                    _name = value;
+                }
+                else
+                {
+                    _name = txtName.TextValue;
+                }
                 OnPropertyChanged();
             }
         }
 
         public string Email
         {
-            get { return _email; }
+            get { return _email = txtEmail.EmailTextBox.Text; }
             set 
-            { 
-                _email = value;
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    _email = value;
+                }
+                else
+                {
+                    _email = txtEmail.EmailTextBox.Text;
+                }
                 OnPropertyChanged();
             }
         }
 
         public string Password1
         {
-            get { return _password1; }
+            get { return _password1 = txtPassword.PasswordBox.Password; }
             set
             {
-                _password1 = value;
+                if (!string.IsNullOrEmpty(value))
+                {
+                    _password1 = value;
+                }else
+                {
+                    _password1 = txtPassword.PasswordBox.Password;
+                }
                 OnPropertyChanged();
             }
         }
 
         public string Password2
         {
-            get { return _password2; }
+            get { return _password2 = txtPassword2.PasswordBox.Password; }
             set
             {
-                _password2 = value;
+                if (!string.IsNullOrEmpty(value))
+                {
+                    _password1 = value;
+                }
+                else
+                {
+                    _password2 = txtPassword2.PasswordBox.Password;
+                }
                 OnPropertyChanged();
             }
         }
@@ -130,20 +159,44 @@ namespace Mystic_ToDo.View.UserControls.Content.LoginPage
 
         private void bCreateUser_Click(object sender, RoutedEventArgs e)
         {
-            //var user = GetInfoFromPage();
-  
+            SaveNewUser();
         }
 
         //Gather Information from Registration page the save the new user
         private void SaveNewUser()
         {
-            if (!string.IsNullOrEmpty(UserName) && !string.IsNullOrEmpty(Email) && !string.IsNullOrEmpty(Password))
+            if (string.IsNullOrEmpty(UserName))
             {
-               ReminderContext context = new ReminderContext();
-               UserService.CreateInitialUser(context, UserName, Email, Password);
-               RefreshUserList();
+                MessageBox.Show("User Name is required.", "Missing Entry", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            if (string.IsNullOrEmpty(Email))
+            {
+                MessageBox.Show("Email is required.", "Missing Entry", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            if (string.IsNullOrEmpty(Password))
+            {
+                MessageBox.Show("Password is required.", "Missing Entry", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            try
+            {
+                using (var context = new ReminderContext())
+                {
+                    UserService.CreateInitialUser(context, UserName, Email, Password);
+                    RefreshUserList();
+                }
+
+                MessageBox.Show("User created successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while creating the user: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
 
         private void RefreshUserList()
         {

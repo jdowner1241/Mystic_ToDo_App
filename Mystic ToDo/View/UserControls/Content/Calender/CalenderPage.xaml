@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:Mystic_ToDo.View.UserControls.Content.Calender"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              mc:Ignorable="d" Height="590" Width="900" FontFamily="Trebuchet MS">
-             <!--d:DesignHeight="450" d:DesignWidth="800"-->
+    <!--d:DesignHeight="450" d:DesignWidth="800"-->
     <Grid>
         <Grid>
             <!--Grid Background-->
@@ -33,27 +33,17 @@
 
                     <!--Year Selection-->
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 50 0 30">
-                        <Button Style="{StaticResource button}" Command="{Binding ChangeYearCommand}" CommandParameter="{x:Static sys:Int32.MinValue}">
+                        <Button Style="{StaticResource button}">
                             <fa:ImageAwesome Icon="AngleLeft" Style="{StaticResource angle}"/>
                         </Button>
 
-                        <Button Content="2020" Style="{StaticResource button}" Command="{Binding ChangeYearCommand}" CommandParameter="2020" 
-            Foreground="{Binding SelectedYear, Converter={StaticResource YearToColorConverter}, ConverterParameter=2020}" 
-            FontSize="{Binding SelectedYear, Converter={StaticResource YearToFontSizeConverter}, ConverterParameter=2020}"/>
-                        <Button Content="2021" Style="{StaticResource button}" Command="{Binding ChangeYearCommand}" CommandParameter="2021" 
-            Foreground="{Binding SelectedYear, Converter={StaticResource YearToColorConverter}, ConverterParameter=2021}" 
-            FontSize="{Binding SelectedYear, Converter={StaticResource YearToFontSizeConverter}, ConverterParameter=2021}"/>
-                        <Button Content="2022" Style="{StaticResource button}" Command="{Binding ChangeYearCommand}" CommandParameter="2022" 
-            Foreground="{Binding SelectedYear, Converter={StaticResource YearToColorConverter}, ConverterParameter=2022}" 
-            FontSize="{Binding SelectedYear, Converter={StaticResource YearToFontSizeConverter}, ConverterParameter=2022}"/>
-                        <Button Content="2023" Style="{StaticResource button}" Command="{Binding ChangeYearCommand}" CommandParameter="2023" 
-            Foreground="{Binding SelectedYear, Converter={StaticResource YearToColorConverter}, ConverterParameter=2023}" 
-            FontSize="{Binding SelectedYear, Converter={StaticResource YearToFontSizeConverter}, ConverterParameter=2023}"/>
-                        <Button Content="2024" Style="{StaticResource button}" Command="{Binding ChangeYearCommand}" CommandParameter="2024" 
-            Foreground="{Binding SelectedYear, Converter={StaticResource YearToColorConverter}, ConverterParameter=2024}" 
-            FontSize="{Binding SelectedYear, Converter={StaticResource YearToFontSizeConverter}, ConverterParameter=2024}"/>
+                        <Button Content="2020" Style="{StaticResource button}"/>
+                        <Button Content="2021" Style="{StaticResource button}"/>
+                        <Button Content="2022" Style="{StaticResource button}" Foreground="#C73F69" FontSize="24"/>
+                        <Button Content="2023" Style="{StaticResource button}"/>
+                        <Button Content="2024" Style="{StaticResource button}"/>
 
-                        <Button Style="{StaticResource button}" Command="{Binding ChangeYearCommand}" CommandParameter="{x:Static sys:Int32.MaxValue}">
+                        <Button Style="{StaticResource button}">
                             <fa:ImageAwesome Icon="AngleRight" Style="{StaticResource angle}"/>
                         </Button>
                     </StackPanel>
@@ -144,8 +134,8 @@
                     </Border>
 
                     <!--Notes-->
-                    
-                    
+
+
                     <CalenderContent:CalenderItemControls Title="Post on social networks" Time="09:45 - 10:30" Color="#EBA5BB" Icon="CheckCircle" IconBell="BellSlash"/>
                     <CalenderContent:CalenderItemControls Title="Review the app design" Time="11:30 - 12:00" Color="#EBA5BB" Icon="CheckCircle" IconBell="BellSlash"/>
                     <CalenderContent:CalenderItemControls Title="Build a demo of the app" Time="14:00 - 15:30" Color="#f1f1f1" Icon="CircleThin" IconBell="Bell"/>
@@ -156,5 +146,5 @@
             </Grid>
         </Grid>
     </Grid>
-    
+
 </UserControl>

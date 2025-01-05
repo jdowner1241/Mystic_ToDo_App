@@ -12,6 +12,8 @@ namespace Mystic_ToDo.View.UserControls.CustomControls
     /// </summary>
     public partial class EmailBoxWithLabel : UserControl, INotifyPropertyChanged
     {
+        private bool _isEmailValidationInProgress = false;
+
         public EmailBoxWithLabel()
         {
             InitializeComponent();
@@ -39,6 +41,11 @@ namespace Mystic_ToDo.View.UserControls.CustomControls
             get { return (string)GetValue(EmailProperty); }
             set
             {
+                if (_isEmailValidationInProgress)
+                {
+                    return;
+                }
+
                 SetValue(EmailProperty, value);
                 OnPropertyChanged();
             }
@@ -59,12 +66,25 @@ namespace Mystic_ToDo.View.UserControls.CustomControls
 
         private void ValidateEmail()
         {
-            var emailValidationRule = new EmailValidationRule();
-            var validationResult = emailValidationRule.Validate(Email, CultureInfo.CurrentCulture);
-            if (!validationResult.IsValid)
+            if (_isEmailValidationInProgress)
             {
-                // Handle invalid email format (e.g., show a message to the user)
-                MessageBox.Show(validationResult.ErrorContent.ToString(), "Invalid Email", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            _isEmailValidationInProgress = true;
+            try
+            {
+                var emailValidationRule = new EmailValidationRule();
+                var validationResult = emailValidationRule.Validate(Email, CultureInfo.CurrentCulture);
+                if (!validationResult.IsValid)
+                {
+                    // Handle invalid email format (e.g., show a message to the user)
+                    MessageBox.Show(validationResult.ErrorContent.ToString(), "Invalid Email", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+            }
+            finally
+            {
+                _isEmailValidationInProgress = false;
             }
         }
     }
@@ -87,7 +107,7 @@ namespace Mystic_ToDo.View.UserControls.CustomControls
             }
             else
             {
-                return new ValidationResult(false, "Invalid email format.");
+                return new ValidationResult(false, $"Invalid email format: {email}");
             }
         }
     }

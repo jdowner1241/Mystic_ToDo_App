@@ -67,27 +67,35 @@ namespace Mystic_ToDo.View.UserControls.Content.LoginPage
 
         public string Email
         {
-            get { return _email ?? string.Empty; }
+            get { return _email = EmailBox.EmailTextBox.Text; }
             set
             {
                 if (!string.IsNullOrEmpty(value))
                 {
                     _email = value;
-                    OnPropertyChanged();
                 }
+                else
+                {
+                    _email = EmailBox.EmailTextBox.Text;
+                }
+                OnPropertyChanged();
             }
         }
 
         public string Password
         {
-            get { return _password ?? string.Empty; }
+            get { return _password = PasswordBox.PasswordBox.Password; }
             set
             {
                 if (!string.IsNullOrEmpty(value))
                 {
                     _password = value;
-                    OnPropertyChanged();
                 }
+                else
+                {
+                    _password = PasswordBox.PasswordBox.Password;
+                }
+                OnPropertyChanged();
             }
         }
 

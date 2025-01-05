@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -19,13 +21,34 @@ namespace Mystic_ToDo.View.UserControls.Content.Timetable
     /// <summary>
     /// Interaction logic for TimetablePage.xaml
     /// </summary>
-    public partial class TimetablePage : UserControl
+    public partial class TimetablePage : UserControl, INotifyPropertyChanged
     {
         public TimetablePage()
         {
             DataContext = this;
             InitializeComponent();
         }
+
+        private int _currentUserId;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public int CurrentUserId
+        {
+            get => _currentUserId; set
+            {
+                _currentUserId = value; 
+                OnPropertyChanged(nameof(CurrentUserId)); 
+                // Perform any action needed when CurrentUserId changes, e.g., loading data for the user
+             } 
+        }
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+
 
         public class TimetableViewModel
         {

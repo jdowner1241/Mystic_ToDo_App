@@ -26,6 +26,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using static Mystic_ToDo.Database.ReminderDb;
 using System.CodeDom;
+using Mystic_ToDo.View.UserControls.Header;
 
 namespace Mystic_ToDo
 {
@@ -40,10 +41,11 @@ namespace Mystic_ToDo
         private RegistrationPage _registrationPage;
         private LoginPage _loginPage;
         private ReminderPage _reminderPage;
-        private Calendar _calendar;
+        private CalenderPage _calendarPage;
         private TimetablePage _timetablePage;
         private TimetrackerPage _timetrackerPage;
-        private int _loginId; 
+        private int _CurrentloginId; 
+        private int _SelectedloginId; 
 
         public int? SelectedReminderId
         {
@@ -66,10 +68,26 @@ namespace Mystic_ToDo
             TimetrackerPage = 6
         }
 
-        public int LoginId
+        public int CurrentLoginId
         {
-            get {  return _loginId; }
-            set { _loginId = value; }
+            get => _CurrentloginId;
+            set 
+            {
+                _CurrentloginId = value;
+                OnPropertyChanged(nameof(_CurrentloginId)); 
+                Debug.Write($"\n\nLoginId set to: {_CurrentloginId}\n\n");
+            }
+        }
+
+        public int SelectedLoginId
+        {
+            get => _SelectedloginId;
+            set
+            {
+                _SelectedloginId = value;
+                OnPropertyChanged(nameof(_SelectedloginId));
+                Debug.Write($"\n\nLoginId set to: {_SelectedloginId}\n\n");
+            }
         }
 
         public MainWindow()
@@ -78,32 +96,29 @@ namespace Mystic_ToDo
 
             
             ReminderList = new ReminderContext();
-            _reminderPage = new ReminderPage();
-            ReminderEditor reminderEditor = (ReminderEditor)FindName("ReminderEditorContent");
-
-            if (reminderEditor != null)
-            {
-                reminderEditor.SubscribeToReminderPageEvents(_reminderPage);
-            }
 
             OnHomeScreen();
 
-            Menubar.GotoReminderPage += AfterLoginSwitchpage;
-            Menubar.GotoCalenderPage += AfterLoginSwitchpage;
-            Menubar.GotoTimetablePage += AfterLoginSwitchpage;
-            Menubar.GotoTimetrackerPage += AfterLoginSwitchpage;
+            MenubarUI.GotoReminderPage += AfterLoginSwitchpage;
+            MenubarUI.GotoCalenderPage += AfterLoginSwitchpage;
+            MenubarUI.GotoTimetablePage += AfterLoginSwitchpage;
+            MenubarUI.GotoTimetrackerPage += AfterLoginSwitchpage;
+
+            Debug.Write($"\n\nMainPage with CurrentUserID: {CurrentLoginId} \n\n");
+            Debug.Write($"\n\nMainPage with SelectedUserID: {SelectedLoginId} \n\n");
         }
 
         private void SetCurrentPage(int selectPage)
         {
             //initialize your pages
-            var _homeScreen = new HomeScreen();
-            var _registrationPage = new RegistrationPage();
-            var _loginPage = new LoginPage();
-            var _reminderPage = new ReminderPage();
-            var _calenderPage = new CalenderPage();
-            var _timetrackerPage = new TimetrackerPage();
-            var _timetablePage = new TimetablePage();
+            // Initialize pages if they are null (reuse existing instances)
+            if (_homeScreen == null) _homeScreen = new HomeScreen(); 
+            if (_registrationPage == null) _registrationPage = new RegistrationPage(); 
+            if (_loginPage == null) _loginPage = new LoginPage(); 
+            if (_reminderPage == null) _reminderPage = new ReminderPage(); 
+            if (_calendarPage == null) _calendarPage = new CalenderPage(); 
+            if (_timetrackerPage == null) _timetrackerPage = new TimetrackerPage(); 
+            if (_timetablePage == null) _timetablePage = new TimetablePage();
 
             //Clear the current page
             CurrentPage.Children.Clear();
@@ -114,37 +129,39 @@ namespace Mystic_ToDo
             switch (selectedPage)
             {
                 case SelectedPage.HomeScreen:
-                    _homeScreen.ChangetoLoginPage += OnLogin;
+                    _homeScreen.ChangetoLoginPage += OnLoginPage;
                     _homeScreen.ChangetoRegistrationPage += OnRegistration;
                     _homeScreen.ChangetoGuestUser += OnGuestLogin;
                     CurrentPage.Children.Add(_homeScreen);
-                    Menubar.UserId = 0;
-                    Menubar.Visibility = Visibility.Collapsed;
+                    MenubarUI.Visibility = Visibility.Collapsed;
                     break;
                 case SelectedPage.RegistrationPage:
                     _registrationPage.ChangetoHomePage += OnHomeScreen;
                     _registrationPage.RefreshedUserList += OnHomeScreen;
                     CurrentPage.Children.Add(_registrationPage);
-                    Menubar.UserId = 0;
-                    Menubar.Visibility = Visibility.Collapsed;
+                    MenubarUI.Visibility = Visibility.Collapsed;
                     break;
                 case SelectedPage.login:
-                    GoToLoginPage(_loginPage, LoginId);
+                    GoToLoginPage(_loginPage);
                     break;
                 case SelectedPage.ReminderPage:
-                    GoToReminderPage(_reminderPage, LoginId);
+                    GoToReminderPage(_reminderPage);
+                    MenubarUI.Visibility = Visibility.Visible;
                     break;
                 case SelectedPage.CalenderPage:
-                    CurrentPage.Children.Add(_calenderPage);
-                    Menubar.Visibility = Visibility.Visible;
+                    _calendarPage.CurrentUserId = CurrentLoginId;
+                    CurrentPage.Children.Add(_calendarPage);
+                    MenubarUI.Visibility = Visibility.Visible;
                     break;
                 case SelectedPage.TimetablePage:
+                    _timetablePage.CurrentUserId = CurrentLoginId;
                     CurrentPage.Children.Add(_timetablePage);
-                    Menubar.Visibility = Visibility.Visible;
+                    MenubarUI.Visibility = Visibility.Visible;
                     break;
                 case SelectedPage.TimetrackerPage:
+                    _timetrackerPage.CurrentUserId = CurrentLoginId;
                     CurrentPage.Children.Add(_timetrackerPage);
-                    Menubar.Visibility = Visibility.Visible;
+                    MenubarUI.Visibility = Visibility.Visible;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(selectPage), selectPage, null);
@@ -168,67 +185,90 @@ namespace Mystic_ToDo
             SetCurrentPage(0);
         }
 
-        public void OnLogin(int userId)
+        public void OnLoginPage(int userId)
         {
-            LoginId = userId;
+            SelectedLoginId = userId;
             SetCurrentPage(2);
         }
 
-        public void GoToLoginPage(LoginPage _loginPage, int userId)
+        public void GoToLoginPage(LoginPage _loginPage)
         {
             _loginPage.ChangetoHomePage += OnHomeScreen;
             _loginPage.ChangetoReminderPage += AfterLogin;
-            _loginPage.UserNumber = userId;
+            _loginPage.UserNumber = SelectedLoginId;
             CurrentPage.Children.Add(_loginPage);
-            Menubar.Visibility = Visibility.Collapsed;
+            MenubarUI.Visibility = Visibility.Collapsed;
         }
 
         public void AfterLogin (int userId)
         {
-            LoginId = userId;
+            CurrentLoginId = userId;
+            UpdateMenubarId(CurrentLoginId);
             SetCurrentPage(3);
         }
 
-        public void AfterLoginSwitchpage(int userId, int pageNumber)
+        public void AfterLoginSwitchpage(int pageNumber)
         {
-            if (userId != 0)
-            {
                switch(pageNumber)
                 {
                     case 1:
-                        SetCurrentPage(3);
+                        SetCurrentPage((int)SelectedPage.ReminderPage); 
                         break;
                     case 2:
-                        SetCurrentPage(4);
+                        _calendarPage.CurrentUserId = CurrentLoginId; 
+                        SetCurrentPage((int)SelectedPage.CalenderPage);
                         break;
                     case 3:
-                        SetCurrentPage(5);
+                        _timetablePage.CurrentUserId = CurrentLoginId; 
+                        SetCurrentPage((int)SelectedPage.TimetablePage);
                         break;
-                    case 4: 
-                        SetCurrentPage(6);
+                    case 4:
+                        _timetrackerPage.CurrentUserId = CurrentLoginId; 
+                        SetCurrentPage((int)SelectedPage.TimetrackerPage);
                         break;
                     default:
                         Debug.Write("User not selected");
                         break;
                 }
-            }
         }
 
-        public void GoToReminderPage (ReminderPage _reminderPage, int userId)
+        public void GoToReminderPage(ReminderPage _reminderPage)
         {
-            _reminderPage.UserId = userId;
-          /*  _reminderPage.Signout += OnLogout;*/
-            Menubar.UserId = userId;
-            Menubar.Signout += OnLogout;
+            MenubarUI.Visibility = Visibility.Visible; 
 
+            _reminderPage.UserId = CurrentLoginId;
             CurrentPage.Children.Add(_reminderPage);
-            Menubar.Visibility = Visibility.Visible;
+
+            Dispatcher.InvokeAsync(() => 
+            {
+                ReminderEditor reminderEditor = (ReminderEditor)FindName("ReminderEditorContent"); 
+            
+                if (reminderEditor != null) 
+                {
+                    reminderEditor.CurrentUserId = CurrentLoginId;
+                    reminderEditor.SubscribeToReminderPageEvents(_reminderPage); 
+                }
+
+                PersonalFolder1 personalFolder1 = (PersonalFolder1)FindName("PersonalFolder"); 
+                if (personalFolder1 != null) 
+                { 
+                    personalFolder1.UserId = CurrentLoginId; 
+                    personalFolder1.LoadFolderList(); 
+                }
+            
+                Filter1 filter1 = (Filter1)FindName("FilterContent"); if (filter1 != null)
+                { 
+                    // Ensure Filter1 is set up correctly if needed
+                } 
+            });
+
         }
 
 
         public void OnGuestLogin(int userId)
         {
-            LoginId = userId;
+            CurrentLoginId = userId;
+            UpdateMenubarId(userId);
             SetCurrentPage(3);
         }
 
@@ -240,6 +280,12 @@ namespace Mystic_ToDo
         public void OnLogout()
         {
             SetCurrentPage(0);
+        }
+
+        public void UpdateMenubarId(int currentUserId)
+        {
+            MenubarUI.UserId = currentUserId;
+            MenubarUI.Signout += OnLogout;
         }
     }
 }

@@ -28,10 +28,15 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
     {
         public PersonalFolder1()
         {
-            DataContext = this;
+           
             InitializeComponent();
+            DataContext = this;
+
+            Debug.Write($"\n\nPersonalFolder1 with UserID: {UserId} \n\n");
 
             LoadFolderList();
+
+            
         }
 
         private int _userId;
@@ -46,6 +51,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             { 
                 _userId = value;
                 OnPropertyChanged();
+                Debug.Write($"\n\nPersonalFolder1 set UserID: {UserId} \n\n");
             }
         }
 
@@ -71,6 +77,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             {
                 using (var context = new ReminderContext())
                 {
+
                     var folders = context.Folders
                                             .Where(folders => folders.UserId == UserId)
                                             .ToList();

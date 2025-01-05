@@ -25,8 +25,8 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
 
         public ReminderEditor()
         {
-            DataContext = this;
             InitializeComponent();
+            DataContext = this;
 
             DbContext = new ReminderContext();
             newReminder = new ReminderDb.Reminder();
@@ -37,7 +37,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             editMode = true;
             editMode = false;
 
-
+            Debug.Write($"\n\nReminderEditor with UserID: {CurrentUserId} \n\n");
         }
 
         private ReminderContext DbContext;
@@ -61,6 +61,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             {
                 _currentUserId = value;
                 OnPropertyChanged();
+                Debug.Write($"\n\nReminderEditor set UserID: {CurrentUserId} \n\n");
             } 
         }
 

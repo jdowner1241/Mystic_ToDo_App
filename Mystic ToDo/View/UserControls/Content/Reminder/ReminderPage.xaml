@@ -17,10 +17,10 @@
         </Grid.ColumnDefinitions>
 
         <!-- Folder List -->
-        <!--<reminderEditor:PersonalFolder1 x:Name="PersonalFolder" Grid.Column="0" />-->
-        <Grid x:Name="PersonalFolder" Grid.Column="0">
+        <reminderEditor:PersonalFolder1 x:Name="PersonalFolder" Grid.Column="0" />
+        <!--<Grid x:Name="PersonalFolder" Grid.Column="0">
             
-        </Grid>
+        </Grid>-->
 
 
         <!-- Main Reminder Window -->
@@ -35,6 +35,7 @@
 
 
             <!-- Task List -->
+            
             <Grid Grid.Row="1" x:Name="reminderListDB">
                 
             </Grid>

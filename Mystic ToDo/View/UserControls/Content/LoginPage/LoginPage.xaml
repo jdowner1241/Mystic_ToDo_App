@@ -37,7 +37,7 @@
 
 
                     <CustomControls:EmailBoxWithLabel x:Name="EmailBox" Grid.Row="0" VerticalContentAlignment="Center" Placeholder="Email"
-                                                      Email="{Binding Email, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                                      />
 
 
                     <CustomControls:PasswordBoxWithLabel x:Name="PasswordBox" Grid.Row="1" VerticalContentAlignment="Center" Placeholder="Password"

@@ -24,8 +24,9 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
     {
         public PersonalFolderItem()
         {
-            DataContext = this;
+            
             InitializeComponent();
+            DataContext = this;
         }
 
         private static PersonalFolderItem _lastSelectedItem;

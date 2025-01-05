@@ -4,6 +4,7 @@ using Mystic_ToDo.View.UserControls.Content.LoginPage.LoginPageContent;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Core.Common.CommandTrees;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,6 +39,7 @@ namespace Mystic_ToDo.View.UserControls.Content.LoginPage
             reminderContext = new ReminderContext();
 
             loadUserList();
+            Debug.Write("\n\nHomePage without UserID \n\n");
         }
 
         //FetchUser List from database

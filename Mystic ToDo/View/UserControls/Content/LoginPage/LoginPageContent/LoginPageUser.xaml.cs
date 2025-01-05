@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -18,6 +19,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static Mystic_ToDo.Database.ReminderDb;
 
 namespace Mystic_ToDo.View.UserControls.Content.LoginPage.LoginPageContent
 {
@@ -90,10 +92,14 @@ namespace Mystic_ToDo.View.UserControls.Content.LoginPage.LoginPageContent
                 MessageBoxButton.OKCancel,
                 MessageBoxImage.Warning
             );
-
-            if (result == MessageBoxResult.OK) 
+            if (result == MessageBoxResult.OK)
             {
                 using (var dbContext = new ReminderContext())
+                {
+                    var resultMessage = UserService.RemoveUser(dbContext, UserNumber); MessageBox.Show(resultMessage);
+                }
+
+                /*using (var dbContext = new ReminderContext())
                 {
                     if (UserNumber != 1)
                     {
@@ -116,7 +122,7 @@ namespace Mystic_ToDo.View.UserControls.Content.LoginPage.LoginPageContent
                     {
                         System.Windows.MessageBox.Show("Guest User cannot be deleted.");
                     }
-                }
+                }*/
             }
             else
             {

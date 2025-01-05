@@ -35,6 +35,25 @@ namespace Mystic_ToDo
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
+        public MainWindow()
+        {
+            InitializeComponent();
+
+
+            ReminderList = new ReminderContext();
+
+            OnHomeScreen();
+
+            MenubarUI.GotoReminderPage += AfterLoginSwitchpage;
+            MenubarUI.GotoCalenderPage += AfterLoginSwitchpage;
+            MenubarUI.GotoTimetablePage += AfterLoginSwitchpage;
+            MenubarUI.GotoTimetrackerPage += AfterLoginSwitchpage;
+
+            Debug.Write($"\n\nMainPage with CurrentUserID: {CurrentLoginId} \n\n");
+            Debug.Write($"\n\nMainPage with SelectedUserID: {SelectedLoginId} \n\n");
+        }
+
+
         private ReminderContext ReminderList;
         private int? _selectedReminderId;
         private HomeScreen _homeScreen;
@@ -88,24 +107,6 @@ namespace Mystic_ToDo
                 OnPropertyChanged(nameof(_SelectedloginId));
                 Debug.Write($"\n\nLoginId set to: {_SelectedloginId}\n\n");
             }
-        }
-
-        public MainWindow()
-        {
-            InitializeComponent();
-
-            
-            ReminderList = new ReminderContext();
-
-            OnHomeScreen();
-
-            MenubarUI.GotoReminderPage += AfterLoginSwitchpage;
-            MenubarUI.GotoCalenderPage += AfterLoginSwitchpage;
-            MenubarUI.GotoTimetablePage += AfterLoginSwitchpage;
-            MenubarUI.GotoTimetrackerPage += AfterLoginSwitchpage;
-
-            Debug.Write($"\n\nMainPage with CurrentUserID: {CurrentLoginId} \n\n");
-            Debug.Write($"\n\nMainPage with SelectedUserID: {SelectedLoginId} \n\n");
         }
 
         private void SetCurrentPage(int selectPage)
@@ -252,7 +253,7 @@ namespace Mystic_ToDo
                 PersonalFolder1 personalFolder1 = (PersonalFolder1)FindName("PersonalFolder"); 
                 if (personalFolder1 != null) 
                 { 
-                    personalFolder1.UserId = CurrentLoginId; 
+                    personalFolder1.UserId = CurrentLoginId;
                     personalFolder1.LoadFolderList(); 
                 }
             

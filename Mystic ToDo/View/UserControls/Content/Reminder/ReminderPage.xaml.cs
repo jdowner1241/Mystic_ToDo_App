@@ -31,33 +31,11 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
             DataContext = this;
 
             DbContext = new ReminderContext();
-            //LoadDataFromReminderPage();
+            LoadDataFromReminderPage();
 
             Debug.Write($"\n\nReminderPage with UserID: {UserId} \n\n");
 
-            InitializeControls();
-
-            var reminderEditor = (ReminderEditor)FindName("ReminderEditorContent");
-            if (reminderEditor != null)
-            {
-                reminderEditor.SubscribeToReminderPageEvents(this);
-                //reminderEditor.CurrentUserId = UserId;
-                reminderEditor.CurrentFolderId = CurrentFolderId;
-            }
-            var filter = (Filter1)FindName("FilterContent");
-            if (filter != null)
-            {
-                filter.SubscribeToReminderPageEvents(this);
-            }
-
-            //LoadPersonalFolders();
-            var personalFolder = (PersonalFolder1)FindName("PersonalFolder");
-            if (personalFolder != null)
-            {
-                //personalFolder.UserId = UserId;
-                personalFolder.LoadFolderList();
-            }
-
+            InitializeControls();         
 
         }
 
@@ -101,6 +79,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
                 _userId = value;
                 OnPropertyChanged();
                 UpdateChildControls();
+                LoadDataFromReminderPage();
 
                 Debug.Write($"\n\nReminderPage updated with UserID: {UserId} \n\n");
             }
@@ -134,6 +113,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
             {
                 _currentFolderId = value;
                 OnPropertyChanged();
+                //UpdateReminderEditorOnly();
             }
         }
 
@@ -156,12 +136,19 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
         /// </summary>
         private void InitializeControls()
         {
-            var reminderEditor = (ReminderEditor)FindName("ReminderEditorContent");
+            var personalFolder = (PersonalFolder1)FindName("PersonalFolder");
+            if (personalFolder != null)
+            {
+                personalFolder.SelectedFolderIDUpdate -= OnFolderSelection;
+                personalFolder.SelectedFolderIDUpdate += OnFolderSelection;
+                personalFolder.LoadFolderList();
+                
+            }
 
+            var reminderEditor = (ReminderEditor)FindName("ReminderEditorContent");
             if (reminderEditor != null)
             {
                 reminderEditor.SubscribeToReminderPageEvents(this);
-                reminderEditor.CurrentFolderId = CurrentFolderId;
             }
 
             var filter = (Filter1)FindName("FilterContent");
@@ -169,31 +156,35 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
             {
                 filter.SubscribeToReminderPageEvents(this);
             }
-
-            var personalFolder = (PersonalFolder1)FindName("PersonalFolder");
-            if (personalFolder != null)
-            {
-                personalFolder.LoadFolderList();
-            }
         }
 
         private void UpdateChildControls()
+        {
+            var personalFolder = (PersonalFolder1)FindName("PersonalFolder");
+            if (personalFolder != null)
+            {
+                personalFolder.UserId = UserId; // Update the UserId for PersonalFolder
+                personalFolder.SelectedFolderIDUpdate -= OnFolderSelection;
+                personalFolder.SelectedFolderIDUpdate += OnFolderSelection;
+                personalFolder.LoadFolderList(); // Reload folder list with updated UserId
+            }
+
+            UpdateReminderEditorOnly();
+        }
+
+        private void UpdateReminderEditorOnly()
         {
             var reminderEditor = (ReminderEditor)FindName("ReminderEditorContent");
             if (reminderEditor != null)
             {
                 reminderEditor.CurrentUserId = UserId; // Update the UserId for ReminderEditor
-            }
-
-            var personalFolder = (PersonalFolder1)FindName("PersonalFolder");
-            if (personalFolder != null)
-            {
-                personalFolder.UserId = UserId; // Update the UserId for PersonalFolder
-                personalFolder.LoadFolderList(); // Reload folder list with updated UserId
+                reminderEditor.CurrentFolderId = CurrentFolderId;
             }
         }
 
-
+        /// <summary>
+        /// Database 
+        /// </summary>
         // Fetch reminders from the database for a specific user ID
         private List<ReminderDb.Reminder> FetchReminders()
         {
@@ -214,7 +205,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
             }
         }
 
-
+        //
         // Fetch searched value from the database
         private List<ReminderDb.Reminder> FetchSearchValue(string searchValue)
         {
@@ -337,7 +328,6 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
             {
                 var reminderEditor = (ReminderEditor)reminderPage.ReminderEditorContent;
                 reminderEditor.CurrentUserId = reminderPage.UserId; 
-                reminderEditor.CurrentFolderId = reminderPage.CurrentFolderId;
                 reminderEditor.LoadData((int?)e.NewValue);
             }
         }
@@ -385,12 +375,11 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
             ReminderListChanged?.Invoke(this, EventArgs.Empty);
         }
 
-       /* public void LoadPersonalFolders()
+        private void OnFolderSelection(int folderId) 
         {
-            PersonalFolder1 personalFolder1 = new PersonalFolder1();
-            personalFolder1.UserId = UserId;
-            personalFolder1.LoadFolderList();
-            PersonalFolder.Children.Add(personalFolder1);
-        }*/
+            CurrentFolderId = folderId;
+            UpdateReminderEditorOnly();
+        }
+
     }
 }

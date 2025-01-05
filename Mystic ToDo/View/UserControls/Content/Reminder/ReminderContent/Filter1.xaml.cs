@@ -55,6 +55,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
         public void SubscribeToReminderPageEvents(ReminderPage reminderPage)
         {
             this.reminderPage = reminderPage;
+            SearchValueChanged -= reminderPage.SearchValueFromReminderPage;
             SearchValueChanged += reminderPage.SearchValueFromReminderPage;
             //SearchValueChanged += reminderPage.ReminderPageSearch;
 

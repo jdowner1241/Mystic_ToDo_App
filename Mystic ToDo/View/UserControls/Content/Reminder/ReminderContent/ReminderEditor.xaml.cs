@@ -72,6 +72,8 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             { 
                 _currentFolderId = value;
                 OnPropertyChanged();
+
+                Debug.Write($"\n\nReminderEditor set FolderID: {CurrentFolderId} \n\n");
             }
         }
 
@@ -84,9 +86,13 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
         public void SubscribeToReminderPageEvents(ReminderPage reminderPage)
         {
             this.reminderPage = reminderPage;
+            reminderPage.ReminderChanged -= ReminderPage_ReminderChanged;
             reminderPage.ReminderChanged += ReminderPage_ReminderChanged;
+            reminderPage.SelectedReminderIdChanged -= OnSelectedReminderIdChanged;
             reminderPage.SelectedReminderIdChanged += OnSelectedReminderIdChanged;
+            reminderPage.ReminderListChanged -= ReminderPage_ReminderListChanged;
             reminderPage.ReminderListChanged += ReminderPage_ReminderListChanged;
+            reminderPage.SelectedReminderListChanged -= OnSelectedReminderIdListChanged;
             reminderPage.SelectedReminderListChanged += OnSelectedReminderIdListChanged;
 
             Debug.WriteLine("RefreshEditor Event subcried correctly");

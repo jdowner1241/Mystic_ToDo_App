@@ -171,6 +171,9 @@
     <Compile Include="View\UserControls\Content\Reminder\ReminderContent\PersonalFolderItem.xaml.cs">
       <DependentUpon>PersonalFolderItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\UserControls\Content\Reminder\ReminderContent\PersonalFolderItemAdd.xaml.cs">
+      <DependentUpon>PersonalFolderItemAdd.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\UserControls\Content\Reminder\ReminderContent\ReminderEditor.xaml.cs">
       <DependentUpon>ReminderEditor.xaml</DependentUpon>
     </Compile>
@@ -297,6 +300,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\UserControls\Content\Reminder\ReminderContent\PersonalFolderItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\Content\Reminder\ReminderContent\PersonalFolderItemAdd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

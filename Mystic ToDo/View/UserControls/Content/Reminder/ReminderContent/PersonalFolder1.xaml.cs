@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -34,15 +35,20 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
 
             Debug.Write($"\n\nPersonalFolder1 with UserID: {UserId} \n\n");
 
+            NewFolderToggle = false;
             LoadFolderList();
 
-            
+            // Initialize the initial folder selection
+            InitailFolderSelection();
         }
 
         private int _userId;
         private int _selectedFolderId;
+        private bool NewFolderToggle { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public event Action<int> SelectedFolderIDUpdate;
 
         public int UserId
         {
@@ -62,6 +68,8 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             { 
                 _selectedFolderId = value;
                 OnPropertyChanged();
+                //SelectedFolderIDUpdate(SelectedFolderId);
+                SelectedFolderIDUpdate?.Invoke(SelectedFolderId);
             }
         }
 
@@ -101,13 +109,23 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             {
                 if (folder != null)
                 {
-                    PersonalFolderItem newFolder= new PersonalFolderItem();
-                    newFolder.FolderId = folder.FolderId;
-                    newFolder.FolderName = folder.FolderName;
+                    PersonalFolderItem newFolder= new PersonalFolderItem()
+                    {
+                        FolderId = folder.FolderId,
+                        FolderName = folder.FolderName
+                    };
                     newFolder.SelectedFolder += OnFolderSelection;
+                    newFolder.DeleteFolder += OnFolderDelete;
                     UIFolderList.Children.Add(newFolder);
                 }
-            }      
+            }
+            if (NewFolderToggle)
+            {
+                PersonalFolderItemAdd AddNewFolder = new PersonalFolderItemAdd();
+                AddNewFolder.AddNewFolder += OnFolderAdd;
+                AddNewFolder.CancelNewFolder += OnFolderCancel;
+                UIFolderList.Children.Add(AddNewFolder);
+            }
         }
 
         // Load folderList
@@ -115,18 +133,90 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
         {
             var FolderList = FetchFolders();
             UpdateUI (FolderList);
+            InitailFolderSelection();
+        }
+
+        // Load FolderList and add a new folder to add
+        public void OnFolderAdd(string newFolderName)
+        {
+            //add newfolder
+            using (var context = new ReminderContext())
+            {
+                UserService.AddNewFolderForUser(context, UserId, newFolderName);
+            }  
+
+            //Reset folderlist to default. 
+            NewFolderToggle = false;
+            LoadFolderList();
+        }
+
+        public void OnFolderCancel()
+        {
+            //Reset folderlist to default. 
+            NewFolderToggle = false;
+            LoadFolderList();
+        }
+
+        private void InitailFolderSelection()
+        {
+            using (var context = new ReminderContext())
+            {
+                var defaultFolder = context.FoldersPerUser.FirstOrDefault(fpu => fpu.UserId == UserId && fpu.FolderNumberPerUser == 1); 
+                
+                if (defaultFolder != null)
+                {
+                    SelectedFolderId = defaultFolder.FolderId; // Send an event to PersonalFolderItem to highlight the initial folder
+                    SelectedFolderIDUpdate?.Invoke(SelectedFolderId); 
+                }
+
+                // Find the corresponding PersonalFolderItem and highlight it
+                foreach (PersonalFolderItem folderItem in UIFolderList.Children)
+                { 
+                    if (folderItem.FolderId == defaultFolder.FolderId) 
+                    { 
+                        folderItem.HighlightItem(); 
+                        break; 
+                    } 
+                }
+            }
         }
 
         private void OnFolderSelection(int selectedFolderId)
         {
             SelectedFolderId = selectedFolderId;
+            Debug.Write($"\n\nFolder ID: {selectedFolderId} \n\n");
         }
+
+       
 
         private void bAddUser_Click(object sender, RoutedEventArgs e)
         {
-
+            NewFolderToggle = true;
+            LoadFolderList();
         }
 
-        
+        private void OnFolderDelete(int selectedFolderId, string folderName)
+        {
+            MessageBoxResult result = System.Windows.MessageBox.Show(
+                $" Do you want to Delete this Folder? \n Folder Name: {folderName}",
+                "Delete Folder !!!",
+                MessageBoxButton.OKCancel,
+                MessageBoxImage.Warning
+            );
+            if (result == MessageBoxResult.OK)
+            {
+                using (var context = new ReminderContext())
+                {
+                    var resultMessage = UserService.RemoveFolderForUser(context, UserId, selectedFolderId); MessageBox.Show(resultMessage);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Folder delete canceled");
+            }
+
+            LoadFolderList();
+        }
+
     }
 }

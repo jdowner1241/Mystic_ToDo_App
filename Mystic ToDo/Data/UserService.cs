@@ -68,7 +68,64 @@ namespace Mystic_ToDo.Data
             context.FoldersPerUser.Add(newFolderPerUser);
             context.SaveChanges();
         }
+
+        public static string RemoveFolderForUser(ReminderContext context, int userId, int folderId)
+        {
+            var folderPerUser = context.FoldersPerUser.FirstOrDefault(fpu => fpu.UserId == userId && fpu.FolderId == folderId); 
+            
+            if (folderPerUser == null) 
+            { 
+                return "Folder not found."; 
+            }
+
+            if (folderPerUser.FolderNumberPerUser == 1) 
+            { 
+                return "The default folder cannot be deleted."; 
+            }
+                
+            var folder = context.Folders.FirstOrDefault(f => f.FolderId == folderId && f.UserId == userId); 
+            
+            if (folder != null) 
+            { 
+                context.Folders.Remove(folder); 
+                context.FoldersPerUser.Remove(folderPerUser); 
+                context.SaveChanges(); 
+                return "Folder was deleted successfully."; 
+            }
+            return "An error occurred. Folder could not be deleted.";
+        }
+
+        public static string RemoveUser(ReminderContext context, int userId) 
+        { 
+            if (userId == 1) 
+            { 
+                return "The Guest user cannot be deleted."; 
+            } 
+            
+            var user = context.Users.FirstOrDefault(u => u.UserId == userId); 
+            
+            if (user != null) 
+            {
+
+                var foldersPerUser = context.FoldersPerUser.Where(fpu => fpu.UserId == userId).ToList();
+                foreach (var fpu in foldersPerUser) 
+                { 
+
+                    var folder = context.Folders.FirstOrDefault(f => f.FolderId == fpu.FolderId); 
+                    if (folder != null) 
+                    { 
+                        context.Folders.Remove(folder); 
+                    } 
+                    context.FoldersPerUser.Remove(fpu); 
+                } 
+
+                context.Users.Remove(user); 
+                context.SaveChanges(); 
+                return "User was deleted successfully."; 
+            } 
+            
+            return "An error occurred. User could not be deleted."; 
+        }
+
     }
-
-
 }

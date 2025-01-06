@@ -131,11 +131,8 @@
                     <Expander Grid.Row="1" >
                         <Border Background="Silver" Margin="5, 5">
                             <ScrollViewer VerticalScrollBarVisibility="Auto" Height="150">
-                                <StackPanel Orientation="Vertical">
-                                    <reminderContent:FilterItems/>
-                                    <reminderContent:FilterItems/>
-                                    <reminderContent:FilterItems/>
-                                    <reminderContent:FilterItems/>
+                                <StackPanel x:Name="FilterList" Orientation="Vertical">
+
                                 </StackPanel>
                             </ScrollViewer>
                         </Border>

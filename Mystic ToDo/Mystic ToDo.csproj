@@ -159,8 +159,14 @@
     <Compile Include="View\UserControls\Content\Reminder\ReminderContent\FilterItems.xaml.cs">
       <DependentUpon>FilterItems.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\UserControls\Content\Reminder\ReminderContent\FilterItems1.xaml.cs">
+      <DependentUpon>FilterItems1.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\UserControls\Content\Reminder\ReminderContent\FilterItemsCbox.xaml.cs">
       <DependentUpon>FilterItemsCbox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\Content\Reminder\ReminderContent\FilterItemsCbox1.xaml.cs">
+      <DependentUpon>FilterItemsCbox1.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\UserControls\Content\Reminder\ReminderContent\PersonalFolder.xaml.cs">
       <DependentUpon>PersonalFolder.xaml</DependentUpon>
@@ -290,7 +296,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\UserControls\Content\Reminder\ReminderContent\FilterItems1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\UserControls\Content\Reminder\ReminderContent\FilterItemsCbox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\Content\Reminder\ReminderContent\FilterItemsCbox1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

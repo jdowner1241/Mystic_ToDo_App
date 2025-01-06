@@ -43,6 +43,8 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
         private bool _isUpdating = false;
         private string searchValue;
         private bool _searchAllValueToggle;
+        private bool filterCompletedTrueOnly;
+        private bool filterCompletedFalseOnly;
         private int _userId;
         private int _currentFolderId;
         private string _userName;
@@ -134,6 +136,24 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
             set
             {
                 _searchAllValueToggle = value;
+            }
+        }
+
+        public bool FilterCompletedTrueOnly
+        {
+            get => filterCompletedTrueOnly;
+            set
+            {
+                filterCompletedTrueOnly = value;
+            }
+        }
+
+        public bool FilterCompletedFalseOnly
+        {
+            get => filterCompletedFalseOnly;
+            set
+            {
+                filterCompletedFalseOnly = value;
             }
         }
 
@@ -240,10 +260,10 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
         // Fetch searched value from the database
         private List<ReminderDb.Reminder> FetchSearchValue(string searchValue)
         {
-            var reminderList = FetchReminders(); // Retrieve reminders based on UserId
+            var reminderList = FetchReminders(); // Retrieve reminders based on UserId  but folder specific 
 
             // Filter the retrieved reminders based on the search value
-            if (reminderList != null)
+            if (searchValue != null)
             {
                 var searchResults = reminderList
                                 .Where(r => r.Name != null && r.Name.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase) >= 0 ||
@@ -259,7 +279,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
             
         }
 
-        // Fetch searched value from the database
+        // Fetch all searched value from the database
         private List<ReminderDb.Reminder> FetchSearchValueAllUsers(string searchValue)
         {
             var reminderList = FetchRemindersAllUsers(); // Retrieve reminders based on UserId
@@ -280,13 +300,88 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
             }
         }
 
-
-
-        // Event that gets and run the search method
-        public void ReminderPageSearch(ReminderDb.Reminder reminder)
+        // Fetch Filtered OnlyTrue value from the database
+        private List<ReminderDb.Reminder> FetchFilterTrueOnlyValue(bool filterCompletedTrueOnly)
         {
-            SearchValueFromReminderPage(SearchValue, SearchAllValueToggle);
+            var reminderList = FetchReminders(); // Retrieve reminders based on UserId but folder specific 
+
+            // Filter the retrieved reminders based on the search value
+            if (filterCompletedTrueOnly)
+            {
+                var filterResults = reminderList
+                                .Where(r => r.IsComplete == true )
+                                .ToList();
+
+                return filterResults;
+            }
+            else
+            {
+                return reminderList;
+            }
+
         }
+
+        // Fetch Filtered OnlyTrue value from the database for all folders
+        private List<ReminderDb.Reminder> FetchFilterTrueOnlyValueAllUsers(bool filterCompletedTrueOnly)
+        {
+            var reminderList = FetchRemindersAllUsers(); // Retrieve reminders based on UserId
+
+            // Filter the retrieved reminders based on the IsCompleted Bool
+            if (filterCompletedTrueOnly)
+            {
+                var filterResults = reminderList
+                                    .Where(r => r.IsComplete == true)
+                                    .ToList();
+
+                return filterResults;
+            }
+            else
+            {
+                return reminderList;
+            }
+        }
+
+        // Fetch Filtered OnlyFalse value from the database
+        private List<ReminderDb.Reminder> FetchFilterFalseOnlyValue(bool filterCompletedFalseOnly)
+        {
+            var reminderList = FetchReminders(); // Retrieve reminders based on UserId but folder specific 
+
+            // Filter the retrieved reminders based on the search value
+            if (filterCompletedFalseOnly)
+            {
+                var filterResults = reminderList
+                                .Where(r => r.IsComplete == false)
+                                .ToList();
+
+                return filterResults;
+            }
+            else
+            {
+                return reminderList;
+            }
+
+        }
+
+        // Fetch Filtered OnlyFalse value from the database for all folders
+        private List<ReminderDb.Reminder> FetchFilterFalseOnlyValueAllUsers(bool filterCompletedFalseOnly)
+        {
+            var reminderList = FetchRemindersAllUsers(); // Retrieve reminders based on UserId
+
+            // Filter the retrieved reminders based on the IsCompleted Bool
+            if (filterCompletedFalseOnly)
+            {
+                var filterResults = reminderList
+                                    .Where(r => r.IsComplete == false)
+                                    .ToList();
+
+                return filterResults;
+            }
+            else
+            {
+                return reminderList;
+            }
+        }
+
 
         //Create a TaskList from the reminders
         private TaskList CreateTaskList(IEnumerable<ReminderDb.Reminder> reminders)
@@ -349,26 +444,18 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
 
         }
 
-        ////Load searched data and update the Ui
-        //public void SearchValueFromReminderPage(string searchValue)
-        //{
-        //    if (_isUpdating) return;   
 
-        //    _isUpdating = true ;
-        //    try
-        //    {
-        //        Debug.WriteLine("Search triggered");
+        /// <summary>
+        /// Events 
+        /// </summary>
+        // Event that gets and run the filterPage methods
+        public void ReminderPageSearch(ReminderDb.Reminder reminder)
+        {
+            SearchValueFromReminderPage(SearchValue, SearchAllValueToggle);
+            FilterCompletedTrueOnlyFromRP(FilterCompletedTrueOnly, SearchAllValueToggle);
+            FilterCompletedFalseOnlyFromRP(FilterCompletedFalseOnly, SearchAllValueToggle);
+        }
 
-        //        SearchValue = searchValue;
-        //        var reminders = FetchSearchValue(searchValue);
-        //        SearchedTaskList = CreateTaskList(reminders);
-        //        UpdateSearchUI();
-        //    }
-        //    finally
-        //    { 
-        //        _isUpdating = false; 
-        //    }
-        //}
 
         //Load searched data and update the Ui
         public void SearchValueFromReminderPage(string searchValue, bool searchAllToggle)
@@ -399,6 +486,63 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
             }
         }
 
+        // Load filterControl data for Completed True Only and update the Ui 
+        public void FilterCompletedTrueOnlyFromRP(bool filterTrueOnlyToggle, bool searchAllToggle)
+        {
+            if (_isUpdating) return;
+
+            _isUpdating = true;
+            try
+            {
+                SearchAllValueToggle = searchAllToggle;
+
+                if (SearchAllValueToggle)
+                {
+                    var remindersAll = FetchFilterTrueOnlyValueAllUsers(filterTrueOnlyToggle);
+                    SearchedTaskList = CreateTaskList(remindersAll);// Search all folders
+                    UpdateSearchUI();
+                }
+                else
+                {
+                    var reminders = FetchFilterTrueOnlyValue(filterTrueOnlyToggle);
+                    SearchedTaskList = CreateTaskList(reminders);// Search within the selected folder
+                    UpdateSearchUI();
+                }
+            }
+            finally
+            {
+                _isUpdating = false;
+            }
+        }
+
+        // Load filterControl data for Completed False Only and update the Ui 
+        public void FilterCompletedFalseOnlyFromRP(bool filterFalseOnlyToggle, bool searchAllToggle)
+        {
+            if (_isUpdating) return;
+
+            _isUpdating = true;
+            try
+            {
+                SearchAllValueToggle = searchAllToggle;
+
+                if (SearchAllValueToggle)
+                {
+                    var remindersAll = FetchFilterFalseOnlyValueAllUsers(filterFalseOnlyToggle);
+                    SearchedTaskList = CreateTaskList(remindersAll);// Search all folders
+                    UpdateSearchUI();
+                }
+                else
+                {
+                    var reminders = FetchFilterFalseOnlyValue(filterFalseOnlyToggle);
+                    SearchedTaskList = CreateTaskList(reminders);// Search within the selected folder
+                    UpdateSearchUI();
+                }
+            }
+            finally
+            {
+                _isUpdating = false;
+            }
+        }
 
 
         // ReminderEdit event

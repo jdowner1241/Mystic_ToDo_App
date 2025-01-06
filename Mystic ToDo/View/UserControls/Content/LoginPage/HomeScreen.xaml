@@ -23,7 +23,7 @@
                     <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Grid.Row="0"  Text="Users" Foreground="Black" TextAlignment="Center" FontSize="30"/>
+                <TextBlock Grid.Row="0"  Text="Users" Foreground="Black" TextAlignment="Center" FontSize="30" FontWeight="Bold"/>
 
                 <Border Grid.Row="1" Background="#FFB8C3E8" MinHeight="60" Width="250" VerticalAlignment="Center">
                     <StackPanel x:Name="UserList">

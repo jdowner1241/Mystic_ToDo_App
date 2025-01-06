@@ -37,7 +37,7 @@
         </Menu>
 
 
-        <Border Grid.Row="1" BorderBrush="black" BorderThickness="0,1,0,2">
+        <Border Grid.Row="1" BorderBrush="black" BorderThickness="0,1,0,2" Background="#FF00BFFF">
             <!-- 2nd Row-->
             <Grid >
                 <Grid.ColumnDefinitions>
@@ -72,12 +72,12 @@
                             <ColumnDefinition Width="0.6*"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Signed In: " FontWeight="Bold"
-                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Signed In: " FontWeight="Bold" FontSize="15"
+                            HorizontalAlignment="Right" VerticalAlignment="Center"/>
                         <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged, Mode=Default}"
-                        HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                         <Button x:Name="bSignOut" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0" Content="Logout" Width="50" 
-                        VerticalAlignment="Center" HorizontalContentAlignment="Center" Click="bSignOut_Click"/>
+                            VerticalAlignment="Center" HorizontalContentAlignment="Center" Click="bSignOut_Click"/>
                     </Grid>
                 </Border>
             </Grid>

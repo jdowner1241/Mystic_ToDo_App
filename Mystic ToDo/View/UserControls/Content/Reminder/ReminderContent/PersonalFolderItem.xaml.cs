@@ -80,13 +80,13 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
 
             // Change the background color of the selected item
             this.Background = Brushes.Blue;
-            Foldertbox.Background = Brushes.LightBlue;
+            //Foldertbox.Background = Brushes.LightBlue;
 
             // Reset the background color of the previously selected item
             if (_lastSelectedItem != null && _lastSelectedItem != this) 
             { 
                 _lastSelectedItem.Background = Brushes.Transparent;
-                Foldertbox.Background = Brushes.Transparent;
+                //Foldertbox.Background = Brushes.Transparent;
             }
 
             // Update the last selected item
@@ -103,13 +103,13 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
         {
             // Change the background color of the selected item
             this.Background = Brushes.Blue;
-            Foldertbox.Background = Brushes.LightBlue;
+            //Foldertbox.Background = Brushes.LightBlue;
 
             // Reset the background color of the previously selected item
             if (_lastSelectedItem != null && _lastSelectedItem != this)
             {
                 _lastSelectedItem.Background = Brushes.Transparent;
-                Foldertbox.Background = Brushes.Transparent;
+                //Foldertbox.Background = Brushes.Transparent;
             }
 
             // Update the last selected item

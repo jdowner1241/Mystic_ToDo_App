@@ -6,8 +6,8 @@
              xmlns:local="clr-namespace:Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent"
              mc:Ignorable="d" 
              d:DesignHeight="650" d:DesignWidth="400">
-    
-    <Border Margin="10,15,0,1" BorderThickness="0,0,1,0" BorderBrush="Black" >
+
+    <Border Margin="10,5,0,1" BorderThickness="0,0,1,0" BorderBrush="Black" Background="#FFD9F4FF" >
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>
@@ -31,11 +31,13 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
-                    <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
-                        <StackPanel x:Name="UIFolderList">
+                    <Border Background="Silver" Margin="10, 5">
+                        <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
+                            <StackPanel x:Name="UIFolderList">
 
-                        </StackPanel>
-                    </ScrollViewer>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Border>
                 </Grid>
 
                 <Button x:Name="bAddUser" Grid.Row="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"

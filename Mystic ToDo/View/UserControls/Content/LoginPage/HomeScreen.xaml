@@ -7,30 +7,32 @@
              xmlns:LoginPageContent="clr-namespace:Mystic_ToDo.View.UserControls.Content.LoginPage.LoginPageContent" 
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid >
-        <Grid.RowDefinitions>
-            <RowDefinition Height="100"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-
-        <TextBlock Grid.Row="0"  Text="Welcome to Mystic ToDo" Foreground="Black" TextAlignment="Center" FontSize="40" VerticalAlignment="Center"/>
-
-        <Grid Grid.Row="1" VerticalAlignment="Top">
+    <Border Background="#FF00BFFF">
+        <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="40"/>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Row="0"  Text="Users" Foreground="Black" TextAlignment="Center" FontSize="30"/>
+            <TextBlock Grid.Row="0"  Text="Welcome to Mystic ToDo" Foreground="Black" TextAlignment="Center" FontSize="40" VerticalAlignment="Center"/>
 
-            <Border Grid.Row="1" Background="Gray" MinHeight="60" Width="250" VerticalAlignment="Center">
-                <StackPanel x:Name="UserList">
+            <Grid Grid.Row="1" VerticalAlignment="Top">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
 
-                </StackPanel>
-            </Border>
-            <Button x:Name="AddUser" Grid.Row="2" Content="Add New User" FontSize="15"
-                    Width="250" VerticalAlignment="Top" Click="AddUser_Click"/>
+                <TextBlock Grid.Row="0"  Text="Users" Foreground="Black" TextAlignment="Center" FontSize="30"/>
+
+                <Border Grid.Row="1" Background="#FFB8C3E8" MinHeight="60" Width="250" VerticalAlignment="Center">
+                    <StackPanel x:Name="UserList">
+
+                    </StackPanel>
+                </Border>
+                <Button x:Name="AddUser" Grid.Row="2" Content="Add New User" FontSize="15"
+                Width="250" VerticalAlignment="Top" Click="AddUser_Click"/>
+            </Grid>
         </Grid>
-    </Grid>
+    </Border>
 </UserControl>

@@ -6,11 +6,12 @@
              xmlns:local="clr-namespace:Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent"
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="400" MouseLeftButtonDown="UserControl_MouseLeftButtonDown" MouseRightButtonDown="UserControl_MouseRightButtonDown">
-    <Grid>
-        <Border Background="LightGray" Margin="10, 5">
+
+    <Border Background="Silver" BorderBrush="Black" Margin="10, 5" BorderThickness="1,1,1,1" CornerRadius="7,7,7,7">
+        <Grid>
             <TextBlock x:Name="Foldertbox"  Text="{Binding FolderName, UpdateSourceTrigger=PropertyChanged, Mode=Default}" FontSize="20" TextWrapping="WrapWithOverflow"
-                       VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        </Border>
-            
-    </Grid>
+             VerticalAlignment="Center" HorizontalAlignment="Center" Background="Silver"/>
+        </Grid>
+    </Border>
+
 </UserControl>

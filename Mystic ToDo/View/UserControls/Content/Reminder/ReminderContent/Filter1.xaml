@@ -6,124 +6,144 @@
              xmlns:reminderContent="clr-namespace:Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent"
              mc:Ignorable="d" 
              d:DesignHeight="650" d:DesignWidth="400">
-    
-    <Grid Margin="10,5,0,1">
-        <Grid.RowDefinitions>
-            <RowDefinition MaxHeight="150"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        
-        <!-- Search -->
-        <Grid Grid.Row="0">
+
+    <Border Margin="10,5,0,1" Background="#FFD9F4FF" BorderThickness="1,0,0,0" BorderBrush="Black" >
+
+        <Grid >
             <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-
-            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="10,5,0,5"
-                   Content="Search" HorizontalContentAlignment="Left" FontSize="25" FontWeight="Bold" FontStyle="Italic" Foreground="Blue"/>
-            
-            <TextBox x:Name="txtSearch" Text="{Binding SearchValue, UpdateSourceTrigger=PropertyChanged, Mode=Default}" 
-                     Grid.Row="1" Grid.Column="0" Margin="10,5,0,5" Padding="8,1,8,1" VerticalAlignment="Bottom" Height="26" 
-                     BorderBrush="AliceBlue" Foreground="Black" TextElement.FontSize="18" Background="LightBlue" 
-                     TextAlignment="Left" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" TextWrapping="WrapWithOverflow" AutoWordSelection="True"/>
-            
-            <Button x:Name="bClearSearch" Grid.Row="1" Grid.Column="1" Width="30" Height="26" Foreground="Gray"
-                    VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="10,5,10,5" Content="X" Click="bClearSearch_Click"/>
-
-            <Button x:Name="bSearchAllToggle" Grid.Row="2" Grid.Column="0" Content="Search All"
-                    VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20" Padding="5, 0" Margin="10, 0" Click="bSearchAllToggle_Click"/>
-
-        </Grid>
-
-        <!-- Scrollable Sort and filter -->
-        <Grid Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition MaxHeight="150"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            
-            <!-- Sort -->
-            <Grid Grid.Row="0" Margin="5,5">
+
+            <!-- Search -->
+            <Grid Grid.Row="0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="40"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
+       
 
-                <Label Grid.Row="0" Content="Sort" HorizontalContentAlignment="Left" FontSize="25" FontWeight="Bold" FontStyle="Italic" 
-                                Foreground="Blue"/>
+                <Label Grid.Row="0" Margin="10,5,0,5"
+               Content="Search" HorizontalContentAlignment="Left" FontSize="25" FontWeight="Bold" FontStyle="Italic" Foreground="Blue"/>
 
-                <Expander Grid.Row="1">
-                    
+                <Border Grid.Row="1" Background="Silver" Margin="5, 5">
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="30"/>
+                            <RowDefinition />
+                            <RowDefinition />
                         </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
 
-                        
-                        <Grid Grid.Row="0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="auto"/>
-                            </Grid.ColumnDefinitions>
 
-                            <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto" Height="150" >
-                                <StackPanel Margin="0,5,0,10">
-                                    <reminderContent:SortItem />
-                                    <reminderContent:SortItem />
-                                    <reminderContent:SortItem />
-                                    <reminderContent:SortItem />
-                                    <reminderContent:SortItem />
-                                    <reminderContent:SortItem />
-                                    <reminderContent:SortItem />
-                                    <reminderContent:SortItem />
-                                    <reminderContent:SortItem />
-                                    <reminderContent:SortItem />
-                                    <reminderContent:SortItem />
-                                    <reminderContent:SortItem />
-                                    <reminderContent:SortItem />
-                                    <reminderContent:SortItem />
-                                    <reminderContent:SortItem />
-                                    <reminderContent:SortItem />
-                                </StackPanel>
-                            </ScrollViewer>
-                        </Grid>
+                        <TextBox x:Name="txtSearch" Text="{Binding SearchValue, UpdateSourceTrigger=PropertyChanged, Mode=Default}" 
+                                Grid.Row="0" Grid.Column="0" Margin="10,5,0,5" Padding="8,1,8,1" VerticalAlignment="Bottom" Height="26" 
+                                BorderBrush="AliceBlue" Foreground="Black" TextElement.FontSize="18" Background="#FF9AB7E6" 
+                                TextAlignment="Left" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" TextWrapping="WrapWithOverflow" AutoWordSelection="True"/>
 
-                        <Button Grid.Row="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
-                                        Margin="50,5,50,5" Content="Add"/>
+                        <Button x:Name="bClearSearch" Grid.Row="0" Grid.Column="1" Width="30" Height="26" Foreground="Gray"
+                                 VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="10,5,10,5" Content="X" Click="bClearSearch_Click"/>
+
+                        <Button x:Name="bSearchAllToggle" Grid.Row="1" Grid.Column="0" Content="Search All"
+                                VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="15" Padding="5, 0" Margin="10, 0" Click="bSearchAllToggle_Click"/>
 
                     </Grid>
-                </Expander>
+                </Border>
             </Grid>
+            
 
-            <!-- Filter -->
-            <Grid Grid.Row="1" Margin="5,5">
+            <!-- Scrollable Sort and filter -->
+            <Grid Grid.Row="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <Label Grid.Row="0" Content="Filter" HorizontalContentAlignment="Left" FontSize="25" FontWeight="Bold" FontStyle="Italic" 
-                                Foreground="Blue"/>
+                <!-- Sort -->
+                <Grid Grid.Row="0" Margin="5,5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
 
-                <Expander Grid.Row="1" >
-                    <ScrollViewer VerticalScrollBarVisibility="Auto" Height="150">
-                        <StackPanel Orientation="Vertical">
-                            <reminderContent:FilterItems/>
-                            <reminderContent:FilterItems/>
-                            <reminderContent:FilterItems/>
-                            <reminderContent:FilterItems/>
-                        </StackPanel>
-                    </ScrollViewer>
-                </Expander>
+                    <Label Grid.Row="0" Content="Sort" HorizontalContentAlignment="Left" FontSize="25" FontWeight="Bold" FontStyle="Italic" 
+                            Foreground="Blue"/>
+
+                    <Expander Grid.Row="1">
+
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="30"/>
+                            </Grid.RowDefinitions>
+
+
+                            <Grid Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border Grid.Column="0" Background="Silver" Margin="5, 5">
+                                    <ScrollViewer VerticalScrollBarVisibility="Auto" Height="150" >
+                                        <StackPanel Margin="0,5,0,10">
+                                            <reminderContent:SortItem />
+                                            <reminderContent:SortItem />
+                                            <reminderContent:SortItem />
+                                            <reminderContent:SortItem />
+                                            <reminderContent:SortItem />
+                                            <reminderContent:SortItem />
+                                            <reminderContent:SortItem />
+                                            <reminderContent:SortItem />
+                                            <reminderContent:SortItem />
+                                            <reminderContent:SortItem />
+                                            <reminderContent:SortItem />
+                                            <reminderContent:SortItem />
+                                            <reminderContent:SortItem />
+                                            <reminderContent:SortItem />
+                                            <reminderContent:SortItem />
+                                            <reminderContent:SortItem />
+                                        </StackPanel>
+                                    </ScrollViewer>
+                                </Border>
+ 
+                            </Grid>
+
+                            <Button Grid.Row="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                                    Margin="50,5,50,5" Content="Add"/>
+
+                        </Grid>
+                    </Expander>
+                </Grid>
+
+                <!-- Filter -->
+                <Grid Grid.Row="1" Margin="5,5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Row="0" Content="Filter" HorizontalContentAlignment="Left" FontSize="25" FontWeight="Bold" FontStyle="Italic" 
+                            Foreground="Blue"/>
+
+                    <Expander Grid.Row="1" >
+                        <Border Background="Silver" Margin="5, 5">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" Height="150">
+                                <StackPanel Orientation="Vertical">
+                                    <reminderContent:FilterItems/>
+                                    <reminderContent:FilterItems/>
+                                    <reminderContent:FilterItems/>
+                                    <reminderContent:FilterItems/>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </Border>
+                    </Expander>
+                </Grid>
             </Grid>
         </Grid>
-        
-    </Grid>
+
+    </Border>
+    
 </UserControl>

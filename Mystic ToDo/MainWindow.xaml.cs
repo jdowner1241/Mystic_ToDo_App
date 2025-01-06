@@ -44,9 +44,13 @@ namespace Mystic_ToDo
 
             OnHomeScreen();
 
+            MenubarUI.GotoReminderPage -= AfterLoginSwitchpage;
             MenubarUI.GotoReminderPage += AfterLoginSwitchpage;
+            MenubarUI.GotoCalenderPage -= AfterLoginSwitchpage;
             MenubarUI.GotoCalenderPage += AfterLoginSwitchpage;
+            MenubarUI.GotoTimetablePage -= AfterLoginSwitchpage;
             MenubarUI.GotoTimetablePage += AfterLoginSwitchpage;
+            MenubarUI.GotoTimetrackerPage -= AfterLoginSwitchpage;
             MenubarUI.GotoTimetrackerPage += AfterLoginSwitchpage;
 
             Debug.Write($"\n\nMainPage with CurrentUserID: {CurrentLoginId} \n\n");
@@ -130,14 +134,19 @@ namespace Mystic_ToDo
             switch (selectedPage)
             {
                 case SelectedPage.HomeScreen:
+                    _homeScreen.ChangetoLoginPage -= OnLoginPage;
                     _homeScreen.ChangetoLoginPage += OnLoginPage;
+                    _homeScreen.ChangetoRegistrationPage -= OnRegistration;
                     _homeScreen.ChangetoRegistrationPage += OnRegistration;
+                    _homeScreen.ChangetoGuestUser -= OnGuestLogin;
                     _homeScreen.ChangetoGuestUser += OnGuestLogin;
                     CurrentPage.Children.Add(_homeScreen);
                     MenubarUI.Visibility = Visibility.Collapsed;
                     break;
                 case SelectedPage.RegistrationPage:
+                    _registrationPage.ChangetoHomePage -= OnHomeScreen;
                     _registrationPage.ChangetoHomePage += OnHomeScreen;
+                    _registrationPage.RefreshedUserList -= OnHomeScreen;
                     _registrationPage.RefreshedUserList += OnHomeScreen;
                     CurrentPage.Children.Add(_registrationPage);
                     MenubarUI.Visibility = Visibility.Collapsed;
@@ -194,7 +203,9 @@ namespace Mystic_ToDo
 
         public void GoToLoginPage(LoginPage _loginPage)
         {
+            _loginPage.ChangetoHomePage -= OnHomeScreen;
             _loginPage.ChangetoHomePage += OnHomeScreen;
+            _loginPage.ChangetoReminderPage -= AfterLogin;
             _loginPage.ChangetoReminderPage += AfterLogin;
             _loginPage.UserNumber = SelectedLoginId;
             CurrentPage.Children.Add(_loginPage);
@@ -286,6 +297,7 @@ namespace Mystic_ToDo
         public void UpdateMenubarId(int currentUserId)
         {
             MenubarUI.UserId = currentUserId;
+            MenubarUI.Signout -= OnLogout;
             MenubarUI.Signout += OnLogout;
         }
     }

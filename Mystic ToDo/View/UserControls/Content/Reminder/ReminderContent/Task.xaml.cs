@@ -44,11 +44,12 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
         private string _frequency;
         private string _folder;
         private string _userName;
+        private bool _suppressUpdate;
 
         private bool singleSelected = false;
         private bool multiSelected = false;
-        private static List<int?> selectedTaskIds = new List<int?>();
-        private static List<Task> allTasks = new List<Task>();
+        private List<int?> selectedTaskIds = new List<int?>();
+        private List<Task> allTasks = new List<Task>();
 
         public event Action<List<int?>> MultiSelectionUpdate;
         public event Action<int> SingleSelectionUpdate;
@@ -63,7 +64,14 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             this.MouseLeave += this.OnMouseLeave;
             this.MouseLeftButtonDown += this.OnMouseLeftButtonDown;
 
-            allTasks.Add(this);
+  
+            TaskManager.RegisterTask(this);
+     
+        }
+
+        ~Task()
+        {
+            TaskManager.UnregisterTask(this); 
         }
 
 
@@ -92,6 +100,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
                 }
             }
         }
+            
 
         public bool IsCompleted
         {
@@ -102,6 +111,11 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
                 {
                     _isComplete = value;
                     OnPropertyChanged();
+
+                    if (!_suppressUpdate) // Only update status if the control is initialized
+                    {
+                        UpdateReminderStatus(); 
+                    }
                 }
             }
         }
@@ -227,6 +241,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
 
         public Brush Background
         {
+
             get { return (Brush)GetValue(BackgroundProperty); }
             set { SetValue(BackgroundProperty, value); }
         }
@@ -337,6 +352,9 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
 
         public void AddInfo(ReminderDb.Reminder newReminder)
         {
+            // Suppress updates
+            Task.SuppressUpdates();
+
             ID = newReminder.Id;
             ReminderName = newReminder.Name;
 
@@ -382,7 +400,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
                 FrequencySelection = 0;
             }
 
- 
+
             if (newReminder.SelectedUser != null && !string.IsNullOrEmpty(newReminder.SelectedUser.UserName))
             {
                 UserName = newReminder.SelectedUser.UserName;
@@ -400,9 +418,48 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             {
                 Folder = "Default";
             }
-            
+
+            // Resume updates
+            Task.ResumeUpdates();
         }
 
+        private void IsCompleted_Checked(object sender, RoutedEventArgs e)
+        {
+            IsCompleted = true;
+        }
 
+        private void IsCompleted_Unchecked(object sender, RoutedEventArgs e)
+        {
+            IsCompleted = false;
+        }
+
+        private void UpdateReminderStatus()
+        {
+            var reminder = DbContext.Reminders.FirstOrDefault(r => r.Id == ID);
+
+            if (reminder != null)
+            {
+                reminder.IsComplete = IsCompleted;
+                DbContext.SaveChanges();
+                //MessageBoxHelper.ShowMessageBox($"Reminder Completed Status Updated to {IsCompleted}");
+                MessageBox.Show($"Reminder Completed Status Updated to {IsCompleted}");
+            }
+        }
+
+        public static void SuppressUpdates() 
+        { 
+            foreach (var task in TaskManager.GetAllTasks()) 
+            { 
+                task._suppressUpdate = true;
+            } 
+        }
+
+        public static void ResumeUpdates() 
+        { 
+            foreach (var task in TaskManager.GetAllTasks()) 
+            { 
+                task._suppressUpdate = false; 
+            } 
+        }
     }
 }

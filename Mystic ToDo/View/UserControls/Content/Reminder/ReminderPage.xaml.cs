@@ -16,6 +16,7 @@ using System.Windows.Controls;
 using Xceed.Wpf.AvalonDock.Layout;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 using static Mystic_ToDo.Database.ReminderDb;
+using TaskControl = Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent.Task;
 
 namespace Mystic_ToDo.View.UserControls.Content.Reminder
 {
@@ -386,6 +387,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
         //Create a TaskList from the reminders
         private TaskList CreateTaskList(IEnumerable<ReminderDb.Reminder> reminders)
         {
+
             var taskList = new TaskList();
             taskList.reminderListDBSub.Children.Clear();
             
@@ -401,24 +403,30 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
                     taskList.reminderListDBSub.Children.Add(task);
                 }
             }
+
             return taskList;
         }
 
         //Update the UI with the TaskList
         private void UpdateUI()
         {
+
             if (CurrentTaskList == null) return;
 
             reminderListDB.Children.Clear();
             reminderListDB.Children.Add(CurrentTaskList);
+
         }
 
         private void UpdateSearchUI()
         {
+
+
             if (SearchedTaskList == null) return;
 
             reminderListDB.Children.Clear();
             reminderListDB.Children.Add(SearchedTaskList);
+
         }
 
 
@@ -431,11 +439,14 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
             _isUpdating = true;
             try
             {
+         
+
                 var reminders = FetchReminders();
                 CurrentTaskList = CreateTaskList(reminders);
                 UpdateUI();
 
                 Debug.WriteLine("Data Loaded Succesfully");
+
             }
             finally
             {

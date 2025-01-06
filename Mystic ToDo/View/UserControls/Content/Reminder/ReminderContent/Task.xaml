@@ -13,7 +13,17 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <CheckBox x:Name="isCompleted" IsChecked="{Binding IsCompleted, RelativeSource={RelativeSource AncestorType=UserControl}}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" />
+            <CheckBox x:Name="isCompleted" IsChecked="{Binding IsCompleted, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Checked="IsCompleted_Checked" Unchecked="IsCompleted_Unchecked" 
+                      HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" RenderTransformOrigin="0.5,0.5" FontStyle="Italic">
+                <CheckBox.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleX="1" ScaleY="1"/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="45"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </CheckBox.RenderTransform>
+            </CheckBox>
 
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>

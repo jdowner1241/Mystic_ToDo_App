@@ -88,31 +88,16 @@
 
                                 <Border Grid.Column="0" Background="Silver" Margin="5, 5">
                                     <ScrollViewer VerticalScrollBarVisibility="Auto" Height="150" >
-                                        <StackPanel Margin="0,5,0,10">
-                                            <reminderContent:SortItem />
-                                            <reminderContent:SortItem />
-                                            <reminderContent:SortItem />
-                                            <reminderContent:SortItem />
-                                            <reminderContent:SortItem />
-                                            <reminderContent:SortItem />
-                                            <reminderContent:SortItem />
-                                            <reminderContent:SortItem />
-                                            <reminderContent:SortItem />
-                                            <reminderContent:SortItem />
-                                            <reminderContent:SortItem />
-                                            <reminderContent:SortItem />
-                                            <reminderContent:SortItem />
-                                            <reminderContent:SortItem />
-                                            <reminderContent:SortItem />
-                                            <reminderContent:SortItem />
+                                        <StackPanel x:Name="SortList" Margin="0,5,0,10">
+                                   
                                         </StackPanel>
                                     </ScrollViewer>
                                 </Border>
  
                             </Grid>
-
-                            <Button Grid.Row="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
-                                    Margin="50,5,50,5" Content="Add"/>
+ 
+                            <Button x:Name="bAddSortList" Grid.Row="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                                    Margin="50,5,50,5" Content="Add" Click="bAddSortList_Click"/>
 
                         </Grid>
                     </Expander>

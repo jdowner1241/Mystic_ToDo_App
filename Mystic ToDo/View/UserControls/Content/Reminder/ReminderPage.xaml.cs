@@ -46,6 +46,8 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
         private bool _searchAllValueToggle;
         private bool filterCompletedTrueOnly;
         private bool filterCompletedFalseOnly;
+        private string sortColumn;
+        private string sortOrder;
         private int _userId;
         private int _currentFolderId;
         private string _userName;
@@ -155,6 +157,24 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
             set
             {
                 filterCompletedFalseOnly = value;
+            }
+        }
+
+        public string SortColumn
+        {
+            get => sortColumn;
+            set
+            {
+                sortColumn = value;
+            }
+        }
+
+        public string SortOrder
+        {
+            get => sortOrder;
+            set
+            {
+                sortOrder = value;
             }
         }
 
@@ -383,6 +403,62 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
             }
         }
 
+        // Helper method to get property value using reflection 
+        private object GetPropertyValue(object obj, string propertyName) 
+        { 
+            return obj.GetType().GetProperty(propertyName).GetValue(obj, null); 
+        }
+
+        // Fetch Sort data from the database
+        private List<ReminderDb.Reminder> FetchSortValue(string sortColumn, string sortOrder)
+        {
+            var reminderList = FetchReminders(); // Retrieve reminders based on UserId but folder specific 
+
+            // Sort the retrieved reminders based on the SortColumn and order
+            // Sort the retrieved reminders based on the SortColumn and order for all users
+        
+            if (!string.IsNullOrEmpty(sortColumn) && !string.IsNullOrEmpty(sortOrder))
+            {
+                // Apply sorting
+                if (sortOrder.ToLower() == "Ascend")
+                {
+                    var SortResults = reminderList.OrderBy(r => GetPropertyValue(r, sortColumn)).ToList();
+                    return SortResults;
+                }
+                else if (sortOrder.ToLower() == "Descend")
+                {
+                    var SortResults = reminderList.OrderByDescending(r => GetPropertyValue(r, sortColumn)).ToList();
+                    return SortResults;
+                }
+            }
+           return reminderList.ToList();
+        }
+
+        // Fetch Sort data from the database for all folders
+        // Fetch Sort data from the database for all folders
+        private List<ReminderDb.Reminder> FetchSortValueAllUsers(string sortColumn, string sortOrder)
+        {
+            var reminderList = FetchRemindersAllUsers(); // Retrieve reminders based on UserId
+
+            // Sort the retrieved reminders based on the SortColumn and order for all users
+            if (!string.IsNullOrEmpty(sortColumn) && !string.IsNullOrEmpty(sortOrder))
+            {
+                // Apply sorting
+                if (sortOrder.ToLower() == "Ascend")
+                {
+                    var SortResults = reminderList.OrderBy(r => GetPropertyValue(r, sortColumn)).ToList();
+                    return SortResults;
+                }
+                else if (sortOrder.ToLower() == "Descend")
+                {
+                    var SortResults = reminderList.OrderByDescending(r => GetPropertyValue(r, sortColumn)).ToList();
+                    return SortResults;
+                }
+            }
+            return reminderList.ToList();
+        }
+
+
 
         //Create a TaskList from the reminders
         private TaskList CreateTaskList(IEnumerable<ReminderDb.Reminder> reminders)
@@ -465,6 +541,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
             SearchValueFromReminderPage(SearchValue, SearchAllValueToggle);
             FilterCompletedTrueOnlyFromRP(FilterCompletedTrueOnly, SearchAllValueToggle);
             FilterCompletedFalseOnlyFromRP(FilterCompletedFalseOnly, SearchAllValueToggle);
+            SortFromRP(SortColumn, SortOrder, SearchAllValueToggle);
         }
 
 
@@ -554,6 +631,36 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
                 _isUpdating = false;
             }
         }
+
+        // Load SortControl data and update the Ui 
+        public void SortFromRP(string sortColumn, string sortOrder, bool searchAllToggle)
+        {
+            if (_isUpdating) return;
+
+            _isUpdating = true;
+            try
+            {
+                SearchAllValueToggle = searchAllToggle;
+
+                if (SearchAllValueToggle)
+                {
+                    var remindersAll = FetchSortValueAllUsers(sortColumn, sortOrder);
+                    SearchedTaskList = CreateTaskList(remindersAll);// Search all folders
+                    UpdateSearchUI();
+                }
+                else
+                {
+                    var reminders = FetchSortValue(sortColumn, sortOrder);
+                    SearchedTaskList = CreateTaskList(reminders);// Search within the selected folder
+                    UpdateSearchUI();
+                }
+            }
+            finally
+            {
+                _isUpdating = false;
+            }
+        }
+
 
 
         // ReminderEdit event

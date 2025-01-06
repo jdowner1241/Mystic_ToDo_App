@@ -36,11 +36,14 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
         private bool searchAllFolders;
         private bool filterCompletedTrueOnly;
         private bool filterCompletedFalseOnly;
+        private string sortColumn;
+        private string sortOrder;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public event Action<string, bool> SearchValueChanged;
         public event Action<bool, bool> FilterCompletedTrueOnlyValueChanged;
         public event Action<bool, bool> FilterCompletedFalseOnlyValueChanged;
+        public event Action<string, string, bool> SortValueChanged;
 
         private ReminderPage reminderPage;
 
@@ -88,6 +91,28 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             }
         }
 
+        public string SortColumn
+        {
+            get { return sortColumn; }
+            set
+            {
+                sortColumn = value; 
+                OnPropertyChanged();
+                SortValueChanged(value, SortOrder, SearchAllFolders);
+            }
+        }
+
+        public string SortOrder
+        {
+            get { return sortOrder; }
+            set
+            {
+                sortOrder = value;
+                OnPropertyChanged();
+                SortValueChanged(SortColumn, value, SearchAllFolders);
+            }
+        }
+
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -103,7 +128,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             FilterCompletedTrueOnlyValueChanged += reminderPage.FilterCompletedTrueOnlyFromRP;
             FilterCompletedFalseOnlyValueChanged += reminderPage.FilterCompletedFalseOnlyFromRP;
 
-
+            SortValueChanged += reminderPage.SortFromRP;
 
             Debug.WriteLine("Subcribe to Filter1 Successful");
         }
@@ -194,8 +219,59 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             // Do something when "False" is unchecked
             //MessageBox.Show("False is unchecked");
             filterCompletedFalseOnly = false;
+        }
+
+        private void bAddSortList_Click(object sender, RoutedEventArgs e)
+        {
+            // Create a new SortItem instance
+            SortItem sortItem = new SortItem();
+
+            // Add event handler for the X button
+            Button removeButton = sortItem.FindName("removeButton") as Button;
+
+            if (removeButton != null)
+            {
+                removeButton.Click += RemoveSortItem_Click;
+            }
+
+            // Add the SortItem to the SortList
+            SortList.Children.Add(sortItem);
+        }
+
+        private void RemoveSortItem_Click(object sender, RoutedEventArgs e)
+        {
+            // Get the SortItem instance containing the clicked button
+            Button removeButton = sender as Button;
+
+            if (removeButton != null)
+            {
+                SortItem sortItem = removeButton.DataContext as SortItem;
+                if (sortItem != null)
+                {
+                    // Remove the SortItem from the SortList
+                    SortList.Children.Remove(sortItem);
+
+                    // Remove the sort from the database (implement your sorting logic here)
+                    RemoveSortFromDatabase(sortItem);
+                }
+            }
+        }
+
+        private void ApplySortToDatabase()
+        {
+            // Implement your database sorting logic here based on the SortList items
+            foreach (SortItem sortItem in SortList.Children)
+            {
+                string column = sortItem.SelectedColumn;
+                string order = sortItem.SortOrder;
+                // Sort the database based on the column and order
+
+            }
+        }
+
+        private void RemoveSortFromDatabase(SortItem sortItem)
+        {
+            // Implement your database sorting removal logic here
         } 
-
-
     }
 }

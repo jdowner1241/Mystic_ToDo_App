@@ -4,11 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent"
-             xmlns:customControls="clr-namespace:Mystic_ToDo.View.UserControls.CustomControls" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" 
-             d:DataContext="{d:DesignInstance Type=customControls:ComboBoxWithLabel}"
+             xmlns:customControls="clr-namespace:Mystic_ToDo.View.UserControls.CustomControls"
              mc:Ignorable="d" 
              d:DesignHeight="250" d:DesignWidth="800">
-            
+
     <Grid Background="white">
         <Grid.RowDefinitions>
             <RowDefinition Height=".2*"/>
@@ -25,15 +24,17 @@
             <!---->
             <customControls:TxtBoxWithLabel Placeholder="Name" Margin="0,0,10,2" Width="380"
                                             x:Name="txtboxName"/>
-            
-            <!---->
-            <customControls:SwitchWithLabel Grid.Column="1" Placeholder="Alarm"
-                                            x:Name="checkAlarm" PropertyChanged="checkAlarm_PropertyChanged"/>
 
             <!---->
-            <customControls:SwitchWithLabel Grid.Column="2" Placeholder="Repeat"
-                                            x:Name="checkRepeat" PropertyChanged="checkRepeat_PropertyChanged"/>
-            
+            <customControls:SwitchWithLabel Grid.Column="1" Placeholder="Alarm" 
+                                            PropertyChanged="checkAlarm_PropertyChanged"  
+                                            x:Name="checkAlarm"/>
+
+            <!---->
+            <customControls:SwitchWithLabel Grid.Column="2" Placeholder="Repeat" 
+                                            PropertyChanged="checkRepeat_PropertyChanged"
+                                            x:Name="checkRepeat"/>
+
         </Grid>
 
         <!---->
@@ -67,24 +68,24 @@
             <!---->
             <Button Grid.Column="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10" 
                     Content="Add" x:Name="bAdd" Click="bAdd_Click" />
-            
+
             <Grid Grid.Column="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                
+
                 <Button Grid.Column="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10" 
                         Content="Add New" x:Name="bAddNew" Click="bAdd_Click" />
                 <Button Grid.Column="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10" 
                         Content="Edit" x:Name="bEdit" Click="bEdit_Click"/>
             </Grid>
-            
+
 
             <!---->
             <Button Grid.Column="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10"
                     Content="Clear" x:Name="bClear" Click="bClear_Click"/>
-            
+
             <!---->
             <Button Grid.Column="2" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10"
                     Content="Delete" x:Name="bDelete" Click="bDelete_Click"/>

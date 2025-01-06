@@ -33,7 +33,9 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
 
             SetCboxObj();
             dtpAlarm.Visibility = System.Windows.Visibility.Collapsed;
+            //AlarmSwitch = false;
             cboxItems.Visibility = System.Windows.Visibility.Collapsed;
+            //PeriodicSwitch = false;
             editMode = true;
             editMode = false;
 
@@ -49,6 +51,8 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
         private int _currentFolderId;
         private bool multiSelected;
         private bool _editMode;
+        private bool _alarmSwitch;
+        private bool _periodicSwitch;
 
         private ReminderPage reminderPage;
         public event Action ReminderUpdate;
@@ -77,10 +81,34 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             }
         }
 
+        public bool AlarmSwitch
+        {
+            get => _alarmSwitch;
+            set
+            {
+                _alarmSwitch = value;
+                OnPropertyChanged();
+                //OnAlarmSwitch();
+            }
+        }
+
+        public bool PeriodicSwitch
+        {
+            get => _periodicSwitch;
+            set
+            {
+                _periodicSwitch = value;
+                OnPropertyChanged();
+                //OnPeriodicSwitch();
+            }
+        }
+
+
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
 
 
         public void SubscribeToReminderPageEvents(ReminderPage reminderPage)
@@ -563,6 +591,34 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             }
         }
 
+        /*private void OnAlarmSwitch()
+        {
+
+            if (_alarmSwitch)
+            {
+                dtpAlarm.Visibility = System.Windows.Visibility.Visible;
+            }
+            else
+            {
+                dtpAlarm.Visibility = System.Windows.Visibility.Collapsed;
+            }
+
+*//*
+            if (AlarmSwitch)
+            {
+                dtpAlarm.Visibility = System.Windows.Visibility.Visible;
+            }
+            else
+            {
+                dtpAlarm.Visibility = System.Windows.Visibility.Collapsed;
+                if (PeriodicSwitch)
+                {
+                    PeriodicSwitch = false;
+                }
+            }*//*
+        }*/
+
+
         private void checkRepeat_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(checkRepeat.IsChecked))
@@ -590,5 +646,43 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
                 }
             }
         }
+
+        /*private void OnPeriodicSwitch()
+        {
+            if (PeriodicSwitch)
+            {
+                cboxItems.Visibility = System.Windows.Visibility.Visible;
+            }
+            else
+            {
+                cboxItems.Visibility = System.Windows.Visibility.Collapsed;
+
+            }
+
+            *//*if (AlarmSwitch)
+            {
+                if (PeriodicSwitch)
+                {
+                    cboxItems.Visibility = System.Windows.Visibility.Visible;
+                }
+                else
+                {
+                    cboxItems.Visibility = System.Windows.Visibility.Collapsed;
+                    AlarmSwitch = false;
+                    //checkAlarm.IsChecked = false;
+                }
+            }
+            else
+            {
+                if (PeriodicSwitch)
+                {
+                    System.Windows.MessageBox.Show("Alarm required");
+                    PeriodicSwitch = false;
+                }
+                cboxItems.Visibility = System.Windows.Visibility.Collapsed;
+            }*//*
+        }*/
+
+       
     }
 }

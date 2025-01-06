@@ -219,6 +219,9 @@
     <Compile Include="View\UserControls\CustomControls\SwitchWithLabel.xaml.cs">
       <DependentUpon>SwitchWithLabel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\UserControls\CustomControls\SwitchWithLabelModied.xaml.cs">
+      <DependentUpon>SwitchWithLabelModied.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\UserControls\CustomControls\TxtBoxWithLabel.xaml.cs">
       <DependentUpon>TxtBoxWithLabel.xaml</DependentUpon>
     </Compile>
@@ -364,6 +367,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\UserControls\CustomControls\SwitchWithLabel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\CustomControls\SwitchWithLabelModied.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -42,6 +42,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
         private readonly ReminderContext DbContext;
         private bool _isUpdating = false;
         private string searchValue;
+        private bool _searchAllValueToggle;
         private int _userId;
         private int _currentFolderId;
         private string _userName;
@@ -113,6 +114,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
             {
                 _currentFolderId = value;
                 OnPropertyChanged();
+                LoadDataFromReminderPage();
                 //UpdateReminderEditorOnly();
             }
         }
@@ -123,6 +125,15 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
             set
             {
                 searchValue = value;
+            }
+        }
+
+        public bool SearchAllValueToggle
+        {
+            get => _searchAllValueToggle;
+            set
+            {
+                _searchAllValueToggle = value;
             }
         }
 
@@ -185,10 +196,30 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
         /// <summary>
         /// Database 
         /// </summary>
-        // Fetch reminders from the database for a specific user ID
+        // Fetch reminders from the database for a specific user ID and folderId
         private List<ReminderDb.Reminder> FetchReminders()
         {
-            if (UserId != 0)
+            if (UserId != 0 && CurrentFolderId != 0)
+            {
+                using (var context = new ReminderContext())
+                {
+                    var reminders = context.Reminders
+                                            .Where(reminder => reminder.UserId == UserId && reminder.FolderId == CurrentFolderId)
+                                            .ToList();
+                    return reminders;
+                }
+            }
+            else
+            {
+                Debug.WriteLine("User or Folder not set");
+                return new List<ReminderDb.Reminder>(); // Return an empty list to handle the case where UserId is not set
+            }
+        }
+
+        // Fetch reminders from the database for a specific user ID
+        private List<ReminderDb.Reminder> FetchRemindersAllUsers()
+        {
+            if (UserId != 0 )
             {
                 using (var context = new ReminderContext())
                 {
@@ -205,28 +236,56 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
             }
         }
 
-        //
+
         // Fetch searched value from the database
         private List<ReminderDb.Reminder> FetchSearchValue(string searchValue)
         {
             var reminderList = FetchReminders(); // Retrieve reminders based on UserId
 
             // Filter the retrieved reminders based on the search value
-            var searchResults = reminderList
+            if (reminderList != null)
+            {
+                var searchResults = reminderList
                                 .Where(r => r.Name != null && r.Name.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase) >= 0 ||
-                                            r.Description != null && r.Description.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase) >= 0 ||
-                                            r.SelectedFolder != null && r.SelectedFolder.FolderName != null && r.SelectedFolder.FolderName.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase) >= 0 ||
-                                            r.SelectedUser != null && r.SelectedUser.UserName != null && r.SelectedUser.UserName.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase) >= 0)
+                                            r.Description != null && r.Description.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase) >= 0)
                                 .ToList();
 
-            return searchResults;
+                return searchResults;
+            }
+            else
+            {
+                return reminderList;
+            }
+            
         }
+
+        // Fetch searched value from the database
+        private List<ReminderDb.Reminder> FetchSearchValueAllUsers(string searchValue)
+        {
+            var reminderList = FetchRemindersAllUsers(); // Retrieve reminders based on UserId
+
+            // Filter the retrieved reminders based on the search value
+            if (searchValue != null)
+            {
+                var searchResults = reminderList
+                                .Where(r => r.Name != null && r.Name.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                                            r.Description != null && r.Description.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase) >= 0)
+                                .ToList();
+
+                return searchResults;
+            }
+            else
+            {
+                return reminderList;
+            }
+        }
+
 
 
         // Event that gets and run the search method
         public void ReminderPageSearch(ReminderDb.Reminder reminder)
         {
-            SearchValueFromReminderPage(searchValue);
+            SearchValueFromReminderPage(SearchValue, SearchAllValueToggle);
         }
 
         //Create a TaskList from the reminders
@@ -290,26 +349,56 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder
 
         }
 
-        //Load searched data and update the Ui
-        public void SearchValueFromReminderPage(string searchValue)
-        {
-            if (_isUpdating) return;   
+        ////Load searched data and update the Ui
+        //public void SearchValueFromReminderPage(string searchValue)
+        //{
+        //    if (_isUpdating) return;   
 
-            _isUpdating = true ;
+        //    _isUpdating = true ;
+        //    try
+        //    {
+        //        Debug.WriteLine("Search triggered");
+
+        //        SearchValue = searchValue;
+        //        var reminders = FetchSearchValue(searchValue);
+        //        SearchedTaskList = CreateTaskList(reminders);
+        //        UpdateSearchUI();
+        //    }
+        //    finally
+        //    { 
+        //        _isUpdating = false; 
+        //    }
+        //}
+
+        //Load searched data and update the Ui
+        public void SearchValueFromReminderPage(string searchValue, bool searchAllToggle)
+        {
+            if (_isUpdating) return;
+
+            _isUpdating = true;
             try
             {
-                Debug.WriteLine("Search triggered");
-
-                SearchValue = searchValue;
-                var reminders = FetchSearchValue(searchValue);
-                SearchedTaskList = CreateTaskList(reminders);
-                UpdateSearchUI();
-            }
+                SearchAllValueToggle = searchAllToggle;
+                
+                if (SearchAllValueToggle)
+                {
+                    var remindersAll = FetchSearchValueAllUsers(searchValue);
+                    SearchedTaskList = CreateTaskList(remindersAll);// Search all folders
+                    UpdateSearchUI();
+                }
+                else
+                {
+                    var reminders = FetchSearchValue(searchValue);
+                    SearchedTaskList = CreateTaskList(reminders);// Search within the selected folder
+                    UpdateSearchUI();
+                }
+            } 
             finally
-            { 
-                _isUpdating = false; 
+            {
+                _isUpdating = false;
             }
         }
+
 
 
         // ReminderEdit event

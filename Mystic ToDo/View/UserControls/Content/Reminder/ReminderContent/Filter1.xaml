@@ -9,13 +9,15 @@
     
     <Grid Margin="10,5,0,1">
         <Grid.RowDefinitions>
-            <RowDefinition MaxHeight="100"/>
+            <RowDefinition MaxHeight="150"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         
         <!-- Search -->
         <Grid Grid.Row="0">
             <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
                 <RowDefinition />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
@@ -33,7 +35,10 @@
             
             <Button x:Name="bClearSearch" Grid.Row="1" Grid.Column="1" Width="30" Height="26" Foreground="Gray"
                     VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="10,5,10,5" Content="X" Click="bClearSearch_Click"/>
-            
+
+            <Button x:Name="bSearchAllToggle" Grid.Row="2" Grid.Column="0" Content="Search All"
+                    VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20" Padding="5, 0" Margin="10, 0" Click="bSearchAllToggle_Click"/>
+
         </Grid>
 
         <!-- Scrollable Sort and filter -->

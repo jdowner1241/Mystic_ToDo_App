@@ -27,12 +27,14 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
         {
             DataContext = this;
             InitializeComponent();
+            searchAllFolders = false;
         }
 
         private string searchValue;
+        private bool searchAllFolders;
 
         public event PropertyChangedEventHandler PropertyChanged;
-        public event Action<string> SearchValueChanged;
+        public event Action<string, bool> SearchValueChanged;
 
         private ReminderPage reminderPage;
 
@@ -43,7 +45,18 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
             { 
                 searchValue = value;
                 OnPropertyChanged();
-                SearchValueChanged?.Invoke(value);
+                SearchValueChanged?.Invoke(value, searchAllFolders);
+            }
+        }
+
+        public bool SearchAllFolders
+        {
+            get { return searchAllFolders; }
+            set
+            {
+                searchAllFolders = value;
+                OnPropertyChanged();
+                SearchValueChanged?.Invoke(SearchValue, value);
             }
         }
 
@@ -55,7 +68,7 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
         public void SubscribeToReminderPageEvents(ReminderPage reminderPage)
         {
             this.reminderPage = reminderPage;
-            SearchValueChanged -= reminderPage.SearchValueFromReminderPage;
+            //SearchValueChanged -= reminderPage.SearchValueFromReminderPage;
             SearchValueChanged += reminderPage.SearchValueFromReminderPage;
             //SearchValueChanged += reminderPage.ReminderPageSearch;
 
@@ -67,6 +80,30 @@ namespace Mystic_ToDo.View.UserControls.Content.Reminder.ReminderContent
         {
             txtSearch.Clear();
             txtSearch.Focus();  
+        }
+
+
+        private void bSearchAllToggle_Click(object sender, RoutedEventArgs e)
+        {
+            searchAllFolders = !searchAllFolders; 
+            
+            if (searchAllFolders) 
+            { 
+                bSearchAllToggle.Content = "Search Within Selected Folder";
+                bSearchAllToggle.Background = Brushes.LightBlue;
+                SearchValueChanged?.Invoke(SearchValue, searchAllFolders);
+
+                //SearchAllValueEnabledChanged?.Invoke(false);
+            } 
+            else 
+            { 
+                bSearchAllToggle.Content = "Search All Folders";
+                bSearchAllToggle.Background = Brushes.LightGray;
+                //SearchAllValueEnabledChanged?.Invoke(true);
+                SearchValueChanged?.Invoke(SearchValue, searchAllFolders);
+            }
+
+            // Notify the ReminderPage to update search behavior
         }
     }
 }
